@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OermClient &#8212; documentación de Openerm - 0.1</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
+    <link rel="up" title="Openerm - API" href="openerm.html" />
+    <link rel="next" title="Database" href="openerm.Database.html" />
+    <link rel="prev" title="Openerm - API" href="openerm.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="openerm.Database.html" title="Database"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.html" title="Openerm - API"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" accesskey="U">Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="openerm.html"
+                        title="capítulo anterior">Openerm - API</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="openerm.Database.html"
+                        title="próximo capítulo">Database</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.OermClient.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-openerm.OermClient"><span id="oermclient"></span></span><div class="section" id="id1">
+<h1>OermClient<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Un <strong>OermClient</strong> es el objeto que permite conectarse a uno o más repositorios
+de reportes. Es la clase &#8220;oficial&#8221; para acceder a los reportes, conceptualmente
+un <strong>OermClient</strong> ofrece uno o más catálogos, los catálogos son organizaciones
+lógicas de los reportes físicos</p>
+<div class="admonition seealso">
+<p class="first admonition-title">Ver también</p>
+<ul class="last simple">
+<li><a class="reference internal" href="openerm.MetadataContainer.html#module-openerm.MetadataContainer" title="openerm.MetadataContainer"><code class="xref py py-class docutils literal"><span class="pre">openerm.MetadataContainer</span></code></a></li>
+<li><a class="reference internal" href="openerm.PageContainer.html#module-openerm.PageContainer" title="openerm.PageContainer"><code class="xref py py-class docutils literal"><span class="pre">openerm.PageContainer</span></code></a></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="openerm.OermClient.OermClient">
+<em class="property">class </em><code class="descclassname">openerm.OermClient.</code><code class="descname">OermClient</code><span class="sig-paren">(</span><em>configfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Clase Cliente para acceso a reportes Oerm. Los reportes OERM
+se clasifican en: Catalogos y Repositorios. Un catalogo en
+realidad representa un conjunto lógico de repositorios, los
+repositorios representan carpetas físicas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>configfile</strong> (<em>string</em>) &#8211; Nombre del archivo de configuración (Formato YAML)</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.attributes">
+<code class="descname">attributes</code><span class="sig-paren">(</span><em>attribute</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.attributes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.attributes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la lista de atributos de los reportes del repositorio</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.catalogs">
+<code class="descname">catalogs</code><span class="sig-paren">(</span><em>enabled=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.catalogs"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.catalogs" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Lista los catalogos disponibles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>enabled</strong> (<em>bool</em>) &#8211; (Opcional)      <strong>True</strong>: Solo los habilitados,
+<strong>False</strong>: Los deshabilitados,
+<strong>None</strong>: Todos</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">Lista de catalogos</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">List</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">catalogs</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Catalogos disponibles: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">catalogs</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">)))</span>
+<span class="go">Catalogos disponibles: {&#39;sql-test&#39;: {&#39;enabled&#39;: False, &#39;name&#39;: &#39;Ejemplo catalogo SQL&#39;, &#39;type&#39;: &#39;sql&#39;}, &#39;</span>
+<span class="go">local-test&#39;: {&#39;enabled&#39;: True, &#39;name&#39;: &#39;Ejemplo catalogo local&#39;, &#39;type&#39;: &#39;path&#39;, &#39;urls&#39;:</span>
+<span class="go">[{&#39;Prueba1&#39;: &#39;D:\pm\data\git.repo\openerm\samples\repo&#39;},</span>
+<span class="go">{&#39;Prueba2&#39;: &#39;D:\pm\data\git.repo\openerm\samples\otro&#39;}]}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.close_catalog">
+<code class="descname">close_catalog</code><span class="sig-paren">(</span><em>catalog</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.close_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.close_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cierra el catalgo activo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>catalogid</strong> (<em>string</em>) &#8211; Id del catalogo que se desea cerrar</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.current_catalog">
+<code class="descname">current_catalog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.current_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.current_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.find_indexes">
+<code class="descname">find_indexes</code><span class="sig-paren">(</span><em>indexname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.find_indexes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.find_indexes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la lista de indices que coincidan por indexname</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.open_catalog">
+<code class="descname">open_catalog</code><span class="sig-paren">(</span><em>catalogid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.open_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.open_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Conexión y apertura de un catalogo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>catalogid</strong> (<em>string</em>) &#8211; Id del catalogo que se desea abrir</td>
+</tr>
+</tbody>
+</table>
+<p>Tipos de catalogos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Lista de paths + catalog.db</li>
+<li>Centralizado en Servidor SQL</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.open_repo">
+<code class="descname">open_repo</code><span class="sig-paren">(</span><em>repo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.open_repo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.open_repo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Abre un repositorio</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>repo</strong> (<em>string</em>) &#8211; Nombre del repositorio a abrir</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Raise:</dt>
+<dd>ValueError: Si el repositorio no existe en el catalgo abierto</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>reporte=None</em>, <em>sistema=None</em>, <em>aplicacion=None</em>, <em>departamento=None</em>, <em>fecha=None</em>, <em>limit=None</em>, <em>returntype='list'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.query"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.query" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Consulta básica para buscar un reporte en los repositorios del catalogo.
+La busqueda se hace por cualquier de los atributos básicos de un reporte, y
+se puede hacer búsquedas parciales tipo LIKE en sql</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>report</strong> (<em>string</em>) &#8211; Nombre del reporte</li>
+<li><strong>sistema</strong> (<em>string</em>) &#8211; Nombre del sistema</li>
+<li><strong>aplicacion</strong> (<em>string</em>) &#8211; Nombre de la aplicación</li>
+<li><strong>departamento</strong> (<em>string</em>) &#8211; Nombre del departamento</li>
+<li><strong>fecha</strong> (<em>string</em>) &#8211; Fecha de emsión del reporte</li>
+<li><strong>limit</strong> (<em>int</em>) &#8211; cantidad máxima de resultados</li>
+<li><strong>returntype</strong> (<em>string</em>) &#8211; Tipo de retorno</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">list/string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Ejemplo:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;local-test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_repo</span><span class="p">(</span><span class="s2">&quot;Prueba1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resultados</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">reporte</span><span class="o">=</span><span class="s2">&quot;Carta&quot;</span><span class="p">,</span> <span class="n">returntype</span><span class="o">=</span><span class="s2">&quot;tablestr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">resultados</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+</span>
+<span class="go">| Nombre                                             |    Fecha | Departamento   | Sistema   | Aplicación   |   Páginas | Path                |</span>
+<span class="go">|----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------|</span>
+<span class="go">| R8101614 - Cartas fianza activas por moneda y clas | 20160923 | n/a            | n/a       | n/a          |         1 | test1\database.oerm |</span>
+<span class="go">| R8101614 - Cartas fianza activas por moneda y clas | 20160923 | n/a            | n/a       | n/a          |        20 | test1\database.oerm |</span>
+<span class="go">| R8101611 - Cartas fianza requeridas por funcionari | 20160923 | n/a            | n/a       | n/a          |         1 | test1\database.oerm |</span>
+<span class="go">+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.reports">
+<code class="descname">reports</code><span class="sig-paren">(</span><em>system=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la lista completa de reportes del repositorio activo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Ejemplo:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;local-test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_repo</span><span class="p">(</span><span class="s2">&quot;Prueba1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">reports</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.repos">
+<code class="descname">repos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.repos"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.repos" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Lista los repositorios disponibles para conectarse</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">Lista de repositorios</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">List</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;local-test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Repositorios disponibles: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">repos</span><span class="p">()))</span>
+<span class="go">Repositorios disponibles: {&#39;Prueba2&#39;: &#39;D:\pm\data\git.repo\openerm\samples\otro\repo.db&#39;,</span>
+<span class="go">&#39;Prueba1&#39;: &#39;D:\pm\data\git.repo\openerm\samples\repo\repo.db&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.search_for_indexes">
+<code class="descname">search_for_indexes</code><span class="sig-paren">(</span><em>indexnames</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.search_for_indexes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.search_for_indexes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la lista de indices que coincidan por indexname</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.systems">
+<code class="descname">systems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.systems"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.systems" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la lista completa de sistemas del repositorio activo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Ejemplo:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;local-test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_repo</span><span class="p">(</span><span class="s2">&quot;Prueba1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">systems</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="openerm.Database.html" title="Database"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.html" title="Openerm - API"
+             >anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" >Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Patricio Moracho.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.6.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Cipher &#8212; documentación de Openerm - 0.1</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
+    <link rel="up" title="Openerm - API" href="openerm.html" />
+    <link rel="next" title="Compressor" href="openerm.Compressor.html" />
+    <link rel="prev" title="Block" href="openerm.Block.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="openerm.Compressor.html" title="Compressor"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Block.html" title="Block"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" accesskey="U">Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="openerm.Block.html"
+                        title="capítulo anterior">Block</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="openerm.Compressor.html"
+                        title="próximo capítulo">Compressor</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.Cipher.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openerm.Cipher">
+<span id="cipher"></span><h1>Cipher<a class="headerlink" href="#module-openerm.Cipher" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="class">
+<dt id="openerm.Cipher.Cipher">
+<em class="property">class </em><code class="descclassname">openerm.Cipher.</code><code class="descname">Cipher</code><span class="sig-paren">(</span><em>type=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.html#Cipher"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Cipher.Cipher" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Clase base para el manejo de cifrado de &#8220;bytes&#8221;.</p>
+<p>Esta es una clase base para poder configurar distintos algoritmos de
+cifrado, pero que a la vez ofrezca una interfaz común para cifrar
+y descifrar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>type</strong> (<em>int</em>) &#8211; Opcional, Tipo de cifrado por defecto (default=0-Ninguno)</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="openerm.Cipher.Cipher.available_types">
+<code class="descname">available_types</code><a class="headerlink" href="#openerm.Cipher.Cipher.available_types" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna los tipos de cifrados disponibles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">Lista de algoritmos cifrados.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="openerm.Utils.html#openerm.Utils.AutoNum.list" title="openerm.Utils.AutoNum.list">list</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">available_types</span>
+<span class="go">[(0, &#39;Sin encriptación&#39;), (1, &#39;Spritz&#39;), (2, &#39;Fernet&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.decode">
+<code class="descname">decode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.html#Cipher.decode"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Cipher.Cipher.decode" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Descifra un conjunto de bytes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>data</strong> (<em>bytes</em>) &#8211; conjunto de bytes cifrados</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">datos descifrados.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bytes</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
+<span class="go">b&#39;esto es una prueba&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.encode">
+<code class="descname">encode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.html#Cipher.encode"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Cipher.Cipher.encode" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cifra conjunto de bytes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>data</strong> (<em>bytes</em>) &#8211; conjunto de bytes a cifrar</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">datos cifrados.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bytes</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openerm.Cipher.Cipher.type">
+<code class="descname">type</code><a class="headerlink" href="#openerm.Cipher.Cipher.type" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Tipo de cifrado.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.type_info">
+<code class="descname">type_info</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.html#Cipher.type_info"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Cipher.Cipher.type_info" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la información de un determinado algoritmo de cifrado disponible.</p>
+<p>Returns:
+(tupla).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="openerm.Compressor.html" title="Compressor"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Block.html" title="Block"
+             >anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" >Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Patricio Moracho.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.6.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>openerm.Index &#8212; documentación de Openerm - 0.1</title>
+    
+    <link rel="stylesheet" href="../../_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
+    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="../../_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Código de módulo</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Código fuente para openerm.Index</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+
+<span class="sd">Index.py</span>
+
+<span class="sd">This program is free software; you can redistribute it and/or</span>
+<span class="sd">modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="sd">as published by the Free Software Foundation. A copy of this license should</span>
+<span class="sd">be included in the file GPL-3.</span>
+
+<span class="sd">This program is distributed in the hope that it will be useful,</span>
+<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="sd">GNU Library General Public License for more details.</span>
+
+<span class="sd">You should have received a copy of the GNU General Public License</span>
+<span class="sd">along with this program; if not, write to the Free Software</span>
+<span class="sd">Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+
+	<span class="kn">import</span> <span class="nn">gettext</span>
+	<span class="kn">from</span> <span class="nn">gettext</span> <span class="k">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+	<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">&#39;openerm&#39;</span><span class="p">)</span>
+
+	<span class="kn">import</span> <span class="nn">struct</span>
+	<span class="kn">import</span> <span class="nn">os</span>
+	
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;No fue posible importar el modulo: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">modulename</span><span class="p">)</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Index"><a class="viewcode-back" href="../../openerm.Index.html#openerm.Index.Index">[documentos]</a><span class="k">class</span> <span class="nc">Index</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oermdb_file</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">oermdb_file</span>			<span class="o">=</span> <span class="n">oermdb_file</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span>		<span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span>				<span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">reportidx_file</span>			<span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.ridx&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oermdb_file</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">containeridx_file</span>		<span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.cidx&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oermdb_file</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">metadata_objects</span> 		<span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">container_objects</span> 		<span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="Index.add_report"><a class="viewcode-back" href="../../openerm.Index.html#openerm.Index.Index.add_report">[documentos]</a>	<span class="k">def</span> <span class="nf">add_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="p">,</span> <span class="n">report_offset</span><span class="p">,</span> <span class="n">pages_in_container</span><span class="p">):</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span>		<span class="o">+=</span> <span class="mi">1</span>
+		<span class="n">default</span>						<span class="o">=</span> <span class="p">(</span><span class="n">reporte</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">report_offset</span><span class="p">,</span> <span class="n">pages_in_container</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span></div>
+
+<div class="viewcode-block" id="Index.add_container"><a class="viewcode-back" href="../../openerm.Index.html#openerm.Index.Index.add_container">[documentos]</a>	<span class="k">def</span> <span class="nf">add_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte_id</span><span class="p">,</span> <span class="n">container_offset</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">reporte_id</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">container_offset</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Index.write"><a class="viewcode-back" href="../../openerm.Index.html#openerm.Index.Index.write">[documentos]</a>	<span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		
+		<span class="c1"># Salvar offset de los bloques de metadatos del reporte</span>
+		<span class="n">struct_fmt</span>			<span class="o">=</span> <span class="s2">&quot;&gt;L50sQHQ&quot;</span>
+		<span class="n">container_offsset</span> 	<span class="o">=</span> <span class="mi">0</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reportidx_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">report</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="n">data</span>		<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span>	<span class="n">struct_fmt</span><span class="p">,</span>
+											<span class="n">key</span><span class="p">,</span>									<span class="c1"># ID númerico del reporte en la base 1..n </span>
+											<span class="n">report</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="s2">&quot;replace&quot;</span><span class="p">),</span>	<span class="c1"># Nombre del reporte</span>
+											<span class="n">report</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>								<span class="c1"># Offset del bloque de metadatos del reporte en el contenedor</span>
+											<span class="n">report</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>								<span class="c1"># Cantidad de páginas esperadas en el contenedor de páginas</span>
+											<span class="n">container_offsset</span>						<span class="c1"># Offet al primer contenedores de página del reporte</span>
+		  								<span class="p">)</span>
+
+				<span class="n">container_offsset</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">report</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">*</span> <span class="mi">12</span>
+				<span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">metadata_objects</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span>
+
+		<span class="c1"># Salvar offest a los contenedores de páginas</span>
+		<span class="n">struct_fmt</span>	<span class="o">=</span> <span class="s2">&quot;&gt;LQ&quot;</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">containeridx_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">report</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="k">for</span> <span class="n">group_offset</span> <span class="ow">in</span> <span class="n">report</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+					<span class="n">data</span>		<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span>	<span class="n">struct_fmt</span><span class="p">,</span>
+												<span class="n">key</span><span class="p">,</span>								<span class="c1"># iD númerico del reporte en la base 1..n </span>
+												<span class="n">group_offset</span>						<span class="c1"># Offet al contenedor de páginas</span>
+											<span class="p">)</span>
+					<span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">container_objects</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span></div>
+	
+<div class="viewcode-block" id="Index.read"><a class="viewcode-back" href="../../openerm.Index.html#openerm.Index.Index.read">[documentos]</a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+		<span class="c1"># Recupero offsets a los metadatos</span>
+		<span class="n">struct_fmt</span>		<span class="o">=</span> <span class="s2">&quot;&gt;L50sQHQ&quot;</span>
+		<span class="n">longitud_bloque</span>	<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">struct_fmt</span><span class="p">)</span>
+		<span class="n">struct_unpack</span>	<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="n">struct_fmt</span><span class="p">)</span><span class="o">.</span><span class="n">unpack_from</span>
+
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reportidx_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+			<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+				<span class="n">data</span>	<span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">longitud_bloque</span><span class="p">)</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+					<span class="k">break</span>
+				<span class="n">fields</span>									<span class="o">=</span> <span class="n">struct_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+				<span class="n">default</span>									<span class="o">=</span> <span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span>					<span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_report_id</span><span class="p">]</span>	<span class="o">=</span> <span class="n">default</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">metadata_objects</span>					<span class="o">+=</span> <span class="mi">1</span>
+
+
+		<span class="c1"># Recupero offsets a los contenedores</span>
+		<span class="n">struct_fmt</span>		<span class="o">=</span> <span class="s2">&quot;&gt;LQ&quot;</span>
+		<span class="n">longitud_bloque</span>	<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">struct_fmt</span><span class="p">)</span>
+		<span class="n">struct_unpack</span>	<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="n">struct_fmt</span><span class="p">)</span><span class="o">.</span><span class="n">unpack_from</span>
+
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">containeridx_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+			<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+				<span class="n">data</span>	<span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">longitud_bloque</span><span class="p">)</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+					<span class="k">break</span>
+				<span class="n">fields</span>	<span class="o">=</span> <span class="n">struct_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+				<span class="nb">id</span>		<span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
+				<span class="bp">self</span><span class="o">.</span><span class="n">container_objects</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+	<span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Código de módulo</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Patricio Moracho.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.6.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

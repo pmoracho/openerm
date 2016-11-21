@@ -1,0 +1,149 @@
+.. Openerm documentation master file, created by
+   sphinx-quickstart on Mon Sep 12 17:42:58 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+#######
+Openerm
+#######
+
+Release v\ |version|. 
+
+"OpenERM" es la primera especificación "abierta" para el almacenamiento de
+reportes electrónicos. Las siglas OERM hacen referencia a "Open electronic
+report management" una forma más moderna de llamar lo que hace algunos años se
+conocía como **COLD**, "Computer output to laser disk". Asimismo es la primer
+implementación oficial de dicha especificación. 
+
+Un poco de historia
+===================
+
+Desde los inicios y en todo tipo de apliciones informaticas, se han generado
+enormes cantidades de informes, estos reportes terminaban su ciclo de vida en
+el papel, informes de 80 o 132 columnas, de formato habitualmente tabular.
+Millones de hojas de papel fueron impresas y distribuídas de esta forma en todo
+tipo de empresa a lo largo y ancho del mundo. Sin embargo el acceso a la
+información mediante el "papel", en poco tiempo hizo notar sus limitaciones.
+Surge una teconolgía, que tuvo su esplendor en las decada del 80 y del 90, se
+trata de lo que en ese entonces se habia bautizado como "COLD", es decir
+"Computer output to laser disk". El concepto era simple, se "capturaba" la
+salida hacia la impresora de los sistemas centralizados, normalmente
+"Mainframes" o grandes computadores, y esta salida era guardada en archivos
+electrónicos, almacenada, indizada y distribuída mediante discos ópticos (laser
+disk), pudiendo luego ser visualizada mediante un software "COLD" en PCs u
+otras mini computadoras.
+
+Este "paradigma", un gran computador central, aplicaciones que
+explotan la información en reportes de tipo texto, distribución final
+en papel, tuvo una larga vida. Sin embargo los cambios en la
+tecnología, el abaratamiento de los costos y otros factores han dejado
+de lado este "modelo" por otros. Los sistemas "COLD" han ido langideciendo
+de a poco, sin embargo sigue existiendo un "nicho" importante para este 
+tipo de herramientas: aún hoy existen empresas que apoyan la gestión
+de su negocio en grande computadores o "Mainframes" y siguen generando
+enormes cantidades de listados. 
+
+
+Estructura de un database OpenErm
+=================================
+
+Un Database OpenErm es un archivo que almacena reportes electrónicos de forma comprimida y/o 
+encriptada. Se representa físicamente por tres archivos básicos:
+
+    * **<database>**.oerm: (o "DATA") Es el archivo físico principal, es simplemente un contenedor 
+      de bloques. Los bloques son conjuntos arbitrarios y variables de bytes. Los
+      bloques pueden ser de dos tipos
+        * Contenedor de metadatos
+        * Contenedor de páginas
+    * **<database>**.cidx.oerm: índice de bloques. Básicamente es una lista con los offsets o 
+      posiciones físicas dónde comienza cada bloque del archivo principal.
+    * **<database>**.ridx.oerm: índice de reportes. Es la lista de offsets o posiciones 
+      físicas de los bloques contenedores de metadatos de cada uno de los reportes que se
+      almacenan en el archivo princiapl.
+
+El archivo principal **<database>**.oerm o "DATA" contiene toda la información fundamental,
+tanto el índice de bloques como el de reporte puede ser regenerado en cualquier momento a 
+partir de archivo "DATA"
+
+.. code-block:: none 
+
+    Estructura de un <database>.oerm
+
+    +========+
+    | "oerm" |              --> "Magic number" (4 bytes)
+    +===================+
+    |     Bloque 1      |   --> Bytes (longitud variable)
+    +===================+
+    |                   |
+    |     Bloque 2      |   --> Bytes (longitud variable)
+    |                   |
+    +===================+
+    ..
+    +===================+
+    |     Bloque  N     |   --> Bytes (longitud variable)
+    +===================+
+    
+
+    Estructura de cualquier Bloque
+
+    +=======================+
+    | Long.Total del Bloque |   --> long (4 bytes)
+    +=======================+
+    | Tipo de Bloque  |         --> int (1 bytes)
+    +=================+
+    | Alg. Compresión |         --> int (1 bytes)
+    +=================+
+    | Alg. Cifrado    |         --> int (1 bytes)
+    +=======================+
+    | Long. de los Datos    |   --> long (4 bytes)
+    +=======================+
+    |                       |
+    |        Datos          |   --> Longitud variable (datos comprimibles)
+    |                       |
+    +=======================+
+    |                       |
+    |    Datos variables    |   --> (Opcional) Longitud variable (datos NO comprimibles)
+    |                       |
+    +=======================+
+
+
+Desarrollo
+==========
+
+Algunos puntos importantes para el desarrollador
+
+.. toctree::
+   :maxdepth: 2
+
+   desarrollo.rst
+
+
+Openerm - API
+=============
+
+Estos son los módulos principales
+
+.. toctree::
+   :maxdepth: 2
+
+   openerm.rst
+
+
+Tools
+=====
+.. toctree::
+   :maxdepth: 2
+
+   catalogrepo.rst
+   checkoermdb.rst
+   make.rst
+   oerm_hostreprint_processor.rst
+   readoermdb.rst
+
+Indices y tablas
+================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

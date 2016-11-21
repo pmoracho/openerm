@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reports &#8212; documentación de Openerm - 0.1</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
+    <link rel="up" title="Openerm - API" href="openerm.html" />
+    <link rel="next" title="catalogrepo" href="catalogrepo.html" />
+    <link rel="prev" title="Report" href="openerm.Report.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="catalogrepo.html" title="catalogrepo"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Report.html" title="Report"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" accesskey="U">Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="openerm.Report.html"
+                        title="capítulo anterior">Report</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="catalogrepo.html"
+                        title="próximo capítulo">catalogrepo</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.Reports.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-openerm.Reports"><span id="reports"></span></span><div class="section" id="id1">
+<h1>Reports<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Clase base para manejar una colección de reportes correspondientes a
+un Database OERM.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">Ver también</p>
+<ul class="last simple">
+<li><a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal"><span class="pre">openerm.Report</span></code></a></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<ul class="last simple">
+<li>Esta clase no debiera usarse directamente</li>
+<li>En un futuro modificar la inicialización, para que reciba el archivo.oerm y los archivos de los</li>
+</ul>
+</div>
+<dl class="class">
+<dt id="openerm.Reports.Reports">
+<em class="property">class </em><code class="descclassname">openerm.Reports.</code><code class="descname">Reports</code><span class="sig-paren">(</span><em>database</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Clase base para manejar una colección de reportes correspondientes a
+un Database OERM.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>database</strong> (<a class="reference internal" href="openerm.Database.html#module-openerm.Database" title="openerm.Database"><code class="xref py py-class docutils literal"><span class="pre">openerm.Database</span></code></a>) &#8211; Objeto Database</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">Iterador por la lista de Reportes</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">iterable</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/zstd-level-3-1-22.test.oerm&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+<span class="go">Report: Reporte 1</span>
+<span class="go">Report: Reporte 2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openerm.Reports.Reports.find_text">
+<code class="descname">find_text</code><span class="sig-paren">(</span><em>text</em>, <em>search_in_reports=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.find_text"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.find_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Búsqueda de un texto dentro de uno o más reportes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> (<em>string</em>) &#8211; Patrón de texto a buscar</li>
+<li><strong>search_in_reports</strong> (<a class="reference internal" href="openerm.Utils.html#openerm.Utils.AutoNum.list" title="openerm.Utils.AutoNum.list"><em>list</em></a>) &#8211; Lista de id´s de reportes dónde buscar o None en todos</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/.sin_compression_sin_encriptacion.oerm&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span> <span class="o">=</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span><span class="o">.</span><span class="n">find_text</span><span class="p">(</span><span class="s2">&quot;IWY3&quot;</span><span class="p">)</span>
+<span class="go">[(2, 10, 991, &#39;AGH8B2NULTCTJ0L-[IWY3]-4K6D8RRBYCRQCH&#39;)]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body"><dl class="docutils">
+<dt>Lista de reportes y páginas</dt>
+<dd><ul class="first last simple">
+<li>Reporte id</li>
+<li>Página</li>
+<li>Posición en la página</li>
+<li>Extracto de la ocurrencia a modo de ejemplo</li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Reports.Reports.get_report">
+<code class="descname">get_report</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.get_report"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.get_report" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna un objeto de la clase <a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal"><span class="pre">openerm.Report</span></code></a> según el <strong>id</strong> del mismo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>id</strong> (<em>int</em>) &#8211; Número de reporte de la base Oerm</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/zstd-level-3-1-22.test.oerm&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span> <span class="o">=</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">Report: Reporte 1</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">Reporte solicitado</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal"><span class="pre">openerm.Report</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="catalogrepo.html" title="catalogrepo"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Report.html" title="Report"
+             >anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="openerm.html" >Openerm - API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Patricio Moracho.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.6.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>
