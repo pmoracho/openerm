@@ -1,0 +1,4 @@
+/tools/__pycache__
+/tools/*.spec
+/venv
+/openerm/__pycache__
