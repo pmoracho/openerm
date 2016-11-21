@@ -56,7 +56,7 @@ except ImportError as err:
 	print(_("No fue posible importar el modulo: %s") % modulename)
 	sys.exit(-1)
 
-
+root_dir = "openerm.git"
 packages =	{
 				"blosc":		("1.3.3",	"blosc-1.3.3-cp34-cp34m-win32.whl"),
 				"brotlipy":		("0.5.1",	None),
@@ -273,7 +273,7 @@ Los comandos más usados:
 			print("run: {0}".format(command))
 			print("ret: {0}".format(ret))
 
-		if "openerm\\venv" in ret:
+		if root_dir + "\\venv" in ret:
 			if msg:
 				print("Activación de virtualenv Ok..")
 			return True
