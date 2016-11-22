@@ -1,5 +1,4 @@
-Compressor
-==========
+.. _Compressor:
 
 .. automodule:: openerm.Compressor
     :members:

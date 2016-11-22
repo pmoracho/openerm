@@ -44,8 +44,9 @@ if "%1" == "help" (
 )
 
 if "%1" == "clean" (
-	for /d %%i in (%BUILDDIR%\*) do rmdir /q /s %%i
-	del /q /s %BUILDDIR%\*
+	echo "Clean disabled"
+	rem for /d %%i in (%BUILDDIR%\*) do rmdir /q /s %%i
+	rem del /q /s %BUILDDIR%\*
 	goto end
 )
 

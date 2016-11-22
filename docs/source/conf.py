@@ -17,9 +17,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
 import sys
-import sphinx_bootstrap_theme
 
 # sys.path.append(os.path.abspath('../../openerm'))
 # sys.path.append('D:\pm\Data\git.repo\openerm\openerm')
@@ -39,13 +37,12 @@ sys.path.append('../tools')
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.viewcode',
-	'sphinx.ext.napoleon',
-	'sphinxjp.themes.basicstrap'
+	'sphinx.ext.autodoc',
+	'sphinx.ext.doctest',
+	'sphinx.ext.viewcode',
+	'sphinx.ext.napoleon'
 ]
-pdf_documents = [('index', u'rst2pdf', u'Sample rst2pdf doc', u'Your Name'),]
+pdf_documents = [('index', u'rst2pdf', u'Sample rst2pdf doc', u'Your Name'), ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -158,17 +155,17 @@ todo_include_todos = False
 # import guzzle_sphinx_theme
 
 # # Adds an HTML table visitor to apply Bootstrap table classes
-# html_translator_class 	= 'guzzle_sphinx_theme.HTMLTranslator'
-# html_theme_path 		= guzzle_sphinx_theme.html_theme_path()
-# html_theme 				= 'guzzle_sphinx_theme'
+# html_translator_class		= 'guzzle_sphinx_theme.HTMLTranslator'
+# html_theme_path		= guzzle_sphinx_theme.html_theme_path()
+# html_theme				= 'guzzle_sphinx_theme'
 
 # # Register the theme as an extension to generate a sitemap.xml
 # extensions.append("guzzle_sphinx_theme")
 
 # # Guzzle theme options (see theme.conf for more information)
 # html_theme_options = {
-#     # Set the name of the project to appear in the sidebar
-#     "project_nav_name": "OpenERM",
+#	  # Set the name of the project to appear in the sidebar
+#	  "project_nav_name": "OpenERM",
 # }
 
 
@@ -185,84 +182,84 @@ html_theme_path = [solar_theme.theme_path]
 # html_theme = 'basicstrap'
 # html_theme_options = {
 
-#     # Set the lang attribute of the html tag. Defaults to 'en'
-#     'lang': 'es',
-#     # Disable showing the sidebar. Defaults to 'false'
-#     'nosidebar': False,
-#     # Show header searchbox. Defaults to false. works only "nosidber=True",
-#     'header_searchbox': False,
+#	  # Set the lang attribute of the html tag. Defaults to 'en'
+#	  'lang': 'es',
+#	  # Disable showing the sidebar. Defaults to 'false'
+#	  'nosidebar': False,
+#	  # Show header searchbox. Defaults to false. works only "nosidber=True",
+#	  'header_searchbox': False,
 
-#     # Put the sidebar on the right side. Defaults to false.
-#     'rightsidebar': False,
-#     # Set the width of the sidebar. Defaults to 3
-#     'sidebar_span': 3,
+#	  # Put the sidebar on the right side. Defaults to false.
+#	  'rightsidebar': False,
+#	  # Set the width of the sidebar. Defaults to 3
+#	  'sidebar_span': 3,
 
-#     # Fix navbar to top of screen. Defaults to true
-#     'nav_fixed_top': True,
-#     # Fix the width of the sidebar. Defaults to false
-#     'nav_fixed': False,
-#     # Set the width of the sidebar. Defaults to '900px'
-#     'nav_width': '900px',
-#     # Fix the width of the content area. Defaults to false
+#	  # Fix navbar to top of screen. Defaults to true
+#	  'nav_fixed_top': True,
+#	  # Fix the width of the sidebar. Defaults to false
+#	  'nav_fixed': False,
+#	  # Set the width of the sidebar. Defaults to '900px'
+#	  'nav_width': '900px',
+#	  # Fix the width of the content area. Defaults to false
 
-#     'content_fixed': False,
-#     # Set the width of the content area. Defaults to '900px'
-#     'content_width': '900px',
-#     # Fix the width of the row. Defaults to false
-#     'row_fixed': False,
+#	  'content_fixed': False,
+#	  # Set the width of the content area. Defaults to '900px'
+#	  'content_width': '900px',
+#	  # Fix the width of the row. Defaults to false
+#	  'row_fixed': False,
 
-#     # Disable the responsive design. Defaults to false
-#     'noresponsive': False,
-#     # Disable the responsive footer relbar. Defaults to false
-#     'noresponsiverelbar': False,
-#     # Disable flat design. Defaults to false.
-#     # Works only "bootstrap_version = 3"
-#     'noflatdesign': False,
+#	  # Disable the responsive design. Defaults to false
+#	  'noresponsive': False,
+#	  # Disable the responsive footer relbar. Defaults to false
+#	  'noresponsiverelbar': False,
+#	  # Disable flat design. Defaults to false.
+#	  # Works only "bootstrap_version = 3"
+#	  'noflatdesign': False,
 
-#     # Enable Google Web Font. Defaults to false
-#     'googlewebfont': False,
-#     # Set the URL of Google Web Font's CSS.
-#     # Defaults to 'http://fonts.googleapis.com/css?family=Text+Me+One'
-#     'googlewebfont_url': 'http://fonts.googleapis.com/css?family=Lily+Script+One',  # NOQA
-#     # Set the Style of Google Web Font's CSS.
-#     # Defaults to "font-family: 'Text Me One', sans-serif;"
-#     'googlewebfont_style': u"font-family: 'Lily Script One' cursive;",
+#	  # Enable Google Web Font. Defaults to false
+#	  'googlewebfont': False,
+#	  # Set the URL of Google Web Font's CSS.
+#	  # Defaults to 'http://fonts.googleapis.com/css?family=Text+Me+One'
+#	  'googlewebfont_url': 'http://fonts.googleapis.com/css?family=Lily+Script+One',  # NOQA
+#	  # Set the Style of Google Web Font's CSS.
+#	  # Defaults to "font-family: 'Text Me One', sans-serif;"
+#	  'googlewebfont_style': u"font-family: 'Lily Script One' cursive;",
 
-#     # Set 'navbar-inverse' attribute to header navbar. Defaults to false.
-#     'header_inverse': False,
-#     # Set 'navbar-inverse' attribute to relbar navbar. Defaults to false.
-#     'relbar_inverse': False,
+#	  # Set 'navbar-inverse' attribute to header navbar. Defaults to false.
+#	  'header_inverse': False,
+#	  # Set 'navbar-inverse' attribute to relbar navbar. Defaults to false.
+#	  'relbar_inverse': False,
 
-#     # Enable inner theme by Bootswatch. Defaults to false
-#     'inner_theme': False,
+#	  # Enable inner theme by Bootswatch. Defaults to false
+#	  'inner_theme': False,
 
-#     # Set the name of innner theme. Defaults to 'bootswatch-simplex'
-# 	'header_inverse': True,
-# 	'relbar_inverse': True,
-# 	'inner_theme': True,
-#     'inner_theme_name': 'bootswatch-flatly',
+#	  # Set the name of innner theme. Defaults to 'bootswatch-simplex'
+#	'header_inverse': True,
+#	'relbar_inverse': True,
+#	'inner_theme': True,
+#	  'inner_theme_name': 'bootswatch-flatly',
 
-#     # Select Twitter bootstrap version 2 or 3. Defaults to '3'
-#     'bootstrap_version': '3',
+#	  # Select Twitter bootstrap version 2 or 3. Defaults to '3'
+#	  'bootstrap_version': '3',
 
-#     # Show "theme preview" button in header navbar. Defaults to false.
-#     'theme_preview': False,
+#	  # Show "theme preview" button in header navbar. Defaults to false.
+#	  'theme_preview': False,
 
-#     # Set the Size of Heading text. Defaults to None
-#     # 'h1_size': '3.0em',
-#     # 'h2_size': '2.6em',
-#     # 'h3_size': '2.2em',
-#     # 'h4_size': '1.8em',
-#     # 'h5_size': '1.4em',
-#     # 'h6_size': '1.1em',
+#	  # Set the Size of Heading text. Defaults to None
+#	  # 'h1_size': '3.0em',
+#	  # 'h2_size': '2.6em',
+#	  # 'h3_size': '2.2em',
+#	  # 'h4_size': '1.8em',
+#	  # 'h5_size': '1.4em',
+#	  # 'h6_size': '1.1em',
 # }
 
 
 def setup(app):
-    app.add_stylesheet('theme_overrides.css')
+	app.add_stylesheet('theme_overrides.css')
 
 # Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
+# further.	For a list of options available for each theme, see the
 # documentation.
 #
 # html_theme_options = {}
@@ -356,8 +353,8 @@ html_static_path = ['_static']
 
 # Language to be used for generating the HTML full-text search index.
 # Sphinx supports the following languages:
-#   'da', 'de', 'en', 'es', 'fi', 'fr', 'h', 'it', 'ja'
-#   'nl', 'no', 'pt', 'ro', 'r', 'sv', 'tr', 'zh'
+#	'da', 'de', 'en', 'es', 'fi', 'fr', 'h', 'it', 'ja'
+#	'nl', 'no', 'pt', 'ro', 'r', 'sv', 'tr', 'zh'
 #
 # html_search_language = 'en'
 
@@ -378,29 +375,29 @@ htmlhelp_basename = 'Openermdoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-     # The paper size ('letterpaper' or 'a4paper').
-     #
-     # 'papersize': 'letterpaper',
+	 # The paper size ('letterpaper' or 'a4paper').
+	 #
+	 # 'papersize': 'letterpaper',
 
-     # The font size ('10pt', '11pt' or '12pt').
-     #
-     # 'pointsize': '10pt',
+	 # The font size ('10pt', '11pt' or '12pt').
+	 #
+	 # 'pointsize': '10pt',
 
-     # Additional stuff for the LaTeX preamble.
-     #
-     # 'preamble': '',
+	 # Additional stuff for the LaTeX preamble.
+	 #
+	 # 'preamble': '',
 
-     # Latex figure (float) alignment
-     #
-     # 'figure_align': 'htbp',
+	 # Latex figure (float) alignment
+	 #
+	 # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Openerm.tex', 'Openerm Documentation',
-     'Patricio Moracho', 'manual'),
+	(master_doc, 'Openerm.tex', 'Openerm Documentation',
+	 'Patricio Moracho', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -425,7 +422,7 @@ latex_documents = [
 #
 # latex_appendices = []
 
-# It false, will not define \strong, \code, 	itleref, \crossref ... but only
+# It false, will not define \strong, \code,		itleref, \crossref ... but only
 # \sphinxstrong, ..., \sphinxtitleref, ... To help avoid clash with user added
 # packages.
 #
@@ -441,8 +438,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'openerm', 'Openerm Documentation',
-     [author], 1)
+	(master_doc, 'openerm', 'Openerm Documentation',
+	 [author], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -456,9 +453,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Openerm', 'Openerm Documentation',
-     author, 'Openerm', 'One line description of project.',
-     'Miscellaneous'),
+	(master_doc, 'Openerm', 'Openerm Documentation',
+	 author, 'Openerm', 'One line description of project.',
+	 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.

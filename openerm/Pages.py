@@ -18,6 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+"""
+Pages
+=====
+
+Clase "dummy", pensada eventualmente para el manejo de una colección de páginas.
+
+"""
 try:
 	import sys
 	import gettext
@@ -44,5 +51,4 @@ class Pages(object):
 		return self
 
 	def __next__(self):
-
 		return None

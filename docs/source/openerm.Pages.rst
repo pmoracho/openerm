@@ -1,5 +1,4 @@
-Pages
-=====
+.. _pages:
 
 .. automodule:: openerm.Pages
     :members:
