@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spl2oerm &#8212; documentación de Openerm - 0.1</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
+    <link rel="next" title="catalogrepo" href="catalogrepo.html" />
+    <link rel="prev" title="Reports" href="openerm.Reports.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="catalogrepo.html" title="catalogrepo"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Reports.html" title="Reports"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabla de Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">spl2oerm</a></li>
+<li><a class="reference internal" href="#ejecucion">Ejecución</a></li>
+<li><a class="reference internal" href="#configuracion-del-proceso">Configuración del proceso</a></li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="openerm.Reports.html"
+                        title="capítulo anterior">Reports</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="catalogrepo.html"
+                        title="próximo capítulo">catalogrepo</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spl2oerm.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-spl2oerm"><span id="spl2oerm"></span></span><div class="section" id="id1">
+<h1>spl2oerm<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><cite>spl2oerm</cite> es una aplicación de línea de comandos, parte de la familia de
+herramientas del proyecto <a class="reference external" href="https://github.com/pmoracho/openerm">Openerm</a>. Este
+comando se utiliza para procesar archivos de &#8220;spool&#8221; (salidas de las colas de
+impresión) y realiza las algunas de las siguientes operaciones:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Lectura y decodificación del archivo</li>
+<li>Detección de páginas</li>
+<li>Detección de reportes</li>
+<li>Compresión y/o encriptación de páginas</li>
+<li>Almacenamiento final en Databases &#8220;oerm&#8221;</li>
+</ul>
+</div></blockquote>
+<p>Básicamente esta herramienta es un &#8220;loader&#8221; o &#8220;cargador&#8221; de los reportes a la
+base de datos de un sistema Oerm para su posterior uso y consulta.</p>
+</div>
+<div class="section" id="ejecucion">
+<h1>Ejecución<a class="headerlink" href="#ejecucion" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Una ejecución sin parámetros muestra esta ayuda:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">uso</span><span class="p">:</span> <span class="n">spl2oerm</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span> <span class="n">CONFIGFILE</span><span class="p">]</span> <span class="n">inputfile</span>
+
+<span class="n">Procesador</span> <span class="n">de</span> <span class="n">archivo</span> <span class="n">de</span> <span class="n">spool</span> <span class="n">a</span> <span class="n">Oerm</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2016</span><span class="p">,</span> <span class="n">Patricio</span> <span class="n">Moracho</span>
+<span class="o">&lt;</span><span class="n">pmoracho</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+
+<span class="n">argumentos</span> <span class="n">posicionales</span><span class="p">:</span>
+<span class="n">inputfile</span>                                <span class="n">Archivo</span> <span class="n">a</span> <span class="n">procesar</span>
+
+<span class="n">argumentos</span> <span class="n">opcionales</span><span class="p">:</span>
+<span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>                               <span class="n">mostrar</span> <span class="n">esta</span> <span class="n">ayuda</span> <span class="n">y</span> <span class="n">salir</span>
+<span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span> <span class="n">CONFIGFILE</span><span class="p">,</span> <span class="o">-</span><span class="n">f</span> <span class="n">CONFIGFILE</span>  <span class="n">Archivo</span> <span class="n">de</span> <span class="n">configuración</span> <span class="k">del</span> <span class="n">proceso</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Esto claramente nos dice, que para ejecutar esta herramienta solo requerimos
+dos parámetros:</p>
+<blockquote>
+<div><ul class="simple">
+<li>El Archivo &#8220;spool&#8221; de entrada</li>
+<li>Un archivo de configuración del proceso que explicaremos a continuación</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="configuracion-del-proceso">
+<h1>Configuración del proceso<a class="headerlink" href="#configuracion-del-proceso" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>El proceso en sí requiere una serie de datos para funcionar y llevar a cabo
+exitosamente la carga de los reportes. Esta configuración se define en una
+archivo de texto escrito en formato <a class="reference external" href="http://yaml.org/">yaml</a></p>
+<p>Un ejemplo sencillo:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># vi: ft=yaml</span>
+<span class="c1"># Openerm spool file load config file</span>
+<span class="c1">#</span>
+
+<span class="n">load</span><span class="p">:</span>
+        <span class="c1">#</span>
+        <span class="c1">#  Definición del archivo de input</span>
+        <span class="c1">#</span>
+        <span class="n">file</span><span class="p">:</span>
+                <span class="n">encoding</span><span class="p">:</span> <span class="n">cp500</span>             <span class="c1"># Codificación del archivo de entrada</span>
+                <span class="n">record</span><span class="o">-</span><span class="n">length</span><span class="p">:</span> <span class="mi">256</span>          <span class="c1"># Longitud del registro</span>
+                <span class="n">file</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="n">fixed</span>            <span class="c1"># Tipo de input fixed, fcfc</span>
+                <span class="n">buffer</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">102400</span>         <span class="c1"># Tamaño del buffer de lectura</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Definiciones del proceso</span>
+        <span class="c1">#</span>
+        <span class="n">process</span><span class="p">:</span>
+                <span class="n">EOP</span><span class="p">:</span> <span class="n">NEVADO</span>                 <span class="c1"># Caracter o String que define el salto de página</span>
+                <span class="n">report</span><span class="o">-</span><span class="n">cfg</span><span class="p">:</span> <span class="o">./</span><span class="n">reports</span><span class="o">.</span><span class="n">cfg</span>   <span class="c1"># Archivo de definición de los reportes</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Definiciones de la salida</span>
+        <span class="c1">#</span>
+        <span class="n">output</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">-</span><span class="n">path</span><span class="p">:</span> <span class="o">../</span><span class="n">out</span><span class="o">/</span><span class="n">ejemplo</span>
+                <span class="n">compress</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="mi">10</span>
+                <span class="n">compress</span><span class="o">-</span><span class="n">level</span><span class="p">:</span> <span class="mi">1</span>
+                <span class="n">cipher</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="mi">0</span>
+                <span class="n">pages</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">group</span><span class="p">:</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Detalle:</dt>
+<dd><ul class="first last">
+<li><p class="first">Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</p>
+</li>
+<li><p class="first">La primer sección <cite>load</cite> define completamente el proceso de carga</p>
+</li>
+<li><dl class="first docutils">
+<dt>En <cite>file</cite> se configuran los parámetros para la interpretación básica del archivo _</dt>
+<dd><ul class="first last simple">
+<li><cite>encoding</cite> define la codificación del archivo, ver <a class="reference external" href="https://docs.python.org/3/library/codecs.html#standard-encodings">aqui</a> la lista de psoibles codecs</li>
+<li><cite>record-lenght</cite>, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</li>
+<li><cite>file-type</cite> tipo de archivo, actualmente hay dos implementaciones <cite>fixed</cite> y <cite>fcfc</cite></li>
+<li><cite>buffer-size</cite>, tamaño del buffer de lectura, para los archivos de registros de tamño variable.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="spl2oerm.LoadProcess">
+<em class="property">class </em><code class="descclassname">spl2oerm.</code><code class="descname">LoadProcess</code><span class="sig-paren">(</span><em>configfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#LoadProcess"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.LoadProcess" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="spl2oerm.LoadProcess.process_file">
+<code class="descname">process_file</code><span class="sig-paren">(</span><em>inputfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#LoadProcess.process_file"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.LoadProcess.process_file" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="spl2oerm.Main">
+<code class="descclassname">spl2oerm.</code><code class="descname">Main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#Main"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.Main" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="spl2oerm.init_argparse">
+<code class="descclassname">spl2oerm.</code><code class="descname">init_argparse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#init_argparse"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.init_argparse" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>init_argparse: Inicializar parametros del programa.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="spl2oerm.my_gettext">
+<code class="descclassname">spl2oerm.</code><code class="descname">my_gettext</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#my_gettext"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.my_gettext" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>my_gettext: Traducir algunas cadenas de argparse.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="catalogrepo.html" title="catalogrepo"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="openerm.Reports.html" title="Reports"
+             >anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Patricio Moracho.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

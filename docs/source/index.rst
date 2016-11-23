@@ -134,6 +134,7 @@ Tools
 .. toctree::
    :maxdepth: 2
 
+   spl2oerm.rst
    catalogrepo.rst
    checkoermdb.rst
    make.rst
