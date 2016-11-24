@@ -53,8 +53,10 @@ encriptada. Se representa físicamente por tres archivos básicos:
     * **<database>**.oerm: (o "DATA") Es el archivo físico principal, es simplemente un contenedor 
       de bloques. Los bloques son conjuntos arbitrarios y variables de bytes. Los
       bloques pueden ser de dos tipos
+
         * Contenedor de metadatos
         * Contenedor de páginas
+
     * **<database>**.cidx.oerm: índice de bloques. Básicamente es una lista con los offsets o 
       posiciones físicas dónde comienza cada bloque del archivo principal.
     * **<database>**.ridx.oerm: índice de reportes. Es la lista de offsets o posiciones 

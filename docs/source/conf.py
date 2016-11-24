@@ -151,7 +151,7 @@ todo_include_todos = False
 # html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
 
 # html_theme = 'alabaster'
-html_theme = 'haiku'
+# html_theme = 'haiku'
 # html_theme = 'sphinx_rtd_theme'
 # html_theme = 'classic'
 # html_theme = 'bizstyle'
@@ -178,9 +178,9 @@ html_theme = 'haiku'
 # }
 
 
-# import solar_theme
-# html_theme = 'solar_theme'
-# html_theme_path = [solar_theme.theme_path]
+import solar_theme
+html_theme = 'solar_theme'
+html_theme_path = [solar_theme.theme_path]
 
 
 # import hbp_sphinx_theme

@@ -65,8 +65,7 @@
           <div class="body" role="main">
             
   <h1>Código fuente para spl2oerm</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!python</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
 <span class="c1">#</span>
@@ -162,20 +161,29 @@
 <span class="sd">		# Definiciones de la salida</span>
 <span class="sd">		#</span>
 <span class="sd">		output:</span>
-<span class="sd">			output-path: ../out/ejemplo</span>
+<span class="sd">			output-path: default</span>
 <span class="sd">			compress-type: 10</span>
 <span class="sd">			compress-level: 1</span>
 <span class="sd">			cipher-type: 0</span>
 <span class="sd">			pages-in-group: 10</span>
 
 <span class="sd">Detalle:</span>
+
 <span class="sd">	* Toda línea o texto que comienza con el caracter `#` es considerada un comentario</span>
 <span class="sd">	* La primer sección `load` define completamente el proceso de carga</span>
-<span class="sd">	* En `file` se configuran los parámetros para la interpretación básica del archivo _</span>
+<span class="sd">	* En `file` se configuran los parámetros para la interpretación básica del archivo</span>
 <span class="sd">		* `encoding` define la codificación del archivo, ver `aqui &lt;https://docs.python.org/3/library/codecs.html#standard-encodings&gt;`_ la lista de psoibles codecs</span>
 <span class="sd">		* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</span>
 <span class="sd">		* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`</span>
 <span class="sd">		* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.</span>
+<span class="sd">	* En `process` se configuran los parámetros inherentes al proceso lógico del spool</span>
+<span class="sd">		* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.</span>
+<span class="sd">		* `report-cfg` define el archivo de configuración de los reportes</span>
+<span class="sd">	* En `output` se configuran los parámetros que definen el database físico a generar</span>
+<span class="sd">		* `output-path` define el archivo de configuración de los reportes</span>
+<span class="sd">		* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
+<span class="sd">		* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
+
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__author__</span>		<span class="o">=</span> <span class="s2">&quot;Patricio Moracho &lt;pmoracho@gmail.com&gt;&quot;</span>
@@ -191,6 +199,7 @@
 	<span class="kn">import</span> <span class="nn">gettext</span>
 	<span class="kn">from</span> <span class="nn">gettext</span> <span class="k">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
 	<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">&#39;openerm&#39;</span><span class="p">)</span>
+
 <div class="viewcode-block" id="my_gettext"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.my_gettext">[documentos]</a>	<span class="k">def</span> <span class="nf">my_gettext</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;my_gettext: Traducir algunas cadenas de argparse.&quot;&quot;&quot;</span>
 		<span class="n">current_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;usage: &#39;</span><span class="p">:</span> <span class="s1">&#39;uso: &#39;</span><span class="p">,</span>
@@ -215,6 +224,7 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
 
+	<span class="kn">from</span> <span class="nn">cerberus</span> <span class="k">import</span> <span class="n">Validator</span>
 	<span class="kn">from</span> <span class="nn">openerm.Block</span> <span class="k">import</span> <span class="n">Block</span>
 	<span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
 	<span class="kn">from</span> <span class="nn">openerm.ReportMatcher</span> <span class="k">import</span> <span class="n">ReportMatcher</span>
@@ -229,6 +239,7 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 
+
 <div class="viewcode-block" id="LoadProcess"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.LoadProcess">[documentos]</a><span class="k">class</span> <span class="nc">LoadProcess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configfile</span><span class="p">):</span>
@@ -238,19 +249,73 @@
 
 	<span class="k">def</span> <span class="nf">_load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-
 		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configfile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
 			<span class="k">try</span><span class="p">:</span>
 				<span class="n">dictionary</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;load&quot;</span><span class="p">,</span> <span class="p">{})</span>
+				<span class="n">ok</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_config</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">ok</span><span class="p">:</span>
 
-				<span class="k">for</span> <span class="n">grupo</span><span class="p">,</span> <span class="n">dictionary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-					<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-						<span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;load&quot;</span><span class="p">,</span> <span class="p">{})</span>
+					<span class="k">for</span> <span class="n">grupo</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+						<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+							<span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+
+					<span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;paths&quot;</span><span class="p">,</span> <span class="p">{})</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">output_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_path</span><span class="p">]</span>
+
+				<span class="k">else</span><span class="p">:</span>
+					<span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+					<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 			<span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
 				<span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 				<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_validate_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">):</span>
+
+		<span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="s1">&#39;load&#39;</span><span class="p">:</span> <span class="p">{</span>
+					<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+					<span class="s1">&#39;allow_unknown&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+					<span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+							<span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="p">{</span>
+								<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+								<span class="s1">&#39;allow_unknown&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+								<span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+									<span class="s1">&#39;encoding&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+									<span class="s1">&#39;record-length&#39;</span><span class="p">:</span> 	<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;anyof&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">}]},</span>
+									<span class="s1">&#39;file-type&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;allowed&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="s1">&#39;fcfc&#39;</span><span class="p">]},</span>
+									<span class="s1">&#39;buffer-size&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+								<span class="p">}</span>
+							<span class="p">},</span>
+							<span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="p">{</span>
+								<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+								<span class="s1">&#39;allow_unknown&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+								<span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+									<span class="s1">&#39;EOP&#39;</span><span class="p">:</span> 				<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+									<span class="s1">&#39;report-cfg&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+								<span class="p">}</span>
+							<span class="p">},</span>
+							<span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">{</span>
+								<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+								<span class="s1">&#39;allow_unknown&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+								<span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+									<span class="s1">&#39;output-path&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+									<span class="s1">&#39;compress-type&#39;</span><span class="p">:</span> 	<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;anyof&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}]},</span>
+									<span class="s1">&#39;compress-level&#39;</span><span class="p">:</span> 	<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;anyof&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]},</span>
+									<span class="s1">&#39;cipher-type&#39;</span><span class="p">:</span> 		<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;anyof&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]},</span>
+									<span class="s1">&#39;pages-in-group&#39;</span><span class="p">:</span>	<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;anyof&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}]}</span>
+								<span class="p">}</span>
+							<span class="p">}</span>
+					<span class="p">}</span>
+			<span class="p">},</span>
+			<span class="s1">&#39;paths&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">}</span>
+		<span class="p">}</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">v</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">dictionary</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">errors</span>
 
 <div class="viewcode-block" id="LoadProcess.process_file"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.LoadProcess.process_file">[documentos]</a>	<span class="k">def</span> <span class="nf">process_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">):</span>
 
@@ -287,7 +352,6 @@
 				<span class="n">sppol_types</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span> <span class="n">SpoolFixedRecordLenght</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">buffer_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span> <span class="n">newpage_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">EOP</span> <span class="p">),</span>
 				   				<span class="s2">&quot;fcfc&quot;</span><span class="p">:</span>	<span class="n">SpoolHostReprint</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">buffer_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="p">)</span>
 				<span class="p">}</span>
-
 
 				<span class="n">spool</span> <span class="o">=</span> <span class="n">sppol_types</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">file_type</span><span class="p">]</span>
 				<span class="k">with</span> <span class="n">spool</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
@@ -342,6 +406,7 @@
 		<span class="p">)</span>
 		<span class="k">return</span> <span class="n">tablestr</span></div></div>
 
+
 <div class="viewcode-block" id="init_argparse"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.init_argparse">[documentos]</a><span class="k">def</span> <span class="nf">init_argparse</span><span class="p">():</span>
 	<span class="sd">&quot;&quot;&quot;init_argparse: Inicializar parametros del programa.&quot;&quot;&quot;</span>
 	<span class="n">cmdparser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">__appname__</span><span class="p">,</span>
@@ -374,9 +439,7 @@
 	<span class="k">return</span> <span class="n">cmdparser</span></div>
 
 
-
-
-<div class="viewcode-block" id="Main"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.Main">[documentos]</a><span class="k">def</span>	<span class="nf">Main</span><span class="p">():</span>
+<div class="viewcode-block" id="Main"><a class="viewcode-back" href="../spl2oerm.html#spl2oerm.Main">[documentos]</a><span class="k">def</span> <span class="nf">Main</span><span class="p">():</span>
 
 	<span class="n">cmdparser</span> <span class="o">=</span> <span class="n">init_argparse</span><span class="p">()</span>
 	<span class="k">try</span><span class="p">:</span>
@@ -390,9 +453,6 @@
 		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 	<span class="n">proc</span> <span class="o">=</span> <span class="n">LoadProcess</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">configfile</span><span class="p">)</span>
-
-	<span class="c1"># attrs = vars(proc)</span>
-	<span class="c1"># print(&#39;, &#39;.join(&quot;%s: %s&quot; % item for item in attrs.items()))</span>
 
 	<span class="n">tablestr</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 

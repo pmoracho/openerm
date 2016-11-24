@@ -164,22 +164,22 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
         <span class="c1"># Definiciones de la salida</span>
         <span class="c1">#</span>
         <span class="n">output</span><span class="p">:</span>
-                <span class="n">output</span><span class="o">-</span><span class="n">path</span><span class="p">:</span> <span class="o">../</span><span class="n">out</span><span class="o">/</span><span class="n">ejemplo</span>
+                <span class="n">output</span><span class="o">-</span><span class="n">path</span><span class="p">:</span> <span class="n">default</span>
                 <span class="n">compress</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="mi">10</span>
                 <span class="n">compress</span><span class="o">-</span><span class="n">level</span><span class="p">:</span> <span class="mi">1</span>
                 <span class="n">cipher</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="mi">0</span>
                 <span class="n">pages</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">group</span><span class="p">:</span> <span class="mi">10</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>Detalle:</dt>
-<dd><ul class="first last">
+<p>Detalle:</p>
+<blockquote>
+<div><ul>
 <li><p class="first">Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</p>
 </li>
 <li><p class="first">La primer sección <cite>load</cite> define completamente el proceso de carga</p>
 </li>
 <li><dl class="first docutils">
-<dt>En <cite>file</cite> se configuran los parámetros para la interpretación básica del archivo _</dt>
+<dt>En <cite>file</cite> se configuran los parámetros para la interpretación básica del archivo</dt>
 <dd><ul class="first last simple">
 <li><cite>encoding</cite> define la codificación del archivo, ver <a class="reference external" href="https://docs.python.org/3/library/codecs.html#standard-encodings">aqui</a> la lista de psoibles codecs</li>
 <li><cite>record-lenght</cite>, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</li>
@@ -189,9 +189,27 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </dd>
 </dl>
 </li>
+<li><dl class="first docutils">
+<dt>En <cite>process</cite> se configuran los parámetros inherentes al proceso lógico del spool</dt>
+<dd><ul class="first last simple">
+<li><cite>EOP</cite> define el caracter o cadena que determina el cambio de página dentro del reporte.</li>
+<li><cite>report-cfg</cite> define el archivo de configuración de los reportes</li>
 </ul>
 </dd>
 </dl>
+</li>
+<li><dl class="first docutils">
+<dt>En <cite>output</cite> se configuran los parámetros que definen el database físico a generar</dt>
+<dd><ul class="first last simple">
+<li><cite>output-path</cite> define el archivo de configuración de los reportes</li>
+<li><cite>compress-type</cite> define el tipo de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
+<li><cite>compress-level</cite> define el nivel de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 <dl class="class">
 <dt id="spl2oerm.LoadProcess">
 <em class="property">class </em><code class="descclassname">spl2oerm.</code><code class="descname">LoadProcess</code><span class="sig-paren">(</span><em>configfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#LoadProcess"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.LoadProcess" title="Enlazar permanentemente con esta definición">¶</a></dt>

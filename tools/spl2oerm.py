@@ -94,7 +94,7 @@ Un ejemplo sencillo::
 		# Definiciones de la salida
 		#
 		output:
-			output-path: ../out/ejemplo
+			output-path: default
 			compress-type: 10
 			compress-level: 1
 			cipher-type: 0
@@ -114,6 +114,8 @@ Detalle:
 		* `report-cfg` define el archivo de configuración de los reportes
 	* En `output` se configuran los parámetros que definen el database físico a generar
 		* `output-path` define el archivo de configuración de los reportes
+		* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
+		* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
 
 
 """
