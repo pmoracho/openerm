@@ -41,7 +41,8 @@ extensions = [
 	'sphinx.ext.autodoc',
 	'sphinx.ext.doctest',
 	'sphinx.ext.viewcode',
-	'sphinx.ext.napoleon'
+	'sphinx.ext.napoleon',
+	'rinoh.frontend.sphinx'
 ]
 pdf_documents = [('index', u'rst2pdf', u'Sample rst2pdf doc', u'Your Name'), ]
 
@@ -67,6 +68,11 @@ master_doc = 'index'
 project = 'Openerm'
 copyright = '2016, Patricio Moracho'
 author = 'Patricio Moracho'
+
+rinoh_documents = [('index',            	# top-level file (index.rst)
+                    'target',           	# output (target.pdf)
+                    'OpenErm', 				# document title
+                    'Patricio Moracho')]   	# document author
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -145,7 +151,7 @@ todo_include_todos = False
 # html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
 
 # html_theme = 'alabaster'
-# html_theme = 'haiku'
+html_theme = 'haiku'
 # html_theme = 'sphinx_rtd_theme'
 # html_theme = 'classic'
 # html_theme = 'bizstyle'
@@ -172,9 +178,9 @@ todo_include_todos = False
 # }
 
 
-import solar_theme
-html_theme = 'solar_theme'
-html_theme_path = [solar_theme.theme_path]
+# import solar_theme
+# html_theme = 'solar_theme'
+# html_theme_path = [solar_theme.theme_path]
 
 
 # import hbp_sphinx_theme

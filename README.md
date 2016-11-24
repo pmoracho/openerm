@@ -107,7 +107,8 @@ siguientes tareas:
 * Instalado todas las dependencias necesarias
 
 
-# Notas:
+Notas:
+======
 
 * Hay dependecias que son fácilmente instalables mediante el comando `pip` y
   otras que no se instalan de la misma forma tan fácilmente. Estás últimas son
@@ -133,8 +134,8 @@ siguientes tareas:
   herramientas de desarrollo: Bash para la línea de comandos y Make para la
   automatización de varias tareas del proyecto. 
 
-Otras consideraciones
-=====================
+Otras consideraciones:
+======================
 
 * Usar "soft tabs": Con cualquier editor que usemos configurar el uso del <tab>
   en vez de los espacios, yo prefiero el <tab> puro al espacio, entiendo que es
@@ -142,4 +143,3 @@ Otras consideraciones
   lo que para evitar problemas al compilar los .py recomiendo seguir usando
   este criterio. Asimismo configurar en 4 posiciones estos <tab>.
 
-* * *

@@ -44,6 +44,7 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 	@echo "  dummy      to check syntax errors of document sources"
+	@echo "  rinoh      to make pdf with rhino
 
 .PHONY: clean
 clean:
@@ -54,6 +55,12 @@ html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
+
+.PHONY: rinoh
+rinoh:
+	$(SPHINXBUILD) -b rinoh $(ALLSPHINXOPTS) $(BUILDDIR)/rinoh
+	@echo
+	@echo "Build finished. The pdf file is in $(BUILDDIR)/rinoh."
 
 .PHONY: dirhtml
 dirhtml:

@@ -2,3 +2,5 @@
 /tools/*.spec
 /venv
 /openerm/__pycache__
+/docs/doctrees
+/docs/_build

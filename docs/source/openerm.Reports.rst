@@ -1,4 +1,3 @@
-.. _reports:
 
 .. automodule:: openerm.Reports
     :members:

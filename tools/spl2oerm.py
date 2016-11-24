@@ -1,4 +1,3 @@
-#!python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2014 Patricio Moracho <pmoracho@gmail.com>
@@ -102,13 +101,20 @@ Un ejemplo sencillo::
 			pages-in-group: 10
 
 Detalle:
+
 	* Toda línea o texto que comienza con el caracter `#` es considerada un comentario
 	* La primer sección `load` define completamente el proceso de carga
-	* En `file` se configuran los parámetros para la interpretación básica del archivo _
+	* En `file` se configuran los parámetros para la interpretación básica del archivo
 		* `encoding` define la codificación del archivo, ver `aqui <https://docs.python.org/3/library/codecs.html#standard-encodings>`_ la lista de psoibles codecs
 		* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos
 		* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`
 		* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.
+	* En `process` se configuran los parámetros inherentes al proceso lógico del spool
+		* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.
+		* `report-cfg` define el archivo de configuración de los reportes
+	* En `output` se configuran los parámetros que definen el database físico a generar
+		* `output-path` define el archivo de configuración de los reportes
+
 
 """
 __author__		= "Patricio Moracho <pmoracho@gmail.com>"
@@ -124,6 +130,7 @@ try:
 	import gettext
 	from gettext import gettext as _
 	gettext.textdomain('openerm')
+
 	def my_gettext(s):
 		"""my_gettext: Traducir algunas cadenas de argparse."""
 		current_dict = {'usage: ': 'uso: ',
@@ -148,6 +155,7 @@ try:
 	sys.path.append('.')
 	sys.path.append('..')
 
+	from cerberus import Validator
 	from openerm.Block import Block
 	from openerm.Database import Database
 	from openerm.ReportMatcher import ReportMatcher
@@ -162,6 +170,7 @@ except ImportError as err:
 	sys.exit(-1)
 
 
+
 class LoadProcess(object):
 
 	def __init__(self, configfile):
@@ -171,19 +180,73 @@ class LoadProcess(object):
 
 	def _load_config(self):
 
-
 		with open(self._configfile, 'r', encoding='utf-8') as stream:
 			try:
 				dictionary = yaml.load(stream)
-				self._config = dictionary.get("load", {})
+				ok, errors = self._validate_config(dictionary)
+				if ok:
 
-				for grupo, dictionary in self._config.items():
-					for k, v in dictionary.items():
-						setattr(self, k.replace("-","_"), v)
+					self._config = dictionary.get("load", {})
+					for grupo, d in self._config.items():
+						for k, v in d.items():
+							setattr(self, k.replace("-", "_"), v)
+
+					self._paths = dictionary.get("paths", {})
+					self.output_path = self._paths[self.output_path]
+
+				else:
+					print(errors)
+					sys.exit(-1)
 
 			except yaml.YAMLError as exc:
 				print(exc)
 				sys.exit(-1)
+
+	def _validate_config(self, dictionary):
+
+		schema = {
+			'load': {
+					'type': 'dict',
+					'allow_unknown': True,
+					'schema': {
+							'file': {
+								'type': 'dict',
+								'allow_unknown': True,
+								'schema': {
+									'encoding': 		{'type': 'string', 'required': True},
+									'record-length': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 1, 'max': 1024}]},
+									'file-type': 		{'type': 'string', 'required': True, 'allowed': ['fixed', 'fcfc']},
+									'buffer-size': 		{'type': 'integer', 'required': True}
+								}
+							},
+							'process': {
+								'type': 'dict',
+								'allow_unknown': True,
+								'schema': {
+									'EOP': 				{'type': 'string', 'required': True},
+									'report-cfg': 		{'type': 'string', 'required': True}
+								}
+							},
+							'output': {
+								'type': 'dict',
+								'allow_unknown': True,
+								'schema': {
+									'output-path': 		{'type': 'string', 'required': True},
+									'compress-type': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 10}]},
+									'compress-level': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 2}]},
+									'cipher-type': 		{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 2}]},
+									'pages-in-group':	{'type': 'integer', 'required': True, 'anyof': [{'min': 1, 'max': 100}]}
+								}
+							}
+					}
+			},
+			'paths': {'type': 'dict'}
+		}
+		"""
+
+		"""
+		v = Validator(schema)
+		return v.validate(dictionary), v.errors
 
 	def process_file(self, inputfile):
 
@@ -220,7 +283,6 @@ class LoadProcess(object):
 				sppol_types = { "fixed": SpoolFixedRecordLenght(inputfile, buffer_size=self.buffer_size, encoding=self.encoding, newpage_code=self.EOP ),
 				   				"fcfc":	SpoolHostReprint(inputfile, buffer_size=self.buffer_size, encoding=self.encoding )
 				}
-
 
 				spool = sppol_types[self.file_type]
 				with spool as s:
@@ -275,6 +337,7 @@ class LoadProcess(object):
 		)
 		return tablestr
 
+
 def init_argparse():
 	"""init_argparse: Inicializar parametros del programa."""
 	cmdparser = argparse.ArgumentParser(prog=__appname__,
@@ -307,9 +370,7 @@ def init_argparse():
 	return cmdparser
 
 
-
-
-def	Main():
+def Main():
 
 	cmdparser = init_argparse()
 	try:
@@ -323,9 +384,6 @@ def	Main():
 		sys.exit(-1)
 
 	proc = LoadProcess(args.configfile)
-
-	# attrs = vars(proc)
-	# print(', '.join("%s: %s" % item for item in attrs.items()))
 
 	tablestr = proc.process_file(filename)
 
