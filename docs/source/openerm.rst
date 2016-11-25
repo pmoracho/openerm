@@ -16,6 +16,7 @@ Clases de uso público
    openerm.SpoolFixedRecordLenght
    openerm.ReportMatcher
    openerm.Utils
+   openerm.Config
 
 Internas - Contenedores
 -----------------------

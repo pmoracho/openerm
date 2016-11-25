@@ -152,12 +152,10 @@ try:
 	import sys
 	import time
 	import os
-	import yaml
 
 	sys.path.append('.')
 	sys.path.append('..')
 
-	from cerberus import Validator
 	from openerm.Block import Block
 	from openerm.Database import Database
 	from openerm.ReportMatcher import ReportMatcher
@@ -165,6 +163,8 @@ try:
 	from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
 	from openerm.Utils import slugify, file_accessible
 	from openerm.tabulate import tabulate
+	from openerm.Config import LoadConfig
+	from openerm.Config import ConfigLoadingException
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -172,96 +172,24 @@ except ImportError as err:
 	sys.exit(-1)
 
 
-
 class LoadProcess(object):
 
 	def __init__(self, configfile):
 
-		self._configfile = configfile
-		self._load_config()
-
-	def _load_config(self):
-
-		with open(self._configfile, 'r', encoding='utf-8') as stream:
-			try:
-				dictionary = yaml.load(stream)
-				ok, errors = self._validate_config(dictionary)
-				if ok:
-
-					self._config = dictionary.get("load", {})
-					for grupo, d in self._config.items():
-						for k, v in d.items():
-							setattr(self, k.replace("-", "_"), v)
-
-					self._paths = dictionary.get("paths", {})
-					self.output_path = self._paths[self.output_path]
-
-				else:
-					print(errors)
-					sys.exit(-1)
-
-			except yaml.YAMLError as exc:
-				print(exc)
-				sys.exit(-1)
-
-	def _validate_config(self, dictionary):
-
-		schema = {
-			'load': {
-					'type': 'dict',
-					'allow_unknown': True,
-					'schema': {
-							'file': {
-								'type': 'dict',
-								'allow_unknown': True,
-								'schema': {
-									'encoding': 		{'type': 'string', 'required': True},
-									'record-length': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 1, 'max': 1024}]},
-									'file-type': 		{'type': 'string', 'required': True, 'allowed': ['fixed', 'fcfc']},
-									'buffer-size': 		{'type': 'integer', 'required': True}
-								}
-							},
-							'process': {
-								'type': 'dict',
-								'allow_unknown': True,
-								'schema': {
-									'EOP': 				{'type': 'string', 'required': True},
-									'report-cfg': 		{'type': 'string', 'required': True}
-								}
-							},
-							'output': {
-								'type': 'dict',
-								'allow_unknown': True,
-								'schema': {
-									'output-path': 		{'type': 'string', 'required': True},
-									'compress-type': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 10}]},
-									'compress-level': 	{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 2}]},
-									'cipher-type': 		{'type': 'integer', 'required': True, 'anyof': [{'min': 0, 'max': 2}]},
-									'pages-in-group':	{'type': 'integer', 'required': True, 'anyof': [{'min': 1, 'max': 100}]}
-								}
-							}
-					}
-			},
-			'paths': {'type': 'dict'}
-		}
-		"""
-
-		"""
-		v = Validator(schema)
-		return v.validate(dictionary), v.errors
+		self.config = LoadConfig(configfile)
 
 	def process_file(self, inputfile):
 
-		block					= Block(default_compress_level=self.compress_level)
+		block					= Block(default_compress_level=self.config.compress_level)
 		resultados				= []
 		size_test_file			= os.path.getsize(inputfile)
 
-		compresiones = [e for e in block.compressor.available_types if e[0] == self.compress_type]
-		encriptados = [e for e in block.cipher.available_types if e[0] == self.cipher_type]
+		compresiones = [e for e in block.compressor.available_types if e[0] == self.config.compress_type]
+		encriptados = [e for e in block.cipher.available_types if e[0] == self.config.cipher_type]
 
 		mode = "ab"
 
-		r = ReportMatcher(self.report_cfg)
+		r = ReportMatcher(self.config.report_cfg)
 
 		for encriptado in encriptados:
 			for compress in compresiones:
@@ -271,22 +199,23 @@ class LoadProcess(object):
 				start		= time.time()
 				paginas		= 0
 
-				file_name	= "{0}.{1}.oerm".format(self.output_path, slugify("{0}.{1}".format(compress[1], encriptado[1]), "_"))
+				# file_name	= "{0}.{1}.oerm".format(self.config.output_path, slugify("{0}.{1}".format(compress[1], encriptado[1]), "_"))
+				file_name	= os.path.join(self.config.output_path, self.config.file_mask + ".oerm" )
 
 				db	= Database(	file=file_name,
 								mode=mode,
 								default_compress_method=compress[0],
-								default_compress_level=self.compress_level,
+								default_compress_level=self.config.compress_level,
 								default_encription_method=encriptado[0],
-								pages_in_container = self.pages_in_group)
+								pages_in_container = self.config.pages_in_group)
 
 				reportname_anterior = ""
 
-				sppol_types = { "fixed": SpoolFixedRecordLenght(inputfile, buffer_size=self.buffer_size, encoding=self.encoding, newpage_code=self.EOP ),
-				   				"fcfc":	SpoolHostReprint(inputfile, buffer_size=self.buffer_size, encoding=self.encoding )
+				sppol_types = { "fixed": SpoolFixedRecordLenght(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
+				   				"fcfc":	SpoolHostReprint(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
 				}
 
-				spool = sppol_types[self.file_type]
+				spool = sppol_types[self.config.file_type]
 				with spool as s:
 					for page in s:
 						data = r.match(page)
@@ -317,7 +246,7 @@ class LoadProcess(object):
 				container_size 		= compress_size / (db.Index.container_objects + db.Index.metadata_objects)
 
 				resultados.append([
-					"[{0}] {1} ({2}p/cont.)".format(compress[0], compress[1], self.pages_in_group),
+					"[{0}] {1} ({2}p/cont.)".format(compress[0], compress[1], self.config.pages_in_group),
 					("" if encriptado[0] == 0 else encriptado[1]),
 					float(size_test_file),
 					float(compress_size),
@@ -385,13 +314,18 @@ def Main():
 		print(_("Error: El archivo {0} no se ha encontrado o no es accesible para lectura").format(filename))
 		sys.exit(-1)
 
-	proc = LoadProcess(args.configfile)
+	try:
+		proc = LoadProcess(args.configfile)
+	except ConfigLoadingException as ex:
+		print(ex.args[0])
+		print("\n".join([" - " + e for e in ex.args[1]]))
 
-	tablestr = proc.process_file(filename)
+	else:
+		tablestr = proc.process_file(filename)
 
-	print("")
-	print(tablestr)
-	print("")
+		print("")
+		print(tablestr)
+		print("")
 
 if __name__ == "__main__":
 

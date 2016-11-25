@@ -46,7 +46,7 @@ try:
 	from openerm.PageContainer import PageContainer
 	from openerm.MetadataContainer import MetadataContainer
 	from openerm.Index import Index
-	# from openerm.Utils import *
+	from openerm.Utils import file_accessible
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -106,9 +106,13 @@ class Database(object):
 		self.Index						= Index(self._filename)
 		self.hasflush					= False
 
+		if not file_accessible(self._filename, "r"):
+			self.mode = "wb"
+
 		self._open_file()
 
 	def _open_file(self):
+
 
 		if self.mode == "wb":
 			self._file	= open(self._filename, mode=self.mode)
