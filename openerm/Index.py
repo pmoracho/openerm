@@ -27,8 +27,8 @@ try:
 	gettext.textdomain('openerm')
 
 	import struct
-	import os
-	
+	import sys
+
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
 	print(_("No fue posible importar el modulo: %s") % modulename)
@@ -47,8 +47,15 @@ class Index(object):
 		self.metadata_objects 		= 0
 		self.container_objects 		= 0
 
+	def get_report(self, reporte):
+		"""Obtiene el id de un reporte en el índice"""
+		for k,r in self.reports.items():
+			if r[0] == reporte[0:50]:
+				return k
+		return None
+
 	def add_report(self, reporte, report_offset, pages_in_container):
-		
+
 		self.current_report_id		+= 1
 		default						= (reporte[0:50], report_offset, pages_in_container, 0, [])
 		self.reports[self.current_report_id] = default
@@ -59,14 +66,14 @@ class Index(object):
 		self.reports[reporte_id][4].append(container_offset)
 
 	def write(self):
-		
+
 		# Salvar offset de los bloques de metadatos del reporte
 		struct_fmt			= ">L50sQHQ"
 		container_offsset 	= 0
 		with open(self.reportidx_file, mode="wb+") as file:
 			for key,report in self.reports.items():
 				data		= struct.pack(	struct_fmt,
-											key,									# ID númerico del reporte en la base 1..n 
+											key,									# ID númerico del reporte en la base 1..n
 											report[0].encode("utf-8", "replace"),	# Nombre del reporte
 											report[1],								# Offset del bloque de metadatos del reporte en el contenedor
 											report[2],								# Cantidad de páginas esperadas en el contenedor de páginas
@@ -83,12 +90,12 @@ class Index(object):
 			for key, report in self.reports.items():
 				for group_offset in report[4]:
 					data		= struct.pack(	struct_fmt,
-												key,								# iD númerico del reporte en la base 1..n 
+												key,								# iD númerico del reporte en la base 1..n
 												group_offset						# Offet al contenedor de páginas
 											)
 					file.write(data)
 					self.container_objects = +1
-	
+
 	def read(self):
 
 		# Recupero offsets a los metadatos
@@ -120,7 +127,7 @@ class Index(object):
 					break
 				fields	= struct_unpack(data)
 				id		= fields[0]
-				self.reports[id][4].append(fields[1])  
+				self.reports[id][4].append(fields[1])
 				self.container_objects += 1
 
 	def __str__( self ) :

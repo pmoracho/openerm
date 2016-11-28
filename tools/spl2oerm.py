@@ -161,7 +161,7 @@ try:
 	from openerm.ReportMatcher import ReportMatcher
 	from openerm.SpoolHostReprint import SpoolHostReprint
 	from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
-	from openerm.Utils import slugify, file_accessible
+	from openerm.Utils import file_accessible
 	from openerm.tabulate import tabulate
 	from openerm.Config import LoadConfig
 	from openerm.Config import ConfigLoadingException
@@ -221,6 +221,9 @@ class LoadProcess(object):
 						data = r.match(page)
 						reportname = data[0]
 						if reportname != reportname_anterior:
+							id = db.get_report(reportname)
+							if id:
+								print(id)
 							db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])
 							reportname_anterior = reportname
 
@@ -255,7 +258,6 @@ class LoadProcess(object):
 					paginas/uncompress_time if uncompress_time else paginas,
 					container_size
 				])
-
 
 		tablestr = tabulate(
 						tabular_data		= resultados,
@@ -312,6 +314,14 @@ def Main():
 	filename = args.inputfile
 	if not file_accessible(filename, "rb"):
 		print(_("Error: El archivo {0} no se ha encontrado o no es accesible para lectura").format(filename))
+		sys.exit(-1)
+
+	if not args.configfile:
+		print(_("Error: Debe definir el archivo de configuración del proces").format(args.configfile))
+		sys.exit(-1)
+
+	if not file_accessible(args.configfile, "r"):
+		print(_("Error: El archivo de configuración del proceso {0} no se ha encontrado o no es accesible para su lectura").format(args.configfile))
 		sys.exit(-1)
 
 	try:

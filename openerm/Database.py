@@ -74,8 +74,6 @@ class Database(object):
 		>>> dbin = Database(file = "out/.sin_compression_sin_encriptacion.oerm")
 		>>> # Apertura en modo escritura (NO append)
 		>>> dbout = Database(file = "out/.sin_compression_sin_encriptacion.oerm", mode="wb")
-
-
 	"""
 	def __init__(self, file="prueba.oerm",
 						mode="rb",
@@ -136,6 +134,12 @@ class Database(object):
 					raise ValueError(_('{0} no es un archivo oerm válido!').format(self._filename))
 
 				self.Index.read()
+
+	def get_report(self, reporte):
+		"""
+		Retorna el id de un Reporte
+		"""
+		return self.Index.get_report(reporte)
 
 	def add_report(self, reporte="n/a", sistema="n/a", aplicacion="n/a", departamento="n/a", fecha=datetime.datetime.now().strftime("%Y%m%d")):
 		"""
