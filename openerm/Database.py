@@ -138,8 +138,18 @@ class Database(object):
 	def get_report(self, reporte):
 		"""
 		Retorna el id de un Reporte
+		.. warning::
+			Documentación pendiente
 		"""
 		return self.Index.get_report(reporte)
+
+	def set_report(self, reporte):
+		"""
+		Establece el reporte actual
+		.. warning::
+			Documentación pendiente
+		"""
+		self.current_report = self.Index.get_report(reporte)
 
 	def add_report(self, reporte="n/a", sistema="n/a", aplicacion="n/a", departamento="n/a", fecha=datetime.datetime.now().strftime("%Y%m%d")):
 		"""

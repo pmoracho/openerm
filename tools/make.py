@@ -67,6 +67,7 @@ packages =	{
 				"python-snappy":("0.5",		"python_snappy-0.5-cp34-none-win32.whl"),
 				"PyYAML":		("3.11",	"PyYAML-3.11-cp34-none-win32.whl"),
 				"zstd":			("0.7.5.1", "zstd-0.7.5.1-cp34-none-win32.whl"),
+				"Cerberus":		("1.0.1",	None),
 				"PyInstaller":	("3.1.1",	None)
 }
 
