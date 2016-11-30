@@ -29,7 +29,7 @@ ser del tipo FCFC, y contar con un canal de control.
 .. seealso::
 	* :class:`openerm.SpoolHostReprint`
 """
-
+import os
 
 class SpoolFixedRecordLenght(object):
 	"""Clase base para lectura de archivos de tamaño de registro fijo.
@@ -70,7 +70,8 @@ class SpoolFixedRecordLenght(object):
 
 	def __enter__(self):
 		"Apertura del archivo del spool a procesar"
-		self.open_file = open(self.filename, mode="rt", encoding=self.encoding)
+		file_size		= os.path.getsize(self.filename)
+		self.open_file 	= open(self.filename, mode="rt", encoding=self.encoding)
 		return self
 
 	def __exit__(self, *args):

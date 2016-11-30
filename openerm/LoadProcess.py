@@ -36,6 +36,10 @@ try:
 	import sys
 	import os
 	import time
+	from progressbar import AnimatedMarker, Bar, BouncingBar, Counter, ETA, \
+		FileTransferSpeed, FormatLabel, Percentage, \
+		ProgressBar, ReverseBar, RotatingMarker, \
+		SimpleProgress, Timer, AdaptiveETA, AbsoluteETA, AdaptiveTransferSpeed
 
 	sys.path.append('.')
 	sys.path.append('..')
@@ -73,10 +77,11 @@ class LoadProcess(object):
 
 		r = ReportMatcher(self.config.report_cfg)
 
+
 		for encriptado in encriptados:
 			for compress in compresiones:
 
-				print("Procesando: {2} Compresión: [{0}] {1} Cifrado: {3}".format(compress[0], compress[1], inputfile, encriptado[1]))
+				# print("Procesando: {2} Compresión: [{0}] {1} Cifrado: {3}".format(compress[0], compress[1], inputfile, encriptado[1]))
 
 				start		= time.time()
 				paginas		= 0
@@ -91,32 +96,42 @@ class LoadProcess(object):
 								default_encription_method=encriptado[0],
 								pages_in_container = self.config.pages_in_group)
 
+				file_size	= os.path.getsize(file_name)
 				reportname_anterior = ""
 
 				spool_types = { "fixed": SpoolFixedRecordLenght(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
 				   				"fcfc":	SpoolHostReprint(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
 				}
 
-				spool = spool_types[self.config.file_type]
-				with spool as s:
-					for page in s:
-						data = r.match(page)
-						reportname = data[0]
-						if reportname != reportname_anterior:
-							id = db.get_report(reportname)
-							if id:
-								db.set_report(reportname)
-							else:
-								db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])
-							reportname_anterior = reportname
+				widgets = [ os.path.basename(inputfile), ': ',
+							FormatLabel('%(value)d bytes de %(max_value)d (%(percentage)0.2f) '),
+			   				Bar(marker='#',left='[',right=']'), ' ',
+			   				ETA(), ' ',
+			   				FileTransferSpeed()] #see docs for other options
 
-						paginas = paginas + 1
-						db.add_page(page)
+				print(_("Procesando archivos...\n"))
+				with ProgressBar(max_value=size_test_file,widgets=widgets) as bar:
+					spool = spool_types[self.config.file_type]
+					with spool as s:
+						for page in s:
+							bar.update(len(page))
+							data = r.match(page)
+							reportname = data[0]
+							if reportname != reportname_anterior:
+								id = db.get_report(reportname)
+								if id:
+									db.set_report(reportname)
+								else:
+									db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])
+								reportname_anterior = reportname
 
-				db.close()
+							paginas = paginas + 1
+							db.add_page(page)
+
+					db.close()
 
 				compress_time	= time.time() - start
-				compress_size	= os.path.getsize(file_name)
+				compress_size	= os.path.getsize(file_name) - file_size
 
 				resultados.append([
 					"[{0}] {1} ({2}p/cont.)".format(compress[0], compress[1], self.config.pages_in_group),

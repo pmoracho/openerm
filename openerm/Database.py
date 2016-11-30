@@ -111,7 +111,6 @@ class Database(object):
 
 	def _open_file(self):
 
-
 		if self.mode == "wb":
 			self._file	= open(self._filename, mode=self.mode)
 			self._write_magicnumber()
