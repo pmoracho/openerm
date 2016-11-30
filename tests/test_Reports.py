@@ -17,15 +17,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+Software# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 """
 
 import unittest
 
 from openerm.Database import Database
-from openerm.Compressor import Compressor
-from openerm.Block import Block
-from openerm.Utils import *
+
 
 class ReportsTest(unittest.TestCase):
 
@@ -39,7 +37,7 @@ class ReportsTest(unittest.TestCase):
 		pass
 
 	@classmethod
-	def _generate_db(self, filename, compression, encription=0):
+	def _generate_db(cls, self, filename, compression, encription=0):
 
 		import string
 		import random
@@ -50,27 +48,27 @@ class ReportsTest(unittest.TestCase):
 		total_pages = 11
 
 		# Primer reporte
-		db	= Database(file = self._filename, mode = "wb", default_compress_method = compression, default_encription_method=encription, pages_in_container = 10)
-		db.add_report( reporte = "Reporte 1", sistema = "Sistema 1", aplicacion = "Aplicacion 1", departamento = "Departamento 1" )
-		for i in range(1,total_pages + 1):
+		db	= Database(file=self._filename, mode="wb", default_compress_method=compression, default_encription_method=encription, pages_in_container=10)
+		db.add_report(reporte="Reporte 1", sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
+		for i in range(1, total_pages + 1):
 			random_text = rnd_generator(size=200*60)
-			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i,random_text)
+			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
 			db.add_page(p)
 		db.close()
 
 		# Segundo reporte
-		db	= Database(file = filename, mode = "ab", default_compress_method = compression, default_encription_method=encription, pages_in_container = 10)
+		db	= Database(file=filename, mode="ab", default_compress_method=compression, default_encription_method=encription, pages_in_container=10)
 		# db.add_report( reporte = "Reporte 2", sistema = "Sistema 2", aplicacion = "Aplicacion 2", departamento = "Departamento 2" )
-		for i in range(1,total_pages + 1):
+		for i in range(1, total_pages + 1):
 			random_text = rnd_generator(size=200*60)
-			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i,random_text)
+			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
 			db.add_page(p)
 		db.close()
 
 	def test_find_text(self):
 		"""Genera un database con info random, y realiza un búsqueda de texto
 		"""
-		db	= Database(file = self._filename, mode="rb")
+		db	= Database(file=self._filename, mode="rb")
 		matches = db.find_text("Pagina", [1])
 		# print(matches)
 		esperado = [(1, 1, 0), (1, 1, 12028), (1, 2, 0), (1, 2, 12028), (1, 3, 0), (1, 3, 12028), (1, 4, 0), (1, 4, 12028), (1, 5, 0), (1, 5, 12028), (1, 6, 0), (1, 6, 12028),

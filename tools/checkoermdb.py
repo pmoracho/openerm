@@ -54,7 +54,6 @@ try:
 	gettext.gettext = my_gettext
 
 	import argparse
-	from argparse import RawTextHelpFormatter
 
 	import sys
 	import time
@@ -65,11 +64,10 @@ try:
 	sys.path.append('.')
 	sys.path.append('..')
 
-
-	from openerm.tabulate import *
+	from openerm.tabulate import tabulate
 	from openerm.Block import Block
 	from openerm.PageContainer import PageContainer
-	from openerm.Utils import *
+	from openerm.Utils import file_accessible
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -156,10 +154,9 @@ if __name__ == "__main__":
 	except IOError as msg:
 		args.error(str(msg))
 
-
 	test_file		= args.inputfile
 
-	if not Utils.file_accessible(test_file, "rb"):
+	if not file_accessible(test_file, "rb"):
 		print("Error: El archivo {0} no se ha encontrado o no es accesible para lectura".format(test_file))
 		sys.exit(-1)
 

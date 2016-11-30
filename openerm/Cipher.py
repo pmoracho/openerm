@@ -26,13 +26,8 @@ try:
 
 	import sys
 	import base64
-	# import os
-	# import struct
-	# import hashlib
 
 	from openerm.Spritz import Spritz
-	# from openerm.simple_rsa	import *
-	# from cryptography.fernet import Fernet, MultiFernet
 	from cryptography.fernet import Fernet
 	from cryptography.hazmat.backends import default_backend
 	from cryptography.hazmat.primitives import hashes
@@ -88,12 +83,11 @@ class Cipher(object):
 		self.password	= b"password"
 		# salt = os.urandom(16)
 		salt = b'\xb8\x81)\x13\xd3\xfc\x8c\x97\xe1\xc1[\xd5\xed\x18\x93!'
-		kdf = PBKDF2HMAC(	algorithm=hashes.SHA256(),
-							length=32,
-							salt=salt,
-							iterations=100000,
-							backend=default_backend()
-						)
+		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),
+						length=32,
+						salt=salt,
+						iterations=100000,
+						backend=default_backend())
 		key = base64.urlsafe_b64encode(kdf.derive(self.password))
 		self._fernet = Fernet(key)
 
@@ -185,7 +179,8 @@ class Cipher(object):
 		"""
 		return self._cipher_proc_function[self._type][2](data)
 
-	def _encode_decode_none(self, data):
+	@staticmethod
+	def _encode_decode_none(data):
 		return data
 
 	def _encode_fernet(self, clear):

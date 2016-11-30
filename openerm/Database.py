@@ -184,7 +184,7 @@ class Database(object):
 			self.flush()
 			self.pcontainer.add(page)
 
-	def find_text(self, text, reports=[]):
+	def find_text(self, text, reports=None):
 		"""Búsqueda de un texto dentro de uno o más reportes
 
 		Args:
@@ -200,8 +200,9 @@ class Database(object):
 		Return:
 			Lista de reportes y páginas
 		"""
+		reports = reports or []
 		matches = []
-		for r in [r for r in self.Reports() if r.id in reports or not reports]:
+		for r in [r for r in self.reports() if r.id in reports or not reports]:
 
 			lista = r.find_text(text)
 			if lista:
@@ -255,9 +256,7 @@ class Database(object):
 		s += "[PageContainer]--->\n"
 		return s
 
-		return None
-
-	def Reports(self):
+	def reports(self):
 		"""
 		Retorna la colección de Reportes del **Database**
 
@@ -267,7 +266,7 @@ class Database(object):
 		Example:
 			>>> from openerm.Database import Database
 			>>> db = Database(file = "out/.sin_compression_sin_encriptacion.oerm")
-			>>> for report in db.Reports():
+			>>> for report in db.reports():
 			...     print(report)
 			Report: Reporte 1
 			Report: Reporte 2

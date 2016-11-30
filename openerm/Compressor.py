@@ -88,7 +88,6 @@ except ImportError as err:
 	sys.exit(-1)
 
 
-
 class Compressor(object):
 	"""
 	Clase base para el manejo de compresión/descompresión de "bytes".
@@ -280,7 +279,8 @@ class Compressor(object):
 		"""
 		return self._compression_proc_function[self.__compression_type][1](data)
 
-	def _snappy_compress(self, data):
+	@staticmethod
+	def _snappy_compress(data):
 		return snappy.compress(data)
 
 	def _zlib_compress(self, data):
@@ -317,13 +317,16 @@ class Compressor(object):
 		# return blosc.compress(data, typesize=8, cname='blosclz')
 		return blosc.compress(data, typesize=8, clevel=self._compression_level, cname='blosclz')
 
-	def _plain_data_compress(self, data):
-			return data
+	@staticmethod
+	def _plain_data_compress(data):
+		return data
 
-	def _plain_data_decompress(self, data):
-			return data
+	@staticmethod
+	def _plain_data_decompress(data):
+		return data
 
-	def _lz4_compress(self, data):
+	@staticmethod
+	def _lz4_compress(data):
 		"""Compresión Lz4
 		Args:
 			source (str): Data to compress

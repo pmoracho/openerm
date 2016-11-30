@@ -229,7 +229,7 @@ def process_file(configfile, inputfile, outputfile,  compressiontype, complevel,
 
 			start = time.time()
 			db	= Database(file=file_name, mode="rb")
-			for report in db.Reports():
+			for report in db.reports():
 				try:
 					for page in report:
 						pass

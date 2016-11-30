@@ -60,8 +60,8 @@ try:
 	sys.path.append('..')
 
 	from openerm.Database import Database
-	from openerm.tabulate import *
-	from openerm.Utils import *
+	from openerm.tabulate import tabulate
+	from openerm.Utils import file_accessible, str_to_list
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -114,7 +114,6 @@ def init_argparse():
 					}
 			}
 
-
 	for key, val in opciones.items():
 		args = key.split()
 		kwargs = {}
@@ -122,6 +121,7 @@ def init_argparse():
 		cmdparser.add_argument(*args, **kwargs)
 
 	return cmdparser
+
 
 if __name__ == "__main__":
 
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 	# Listar reportes en la base oerm
 	if args.listreports or (not args.showpages and not args.searchtext):
 		reports_list = []
-		for report in d.Reports():
+		for report in d.reports():
 			reports_list.append((report.id, report.nombre, report.total_pages))
 
 		if reports_list:
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 	# Consultar un reporte en particular
 	if args.reportid:
 
-		report = d.Reports().get_report(int(args.reportid))
+		report = d.reports().get_report(int(args.reportid))
 
 		if args.showpages:
 

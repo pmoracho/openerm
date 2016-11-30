@@ -93,7 +93,7 @@ def file_accessible(filepath, mode):
 		filepath (string):
 	"""
 	try:
-		with open(filepath, mode) as file:
+		with open(filepath, mode):
 			pass
 	except IOError:
 		return False
@@ -129,11 +129,11 @@ def str_to_list(str, max):
 			if "-" in c:
 				rango = c.split("-")
 				for valor in range(try_int(rango[0]), try_int(rango[1])+1):
-					if valor >= 1 and valor <= max:
+					if 1 <= valor <= max:
 						lista.append(valor)
 			else:
 				valor = try_int(c)
-				if valor >= 1 and valor <= max:
+				if 1 <= valor <= max:
 					lista.append(valor)
 
 	return sorted(lista)
@@ -184,7 +184,7 @@ class AutoNum():
 		Return:
 			int: Número único del valor
 		"""
-		if not self.myDict.get(value,None):
+		if not self.myDict.get(value):
 			self.myDict[value] 	= self.lastid
 			self.lastid			+= 1
 

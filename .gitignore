@@ -5,3 +5,4 @@
 /docs/doctrees
 /docs/_build
 /docs/_static
+/tests/__pycache__

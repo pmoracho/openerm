@@ -163,7 +163,8 @@ class Config(object):
 
 					raise ConfigLoadingException(_("Error de validación en el archivo {0}: ").format(self.configfile), errores)
 
-	def _validate_config(self, dictionary, schema_yaml):
+	@staticmethod
+	def _validate_config(_validate_configdictionary, schema_yaml):
 		schema = yaml.load(schema_yaml.replace("\t", " "))
 		v = Validator(schema)
 		return v.validate(dictionary), v._errors
