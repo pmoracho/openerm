@@ -1,4 +1,4 @@
-items# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Copyright (c) 2014 Patricio Moracho <pmoracho@gmail.com>
 #
@@ -24,7 +24,6 @@ Utils
 
 Este módulo contiene todo tipo de funciones de uso general para el
 proyecto **OpenErm**
-
 """
 
 import re

@@ -95,7 +95,7 @@ class OermDataBase(object):
 
 			struct_unpack	= struct.Struct(struct_fmt).unpack_from
 			magic_number	= struct_unpack(data)[0].decode("utf-8")
-			version			= struct_unpack(data)[1]
+			# version			= struct_unpack(data)[1]
 
 			if magic_number != "oerm":
 				raise ValueError(_('{0} no es un archivo oerm válido!').format(self.filename))
@@ -176,10 +176,6 @@ if __name__ == "__main__":
 
 				longitud_bloque, tipo_bloque, tipo_compresion, tipo_encriptacion, longitud_datos, data, variable_data = bloque
 				resultados.append([longitud_bloque, tipo_bloque, tipo_compresion, tipo_encriptacion, longitud_datos])
-				"""
-				else:
-					k = "{0} comprimido con {1}".format(b.block_types[tipo_bloque], b.compression_proc_function[tipo_compresion][2])
-				"""
 				if tipo_bloque == 2:
 					pg.load(data)
 					paginas += pg.max_page_count

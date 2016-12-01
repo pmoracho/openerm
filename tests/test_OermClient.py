@@ -12,7 +12,7 @@ class OermClientTest(unittest.TestCase):
 		self._create_yaml(configfile)
 
 		# lista = {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True},
-		#    		"catalogo2": {"name": "Ejemplo catalogo SQL", "type": "sql", "enabled": False}
+		#			"catalogo2": {"name": "Ejemplo catalogo SQL", "type": "sql", "enabled": False}
 		# }
 
 		c = OermClient(configfile)
@@ -23,7 +23,7 @@ class OermClientTest(unittest.TestCase):
 		"""Verifica la apertura de catalogos
 		"""
 		configfile = 'data.yml'
-		self.__create_yaml(configfile)
+		self._create_yaml(configfile)
 
 		c = OermClient(configfile)
 		c.open_catalog("catalogo1")
@@ -35,7 +35,7 @@ class OermClientTest(unittest.TestCase):
 		import yaml
 
 		config = {"catalogs": {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True},
-							 	"catalogo2": {"name": "Ejemplo catalogo SQL", "type": "sql", "enabled": False}}
+								"catalogo2": {"name": "Ejemplo catalogo SQL", "type": "sql", "enabled": False}}
 		}
 
 		with open(configfile, 'w') as outfile:

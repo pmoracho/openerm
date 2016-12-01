@@ -51,7 +51,7 @@ class ReportsTest(unittest.TestCase):
 		pass
 
 	@classmethod
-	def _generate_db(cls, self, filename, compression, encription=0):
+	def _generate_db(cls, filename, compression, encription=0):
 
 		import string
 		import random
@@ -62,7 +62,7 @@ class ReportsTest(unittest.TestCase):
 		total_pages = 11
 
 		# Primer reporte
-		db	= Database(file=self._filename, mode="wb", default_compress_method=compression, default_encription_method=encription, pages_in_container=10)
+		db	= Database(file=filename, mode="wb", default_compress_method=compression, default_encription_method=encription, pages_in_container=10)
 		db.add_report(reporte="Reporte 1", sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
 		for i in range(1, total_pages + 1):
 			random_text = rnd_generator(size=200*60)

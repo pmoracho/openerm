@@ -1,13 +1,13 @@
-print#!python
+#!python
 
 import unittest
 import sys
 import time
 
-from openerm.tabulate import tabulate
-
 sys.path.append('.')
 sys.path.append('..')
+
+from openerm.tabulate import tabulate
 
 
 class CustomTestRunner:
@@ -31,7 +31,6 @@ class CustomTestRunner:
 		timeTaken = float(stop_time - startTime)
 
 		result.addErrorsToList()
-		result.testsRun
 		v = (timeTaken)
 		self.lista.append(v)
 
