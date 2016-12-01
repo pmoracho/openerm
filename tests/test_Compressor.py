@@ -2,7 +2,7 @@ import unittest
 
 from openerm.Compressor import Compressor
 
-
+Compressor
 class CompressorTest(unittest.TestCase):
 
 	def test_Compressor_with_random_data(self):

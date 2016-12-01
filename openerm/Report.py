@@ -62,7 +62,7 @@ class Report(object):
 		idrpt (int): Identificador único del reporte en el Database
 
 	Example:
-		>>> from openerm.Database import Database
+		>>> fuerom openerm.Database import Database
 		>>> from openerm.Report import Report
 		>>> db = Database(file = "out/zstd-level-3-1-22.test.oerm", mode="rb")
 		>>> r = Report(db, 1)

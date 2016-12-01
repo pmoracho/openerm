@@ -29,6 +29,7 @@ from openerm.Utils import slugify
 
 class DatabaseTest(unittest.TestCase):
 
+	@staticmethod
 	def __generate_db(self, filename, compression, encription=0):
 
 		import string

@@ -181,7 +181,7 @@ if __name__ == "__main__":
 					k = "{0} comprimido con {1}".format(b.block_types[tipo_bloque], b.compression_proc_function[tipo_compresion][2])
 				"""
 				if tipo_bloque == 2:
-					pg.load(data, variable_data)
+					pg.load(data)
 					paginas += pg.max_page_count
 					k = "{0}. {1} comprimido con {2} (páginas: {3})".format(tipo_bloque, b.block_types[tipo_bloque], b.compressor.available_types[tipo_compresion][1], pg.max_page_count)
 				else:

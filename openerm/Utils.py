@@ -162,12 +162,12 @@ class AutoNum():
 
 	Ejemplo:
 		>>> from openerm.Utils import *
-		>>> id = AutoNum()
-		>>> id.get("Prueba")
+		>>> my_id = AutoNum()
+		>>> my_id.get("Prueba")
 		1
-		>>> id.get("Otra cosa")
+		>>> my_id.get("Otra cosa")
 		2
-		>>> id.get("Prueba")
+		>>> my_id.get("Prueba")
 		1
 	"""
 
@@ -195,14 +195,14 @@ class AutoNum():
 
 		Ejemplo:
 			>>> from openerm.Utils import *
-			>>> id = AutoNum()
-			>>> id.get("Prueba")
+			>>> my_id = AutoNum()
+			>>> my_id.get("Prueba")
 			1
-			>>> id.get("Otra cosa")
+			>>> my_id.get("Otra cosa")
 			2
-			>>> id.get("Prueba")
+			>>> my_id.get("Prueba")
 			1
-			>>> id.list()
+			>>> my_id.list()
 			[('Otra cosa', 2), ('Prueba', 1)]
 
 		Return:

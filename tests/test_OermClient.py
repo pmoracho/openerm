@@ -5,7 +5,8 @@ from openerm.OermClient import OermClient
 
 class OermClientTest(unittest.TestCase):
 
-	def __create_yaml(self, configfile):
+	@staticmethod
+	def __create_yaml(configfile):
 
 		import yaml
 

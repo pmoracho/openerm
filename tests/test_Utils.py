@@ -3,6 +3,7 @@ import unittest
 from openerm.Utils import str_to_list
 from openerm.Utils import AutoNum
 
+
 class UtilsTest(unittest.TestCase):
 
 	def test_str_to_list(self):
@@ -20,7 +21,7 @@ class UtilsTest(unittest.TestCase):
 		"""Verifica la clase Autonum
 		"""
 
-		id = AutoNum()
-		id.get("Prueba")
-		self.assertEqual(id.get("Prueba"), 1)
-		self.assertEqual(id.get("Otra cosa"), 2)
+		my_id = AutoNum()
+		my_id.get("Prueba")
+		self.assertEqual(my_id.get("Prueba"), 1)
+		self.assertEqual(my_id.get("Otra cosa"), 2)

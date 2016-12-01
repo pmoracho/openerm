@@ -51,4 +51,4 @@ class Pages(object):
 		return self
 
 	def __next__(self):
-		return None
+		return self
