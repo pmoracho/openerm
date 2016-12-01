@@ -101,12 +101,12 @@ def file_accessible(filepath, mode):
 	return True
 
 
-def str_to_list(str, max):
+def str_to_list(str, maxvalue):
 	"""Devuelve una lista de enteros a partir de un string
 
 	Args:
 		str (string): Cadena de números separados por , o -
-		max (int): Máximo valor que puede tener la lista
+		maxvalue (int): Máximo valor que puede tener la lista
 
 	Ejemplo:
 		>>> from openerm.Utils import *
@@ -129,11 +129,11 @@ def str_to_list(str, max):
 			if "-" in c:
 				rango = c.split("-")
 				for valor in range(try_int(rango[0]), try_int(rango[1])+1):
-					if 1 <= valor <= max:
+					if 1 <= valor <= maxvalue:
 						lista.append(valor)
 			else:
 				valor = try_int(c)
-				if 1 <= valor <= max:
+				if 1 <= valor <= maxvalue:
 					lista.append(valor)
 
 	return sorted(lista)

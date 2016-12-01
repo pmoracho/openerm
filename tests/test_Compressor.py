@@ -2,8 +2,9 @@ import unittest
 
 from openerm.Compressor import Compressor
 
+
 class CompressorTest(unittest.TestCase):
-	
+
 	def test_Compressor_with_random_data(self):
 		"""Verificar todos los algoritmos de compresión con información random
 		"""
@@ -27,7 +28,7 @@ class CompressorTest(unittest.TestCase):
 	def test_Compressor_with_text_data(self):
 		"""Verificar todos los algoritmos de compresión con información de texto
 		"""
-		simple_text	= ( """
+		simple_text	= ("""
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tempus vestibulum ligula. Nam arcu mi, pharetra in lobortis at, facilisis id erat. Nam id libero porttitor nunc venenatis tempus a vel enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis eu fringilla libero, et fringilla elit. Vestibulum magna leo, vehicula eu tortor sed, malesuada blandit mi. Nam eu nisl dapibus, tempus lacus ac, fermentum ipsum. Fusce vestibulum blandit nisi at scelerisque.
 						Aenean aliquam, purus sit amet sodales efficitur, sem urna varius nisi, lobortis molestie velit dolor non ex. Mauris eget diam ut lectus dictum porttitor. Donec pellentesque venenatis dui in maximus. Cras facilisis, velit eget accumsan consectetur, dolor elit convallis massa, in ultricies dui leo eget purus. Integer nec metus euismod, finibus ex in, elementum tellus. Sed facilisis imperdiet leo at pulvinar. Curabitur augue sem, fermentum at orci a, dignissim euismod est. Nunc mollis elementum pellentesque.
 						Phasellus ut fringilla augue. Morbi elementum ac purus et finibus. Morbi ullamcorper blandit ultricies. Phasellus euismod interdum urna vel ultrices. Maecenas tristique dapibus augue sed mollis. Maecenas cursus arcu ligula, eget ullamcorper lectus dictum nec. Curabitur ut consectetur tortor. Sed et maximus libero. Quisque consequat ipsum mollis velit elementum venenatis. Curabitur dignissim sapien vehicula pellentesque ullamcorper. Proin luctus eros odio, vitae porta arcu maximus molestie. Morbi maximus libero ut lacus tempor euismod. Praesent sodales aliquam nulla, eget rhoncus mauris luctus finibus. Nunc tempus est ut dui tempor egestas. Morbi pharetra ligula non faucibus posuere. In fringilla fermentum semper.
@@ -42,4 +43,3 @@ class CompressorTest(unittest.TestCase):
 				tmp = c.compress(simple_text)
 				tmp = c.decompress(tmp)
 				self.assertEqual(simple_text, tmp)
-

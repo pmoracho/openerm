@@ -91,7 +91,7 @@ class Reports(object):
 
 		return r
 
-	def get_report(self, id):
+	def get_report(self, rptid):
 		"""Retorna un objeto de la clase :class:`openerm.Report` según el **id** del mismo
 
 		Args:
@@ -110,10 +110,10 @@ class Reports(object):
 			:class:`openerm.Report`: Reporte solicitado
 
 		"""
-		if not self.database.Index.reports.get(id):
+		if not self.database.Index.reports.get(rptid):
 			return None
 
-		r = Report(self.database, id)
+		r = Report(self.database, rptid)
 
 		return r
 

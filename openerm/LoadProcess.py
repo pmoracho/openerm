@@ -36,10 +36,7 @@ try:
 	import sys
 	import os
 	import time
-	from progressbar import AnimatedMarker, Bar, BouncingBar, Counter, ETA, \
-		FileTransferSpeed, FormatLabel, Percentage, \
-		ProgressBar, ReverseBar, RotatingMarker, \
-		SimpleProgress, Timer, AdaptiveETA, AbsoluteETA, AdaptiveTransferSpeed
+	from progressbar import Bar, ETA, FileTransferSpeed, FormatLabel, ProgressBar
 
 	sys.path.append('.')
 	sys.path.append('..')

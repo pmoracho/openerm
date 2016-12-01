@@ -48,7 +48,7 @@ class Cipher(object):
 	y descifrar.
 
 	Args:
-		type (int): Opcional, Tipo de cifrado por defecto (default=0-Ninguno)
+		cipher_type (int): Opcional, Tipo de cifrado por defecto (default=0-Ninguno)
 
 	Example:
 		>>> from openerm.Cipher import Cipher
@@ -57,7 +57,7 @@ class Cipher(object):
 		>>> print(tmp)
 		b'gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI='
 	"""
-	def __init__(self, type=0):
+	def __init__(self, cipher_type=0):
 
 		self._cipher_proc_function = {
 						0: (self._init_none, 	self._encode_decode_none,			self._encode_decode_none,				_("Sin encriptación")),
@@ -65,7 +65,7 @@ class Cipher(object):
 						2: (self._init_fernet,	self._encode_fernet,				self._decode_fernet,					_("Fernet"))
 					}
 
-		self._type		= type
+		self._type		= cipher_type
 		self._fernet	= None
 		self.key		= None
 		self.spritz		= None
@@ -98,7 +98,7 @@ class Cipher(object):
 		return self._type
 
 	@type.setter
-	def type(self, type):
+	def type(self, cipher_type):
 		"""Tipo de cifrado a utilizar.
 
 		Example:
@@ -107,11 +107,11 @@ class Cipher(object):
 			>>> print(c.type)
 			1
 		"""
-		if type != self._type:
-			if type not in self._cipher_proc_function.keys():
+		if cipher_type != self._type:
+			if cipher_type not in self._cipher_proc_function.keys():
 				self._type = 0
 			else:
-				self._type = type
+				self._type = cipher_type
 
 			self._cipher_proc_function[self._type][0]()
 
@@ -130,16 +130,16 @@ class Cipher(object):
 		"""
 		return [(i, self._cipher_proc_function[i][3]) for i in self._cipher_proc_function]
 
-	def type_info(self, type):
+	def type_info(self, cipher_type):
 		"""Retorna la información de un determinado algoritmo de cifrado disponible.
 
 		Returns:
 		(tupla).
 		"""
-		if type not in self._cipher_proc_function.keys():
-			return (type, _("Algoritmo no disponible"))
+		if cipher_type not in self._cipher_proc_function.keys():
+			return (cipher_type, _("Algoritmo no disponible"))
 		else:
-			return (type, self._cipher_proc_function[type][3])
+			return (cipher_type, self._cipher_proc_function[cipher_type][3])
 
 	def encode(self, data):
 		"""Cifra conjunto de bytes
@@ -195,9 +195,3 @@ class Cipher(object):
 
 	def _decode_spritz(self, enc):
 		return bytes(self.spritz.decrypt(bytearray(self.key.encode("utf-8")), bytearray(enc)))
-
-	def _encode_rsa(self, clear):
-		return self.encode(clear, self.pubkey, False)
-
-	def _decode_rsa(self, enc):
-		return self.decode(enc, self.privkey, False)

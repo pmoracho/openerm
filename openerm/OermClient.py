@@ -116,7 +116,6 @@ class OermClient(object):
 		"""
 		self._current_catalog	= {}
 		self._repo_catalogs		= []
-		pass
 
 	def catalogs(self, enabled=True):
 		"""Lista los catalogos disponibles
@@ -176,8 +175,6 @@ class OermClient(object):
 		else:
 			self._current_repo = {repo: self._repo_catalogs[repo]}
 
-		pass
-
 	def reports(self, system=None):
 		"""Retorna la lista completa de reportes del repositorio activo
 
@@ -213,7 +210,7 @@ class OermClient(object):
 			>>> c.open_repo("Prueba1")
 			>>> print(c.systems())
 		"""
-		(k, dbname), = self._current_repo.items()
+		dbname, = self._current_repo.values()
 		conn = sqlite3.connect(dbname)
 		c = conn.cursor()
 		c.execute("SELECT system_id, system_name FROM system")
@@ -284,7 +281,7 @@ class OermClient(object):
 		departamento = '%' if departamento is None else '%' + departamento + '%'
 		fecha = '%' if fecha is None else '%' + fecha + '%'
 
-		for (k, dbname) in self._current_repo.items():
+		for dbname in self._current_repo.values():
 			conn = sqlite3.connect(dbname)
 			c = conn.cursor()
 			c.execute(SQL, (reporte, fecha, ))
@@ -310,14 +307,17 @@ class OermClient(object):
 
 		return lista
 
+	@staticmethod
 	def attributes(self, attribute):
 		"""Retorna la lista de atributos de los reportes del repositorio"""
 		return []
 
+	@staticmethod
 	def find_indexes(self, indexname):
 		"""Retorna la lista de indices que coincidan por indexname"""
 		return []
 
+	@staticmethod
 	def search_for_indexes(self, indexnames, value):
 		"""Retorna la lista de indices que coincidan por indexname"""
 		return []

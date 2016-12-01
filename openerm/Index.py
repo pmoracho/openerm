@@ -126,8 +126,8 @@ class Index(object):
 				if not data:
 					break
 				fields	= struct_unpack(data)
-				id		= fields[0]
-				self.reports[id][4].append(fields[1])
+				idrpt		= fields[0]
+				self.reports[idrpt][4].append(fields[1])
 				self.container_objects += 1
 
 	def __str__( self ) :

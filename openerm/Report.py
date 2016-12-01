@@ -59,7 +59,7 @@ class Report(object):
 
 	Args:
 		database: Objeto :class:`openerm.Database`
-		id (int): Identificador único del reporte en el Database
+		idrpt (int): Identificador único del reporte en el Database
 
 	Example:
 		>>> from openerm.Database import Database
@@ -95,9 +95,9 @@ class Report(object):
 
 	"""
 	# def __init__(self, file, data):
-	def __init__(self, database, id):
+	def __init__(self, database, idrpt):
 
-		data 						= (id,) + database.Index.reports[id]
+		data 						= (idrpt,) + database.Index.reports[idrpt]
 
 		self.file					= database._file
 		self.id 					= data[0]							#: id del reporte
