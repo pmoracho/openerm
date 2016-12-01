@@ -29,40 +29,6 @@ from openerm.Utils import slugify
 
 class DatabaseTest(unittest.TestCase):
 
-	@staticmethod
-	def __generate_db(self, filename, compression, encription=0):
-
-		import string
-		import random
-
-		def rnd_generator(size=1024, chars=string.ascii_uppercase + string.digits):
-			return ''.join(random.choice(chars) for _ in range(size))
-
-		total_pages = 11
-		paginas_escritas 	= []
-
-		# Primer reporte
-		db	= Database(file=filename, mode="wb", default_compress_method=compression[0], default_encription_method=encription, pages_in_container=10)
-		db.add_report(reporte="Reporte 1", sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
-		for i in range(1, total_pages + 1):
-			random_text = rnd_generator(size=200*60)
-			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
-			paginas_escritas.append(p)
-			db.add_page(p)
-		db.close()
-
-		# Segundo reporte
-		db	= Database(file=filename, mode="ab", default_compress_method=compression[0], default_encription_method=encription, pages_in_container=10)
-		db.add_report(reporte="Reporte 2", sistema="Sistema 2", aplicacion="Aplicacion 2", departamento="Departamento 2")
-		for i in range(1, total_pages + 1):
-			random_text = rnd_generator(size=200*60)
-			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
-			paginas_escritas.append(p)
-			db.add_page(p)
-		db.close()
-
-		return paginas_escritas
-
 	def test_generate_and_read_database(self):
 		"""Genera un database con info random, lo lee y verifica los resultados
 		"""
@@ -71,7 +37,7 @@ class DatabaseTest(unittest.TestCase):
 		for item in block.compressor.available_types:
 
 			filename			= "out/{0}.test.oerm".format(slugify(item[1]))
-			paginas_escritas	= self.__generate_db(filename, compression=item)
+			paginas_escritas	= self._generate_db(filename, compression=item)
 
 			# Lectura
 			paginas_leidas = []
@@ -107,3 +73,37 @@ class DatabaseTest(unittest.TestCase):
 			   			(1, 7, 0), (1, 7, 12028), (1, 8, 0), (1, 8, 12028), (1, 9, 0), (1, 9, 12028), (1, 10, 0), (1, 10, 12029)]
 
 			self.assertEqual([(x[0], x[1], x[2]) for x in matches], esperado)
+
+	@staticmethod
+	def _generate_db(filename, compression, encription=0):
+
+		import string
+		import random
+
+		def rnd_generator(size=1024, chars=string.ascii_uppercase + string.digits):
+			return ''.join(random.choice(chars) for _ in range(size))
+
+		total_pages = 11
+		paginas_escritas 	= []
+
+		# Primer reporte
+		db	= Database(file=filename, mode="wb", default_compress_method=compression[0], default_encription_method=encription, pages_in_container=10)
+		db.add_report(reporte="Reporte 1", sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
+		for i in range(1, total_pages + 1):
+			random_text = rnd_generator(size=200*60)
+			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
+			paginas_escritas.append(p)
+			db.add_page(p)
+		db.close()
+
+		# Segundo reporte
+		db	= Database(file=filename, mode="ab", default_compress_method=compression[0], default_encription_method=encription, pages_in_container=10)
+		db.add_report(reporte="Reporte 2", sistema="Sistema 2", aplicacion="Aplicacion 2", departamento="Departamento 2")
+		for i in range(1, total_pages + 1):
+			random_text = rnd_generator(size=200*60)
+			p = "Pagina {0} -----------------\n{1}\nPagina {0} -----------------\n".format(i, random_text)
+			paginas_escritas.append(p)
+			db.add_page(p)
+		db.close()
+
+		return paginas_escritas

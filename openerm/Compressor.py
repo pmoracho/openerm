@@ -125,17 +125,17 @@ class Compressor(object):
 
 		self._compression_level = self._levels[compress_type][level]
 		self._compression_proc_function = {
-						0: (self._plain_data_compress,			self._plain_data_decompress,	_("Sin compression")),
-						1: (self._zlib_compress,				zlib.decompress,				_("GZIP level={0} (1-9)").format(self._levels[1][level])),
-						2: (self._bz2_compress,					bz2.decompress,					_("BZIP level={0} (1-9)").format(self._levels[2][level])),
-						3: (self._lzma_compress,				lzma.decompress,				_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
-						4: (self._lz4_compress,					lz4.decompress,					_("LZ4 nivel estándar")),
-						5: (self._pylzma_compress,				pylzma.decompress,				_("pyLZMA quality={0} (0-2)").format(self._levels[5][level])),
-						6: (self._blosc_compress,				blosc.decompress,				_("BLOSC blosclz clevel={0} (1-9)").format(self._levels[6][level])),
-						7: (self._snappy_compress,				snappy.decompress,				_("Snappy")),
-						8: (self._lzo_compress,					lzo.decompress,					_("Lzo level={0} (1-9)").format(self._levels[8][level])),
-						9: (self._brotli_best_compress,			brotli.decompress,				_("Brotli quality={0} (1-11)").format(self._levels[9][level])),
-						10: (self._zstd_compress,				zstd.decompress,				_("zstd level={0} (1-22)").format(self._levels[10][level]))
+						0: (self._plain_data_compress,			self._plain_data_decompress,		_("Sin compression")),
+						1: (self._zlib_compress,				zlib.decompress,					_("GZIP level={0} (1-9)").format(self._levels[1][level])),
+						2: (self._bz2_compress,					bz2.decompress,						_("BZIP level={0} (1-9)").format(self._levels[2][level])),
+						3: (self._lzma_compress,				lzma.decompress,					_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
+						4: (self._lz4_compress, 				lz4.decompress,						_("LZ4 nivel estándar")),
+						5: (self._pylzma_compress,				pylzma.decompress,					_("pyLZMA quality={0} (0-2)").format(self._levels[5][level])),
+						6: (self._blosc_compress,				blosc.decompress,					_("BLOSC blosclz clevel={0} (1-9)").format(self._levels[6][level])),
+						7: (snappy.compress,					snappy.decompress,					_("Snappy")),
+						8: (self._lzo_compress,					lzo.decompress,						_("Lzo level={0} (1-9)").format(self._levels[8][level])),
+						9: (self._brotli_best_compress,			brotli.decompress,					_("Brotli quality={0} (1-11)").format(self._levels[9][level])),
+						10: (self._zstd_compress,				zstd.decompress,					_("zstd level={0} (1-22)").format(self._levels[10][level]))
 					}
 
 		self.__compression_type = compress_type
@@ -278,10 +278,6 @@ class Compressor(object):
 			b'Esta es una prueba'
 		"""
 		return self._compression_proc_function[self.__compression_type][1](data)
-
-	@staticmethod
-	def _snappy_compress(data):
-		return snappy.compress(data)
 
 	def _zlib_compress(self, data):
 		return zlib.compress(data, self._compression_level)

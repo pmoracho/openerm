@@ -307,20 +307,17 @@ class OermClient(object):
 
 		return lista
 
-	@staticmethod
-	def attributes(self, attribute):
-		"""Retorna la lista de atributos de los reportes del repositorio"""
-		return []
+	# def attributes(self, attribute):
+	# 	"""Retorna la lista de atributos de los reportes del repositorio"""
+	# 	return []
 
-	@staticmethod
-	def find_indexes(self, indexname):
-		"""Retorna la lista de indices que coincidan por indexname"""
-		return []
+	# def find_indexes(self, indexname):
+	# 	"""Retorna la lista de indices que coincidan por indexname"""
+	# 	return []
 
-	@staticmethod
-	def search_for_indexes(self, indexnames, value):
-		"""Retorna la lista de indices que coincidan por indexname"""
-		return []
+	# def search_for_indexes(self, indexnames, value):
+	# 	"""Retorna la lista de indices que coincidan por indexname"""
+	# 	return []
 
 if __name__ == "__main__":
 

@@ -5,7 +5,7 @@ from openerm.Compressor import Compressor
 Compressor
 class CompressorTest(unittest.TestCase):
 
-	def test_Compressor_with_random_data(self):
+	def test_compressor_with_random_data(self):
 		"""Verificar todos los algoritmos de compresión con información random
 		"""
 		import string
@@ -25,7 +25,7 @@ class CompressorTest(unittest.TestCase):
 				tmp = c.decompress(tmp)
 				self.assertEqual(random_text, tmp)
 
-	def test_Compressor_with_text_data(self):
+	def test_compressor_with_text_data(self):
 		"""Verificar todos los algoritmos de compresión con información de texto
 		"""
 		simple_text	= ("""

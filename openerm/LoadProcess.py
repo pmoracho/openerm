@@ -115,8 +115,8 @@ class LoadProcess(object):
 							data = r.match(page)
 							reportname = data[0]
 							if reportname != reportname_anterior:
-								id = db.get_report(reportname)
-								if id:
+								rpt_id = db.get_report(reportname)
+								if rpt_id:
 									db.set_report(reportname)
 								else:
 									db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])

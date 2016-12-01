@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+items# -*- coding: utf-8 -*-
 
 # Copyright (c) 2014 Patricio Moracho <pmoracho@gmail.com>
 #
@@ -101,11 +101,11 @@ def file_accessible(filepath, mode):
 	return True
 
 
-def str_to_list(str, maxvalue):
+def str_to_list(str_value, maxvalue):
 	"""Devuelve una lista de enteros a partir de un string
 
 	Args:
-		str (string): Cadena de números separados por , o -
+		str_value (string): Cadena de números separados por , o -
 		maxvalue (int): Máximo valor que puede tener la lista
 
 	Ejemplo:
@@ -124,8 +124,8 @@ def str_to_list(str, maxvalue):
 			return 0
 
 	lista = []
-	if str:
-		for c in str.split(","):
+	if str_value:
+		for c in str_value.split(","):
 			if "-" in c:
 				rango = c.split("-")
 				for valor in range(try_int(rango[0]), try_int(rango[1])+1):

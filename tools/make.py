@@ -302,7 +302,7 @@ Los comandos más usados:
 				found[p[0]] = p[1]
 
 		for k,v in packages.items():
-			ver = found.get(k,None)
+			ver = found.get(k)
 			if not ver:
 				if msg:
 					print("{0} Not found!!".format(k))

@@ -84,7 +84,6 @@ class ReportMatcher(object):
 				for match in matches:
 					self.matches.append((k, match))
 
-
 	def match(self, page):
 		"""Trata de determinar el reporte en función de los datos de una página
 

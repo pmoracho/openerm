@@ -27,8 +27,8 @@ class CustomTestRunner:
 
 		test(result)
 
-		stopTime = time.time()
-		timeTaken = float(stopTime - startTime)
+		stop_time = time.time()
+		timeTaken = float(stop_time - startTime)
 
 		result.addErrorsToList()
 		result.testsRun
