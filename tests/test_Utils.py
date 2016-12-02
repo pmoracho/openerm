@@ -11,7 +11,8 @@ class UtilsTest(unittest.TestCase):
 		"""
 		tests = [
 					("1-11, 65-89, 900-1500", -1514384382),
-					("1-33000", -2003275021)
+					("1-33000", -2003275021),
+					("23", -1669481976)
 				]
 		for t in tests:
 			lista = str_to_list(t[0], 32000)
@@ -21,7 +22,11 @@ class UtilsTest(unittest.TestCase):
 		"""Verifica la clase Autonum
 		"""
 
-		my_id = AutoNum()
-		my_id.get("Prueba")
-		self.assertEqual(my_id.get("Prueba"), 1)
-		self.assertEqual(my_id.get("Otra cosa"), 2)
+		def checkEqual(l1, l2):
+			return len(l1) == len(l2) and sorted(l1) == sorted(l2)
+
+		my_ids = AutoNum()
+		my_ids.get("Prueba")
+		self.assertEqual(my_ids.get("Prueba"), 1)
+		self.assertEqual(my_ids.get("Otra cosa"), 2)
+		self.assertTrue(checkEqual(my_ids.list(), [('Prueba', 1), ('Otra cosa', 2)]))

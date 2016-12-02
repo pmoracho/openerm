@@ -127,7 +127,6 @@ class Compressor(object):
 		self._compression_proc_function = {
 						0: (self._plain_data_compress,			self._plain_data_decompress,		_("Sin compression")),
 						1: (self._zlib_compress,				zlib.decompress,					_("GZIP level={0} (1-9)").format(self._levels[1][level])),
-						1: (self._zlib_compress,				zlib.decompress,					_("GZIP level={0} (1-9)").format(self._levels[1][level])),
 						2: (self._bz2_compress,					bz2.decompress,						_("BZIP level={0} (1-9)").format(self._levels[2][level])),
 						3: (self._lzma_compress,				lzma.decompress,					_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
 						4: (self._lz4_compress, 				lz4.decompress,						_("LZ4 nivel estándar")),
