@@ -105,7 +105,7 @@ Uso: make <command> [<args>]
 
 Los comandos más usados:
 
-  devcheck   Hace una verificación del entorno de desarrollo
+  devcheck	 Hace una verificación del entorno de desarrollo
   devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos
   docinstall Intalación de Sphinx
   clear	  Elimina archivos innecesarios
@@ -333,7 +333,8 @@ Los comandos más usados:
 		else:
 			print("{0} Not found!!".format(tool))
 
-	def clean(self, pattern, debug=False):
+	@staticmethod
+	def clean(pattern, debug=False):
 
 		import os
 		import os.path

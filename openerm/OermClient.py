@@ -188,7 +188,7 @@ class OermClient(object):
 			>>> c.open_repo("Prueba1")
 			>>> print(c.reports())
 		"""
-		(k, dbname), = self._current_repo.items()
+		dbname, = self._current_repo.values()
 		conn = sqlite3.connect(dbname)
 		c = conn.cursor()
 		c.execute("SELECT report_id, report_name FROM report")
