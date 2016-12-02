@@ -60,7 +60,7 @@ try:
 	from openerm.Database import Database
 	from openerm.ReportMatcher import ReportMatcher
 	# from openerm.SpoolHostReprint import SpoolHostReprint
-	from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
+	from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength
 	from openerm.Utils import slugify, file_accessible
 	from openerm.tabulate import tabulate
 
@@ -208,7 +208,7 @@ def process_file(configfile, inputfile, outputfile,  compressiontype, complevel,
 			reportname_anterior = ""
 
 			# spool = SpoolHostReprint(inputfile, buffer_size=102400, encoding="Latin1")
-			spool = SpoolFixedRecordLenght(inputfile, buffer_size=102400, encoding="cp500", newpage_code="NEVADO" )
+			spool = SpoolFixedRecordLength(inputfile, buffer_size=102400, encoding="cp500", newpage_code="NEVADO" )
 
 			# with SpoolHostReprint(inputfile, buffer_size=102400, encoding="Latin1") as s:
 			with spool as s:

@@ -45,7 +45,7 @@ try:
 	from openerm.Database import Database
 	from openerm.ReportMatcher import ReportMatcher
 	from openerm.SpoolHostReprint import SpoolHostReprint
-	from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
+	from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength
 	from openerm.tabulate import tabulate
 	from openerm.Config import LoadConfig
 
@@ -57,15 +57,20 @@ except ImportError as err:
 
 class LoadProcess(object):
 
-	def __init__(self, configfile):
+	def __init__(self, configfile, input_file=None):
 
 		self.config = LoadConfig(configfile)
+		self.input_file = input_file
+		self.spool_types = { 	"fixed": SpoolFixedRecordLength(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
+			   					"fcfc":	SpoolHostReprint(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
+		}
 
-	def process_file(self, inputfile):
+	def process_file(self, input_file):
 
 		block					= Block(default_compress_level=self.config.compress_level)
 		resultados				= []
-		size_test_file			= os.path.getsize(inputfile)
+		size_test_file			= os.path.getsize(self.input_file)
+		self.input_file			= input_file
 
 		compresiones = [e for e in block.compressor.available_types if e[0] == self.config.compress_type]
 		encriptados = [e for e in block.cipher.available_types if e[0] == self.config.cipher_type]
@@ -74,11 +79,8 @@ class LoadProcess(object):
 
 		r = ReportMatcher(self.config.report_cfg)
 
-
 		for encriptado in encriptados:
 			for compress in compresiones:
-
-				# print("Procesando: {2} Compresión: [{0}] {1} Cifrado: {3}".format(compress[0], compress[1], inputfile, encriptado[1]))
 
 				start		= time.time()
 				paginas		= 0
@@ -96,11 +98,7 @@ class LoadProcess(object):
 				file_size	= os.path.getsize(file_name)
 				reportname_anterior = ""
 
-				spool_types = { "fixed": SpoolFixedRecordLenght(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
-				   				"fcfc":	SpoolHostReprint(inputfile, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
-				}
-
-				widgets = [ os.path.basename(inputfile), ': ',
+				widgets = [ os.path.basename(self.input_file), ': ',
 							FormatLabel('%(value)d bytes de %(max_value)d (%(percentage)0.2f) '),
 			   				Bar(marker='#',left='[',right=']'), ' ',
 			   				ETA(), ' ',
@@ -108,7 +106,7 @@ class LoadProcess(object):
 
 				print(_("Procesando archivos...\n"))
 				with ProgressBar(max_value=size_test_file, widgets=widgets) as bar:
-					spool = spool_types[self.config.file_type]
+					spool = self.spool_types[self.config.file_type]
 					with spool as s:
 						for page in s:
 							bar.update(len(page))

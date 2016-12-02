@@ -19,7 +19,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 """
-Un **SpoolFixedRecordLenght** es el objeto que permite la lectura de las salidas
+Un **SpoolFixedRecordLength** es el objeto que permite la lectura de las salidas
 de impresión del tipo Registro de longitud fija. Este formato es típico en
 plataformas IBM, archivos en EBCDIC con una longitud de registro de 256 bytes
 son habituales de ver. Cada registro representa una línea, puede eventualmente
@@ -29,9 +29,9 @@ ser del tipo FCFC, y contar con un canal de control.
 .. seealso::
 	* :class:`openerm.SpoolHostReprint`
 """
-import os
 
-class SpoolFixedRecordLenght(object):
+
+class SpoolFixedRecordLength(object):
 	"""Clase base para lectura de archivos de tamaño de registro fijo.
 
 	Args:
@@ -47,8 +47,8 @@ class SpoolFixedRecordLenght(object):
 		None
 
 	:Ejemplo:
-		>>> from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
-		>>> with SpoolFixedRecordLenght(test_file, 102400) as s:
+		>>> from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength
+		>>> with SpoolFixedRecordLength(test_file, 102400) as s:
 		>>>		for page in s:
 		>>>			print(page)
 
@@ -70,7 +70,7 @@ class SpoolFixedRecordLenght(object):
 
 	def __enter__(self):
 		"Apertura del archivo del spool a procesar"
-		file_size		= os.path.getsize(self.filename)
+		# file_size		= os.path.getsize(self.filename)
 		self.open_file 	= open(self.filename, mode="rt", encoding=self.encoding)
 		return self
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
 	start = time.time()
 
-	with SpoolFixedRecordLenght(test_file, 102400) as s:
+	with SpoolFixedRecordLength(test_file, 102400) as s:
 		for page in s:
 			# sys.stdout.buffer.write(page[1:10].encode('ascii', "ignore"))
 			# l = page.split("\n")

@@ -68,3 +68,4 @@ class SpoolHostReprintTest(unittest.TestCase):
 				random_text = "1" + rnd_generator(size=132)+"\n"+" " + rnd_generator(size=132)+"\n"
 				cls.paginas.append(random_text)
 				text_file.write(random_text)
+

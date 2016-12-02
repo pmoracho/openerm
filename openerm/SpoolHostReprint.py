@@ -26,7 +26,7 @@ columna  y particularmente el codigo "1" que representa el salto de pagina.
 Esta columna podra ser quitada o no segun se requiera.
 
 .. seealso::
-	* :class:`openerm.SpoolFixedRecordLenght`
+	* :class:`openerm.SpoolFixedRecordLength`
 
 """
 
