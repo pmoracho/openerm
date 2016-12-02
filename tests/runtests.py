@@ -7,7 +7,8 @@ import time
 sys.path.append('.')
 sys.path.append('..')
 
-from openerm.tabulate import *
+from openerm.tabulate import tabulate
+
 
 class CustomTestRunner:
 
@@ -26,15 +27,15 @@ class CustomTestRunner:
 
 		test(result)
 
-		stopTime = time.time()
-		timeTaken = float(stopTime - startTime)
+		stop_time = time.time()
+		timeTaken = float(stop_time - startTime)
 
 		result.addErrorsToList()
-		run = result.testsRun
 		v = (timeTaken)
 		self.lista.append(v)
 
 		return result
+
 
 class _XmlTestResult(unittest.TestResult):
 	"""A test result class that can print
@@ -67,31 +68,9 @@ class _XmlTestResult(unittest.TestResult):
 		v = (self.current_test_id, nombre_test, test.shortDescription(), timeTaken, "Ok", None)
 		self.resultados.append(v)
 
-	# def addError(self, test, err):
-	#	stopTime = time.time()
-	#	timeTaken = float(stopTime - self.startTime)
-
-	#	unittest.TestResult.addError(self, test, err)
-
-	#	self.current_test_id += 1
-	#	v = (self.current_test_id, test.id(), test.shortDescription(), timeTaken, "Error")
-	#	self.resultados.append(v)
-
-	# def addFailure(self, test, err):
-	#	stopTime = time.time()
-	#	timeTaken = float(stopTime - self.startTime)
-
-	#	unittest.TestResult.addFailure(self, test, err)
-
-	#	self.current_test_id += 1
-	#	v = (self.current_test_id, test.id(), test.shortDescription(), timeTaken, "Failure")
-	#	self.resultados.append(v)
-
-
 	def addErrorsToList(self):
 		self.addErrorToList('Error', self.errors)
 		self.addErrorToList('Failure', self.failures)
-		pass
 
 	def addErrorToList(self, flavor, errors):
 
@@ -117,7 +96,7 @@ if __name__ == '__main__':
 
 	if len(sys.argv) < 1:
 		test_pattern = sys.argv[1]
-		testsuite	= unittest.TestLoader().discover(start_dir='.', pattern=test_patter)
+		testsuite	= unittest.TestLoader().discover(start_dir='.', pattern=test_pattern)
 	else:
 		testsuite	= unittest.TestLoader().discover(start_dir='.')
 

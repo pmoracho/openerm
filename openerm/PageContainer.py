@@ -193,12 +193,12 @@ class PageContainer(object):
 		for p in self._pages:
 			data += p.encode("latin1")
 
-		aList = [len(p) for p in self._pages]
-		ln = len(aList)
+		a_list = [len(p) for p in self._pages]
+		ln = len(a_list)
 
 		var_data	= b''
 		var_data	+= struct.pack('>H', len(self._pages))
-		var_data	+= struct.pack('>' + 'L'*ln, *aList)
+		var_data	+= struct.pack('>' + 'L'*ln, *a_list)
 		data		= struct.pack('>{0}s'.format(len(data)), data)
 		return (data, var_data)
 

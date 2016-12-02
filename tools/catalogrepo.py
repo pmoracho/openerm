@@ -34,7 +34,7 @@ __author__		= "Patricio Moracho <pmoracho@gmail.com>"
 __appname__		= "catalogrepo"
 __appdesc__		= "Catalogación de un repositorio OpenErm"
 __license__		= 'GPL v3'
-__copyright__	= "(c) 2016, %s" % (__author__)
+__copyright__	= "(c) 2016, {0}".format(__author__)
 __version__		= "0.9"
 __date__		= "2016/09/14"
 
@@ -60,7 +60,6 @@ try:
 	gettext.gettext = _my_gettext
 
 	import argparse
-	# import time
 	import os
 	import sqlite3
 
@@ -68,8 +67,7 @@ try:
 	sys.path.append('..')
 
 	from openerm.Database import Database
-	from openerm.tabulate import *
-	from openerm.Utils import *
+	from openerm.Utils import file_accessible, AutoNum, filesInPath
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]

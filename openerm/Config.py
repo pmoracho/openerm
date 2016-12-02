@@ -163,12 +163,6 @@ class Config(object):
 
 					raise ConfigLoadingException(_("Error de validación en el archivo {0}: ").format(self.configfile), errores)
 
-	def _validate_config(self, dictionary, schema_yaml):
-		schema = yaml.load(schema_yaml.replace("\t", " "))
-		v = Validator(schema)
-		return v.validate(dictionary), v._errors
-
-
 class LoadConfig(Config):
 	"""
 	Clase base para el manejo de la configuración del proceso de carga.
@@ -180,7 +174,7 @@ class LoadConfig(Config):
 		except ConfigLoadingException:
 			raise
 		else:
-			for grupo, d in self.dictionary.get("load", {}).items():
+			for d in self.dictionary.get("load", {}).values():
 				for k, v in d.items():
 					setattr(self, k.replace("-", "_"), v)
 

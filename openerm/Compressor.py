@@ -88,7 +88,6 @@ except ImportError as err:
 	sys.exit(-1)
 
 
-
 class Compressor(object):
 	"""
 	Clase base para el manejo de compresión/descompresión de "bytes".
@@ -98,17 +97,17 @@ class Compressor(object):
 	y descomprimir.
 
 	Args:
-		type  (int): Tipo de compresión
+		compress_type  (int): Tipo de compresión
 		level (int): Nivel de compresión 0=mínimo, 1=normal, 2=máximo
 
 	Example:
 		>>> from openerm.Compressor import Compressor
-		>>> c = Compressor(type=1, level=1)
+		>>> c = Compressor(compress_type=1, level=1)
 		>>> tmp = c.compress(b"Esta es una prueba")
 		>>> print(tmp)
 		b'x^s-.ITH-V(\xcdKT((*MMJ\x04\x00<}\x06\x89'
 	"""
-	def __init__(self, type=1, level=1):
+	def __init__(self, compress_type=1, level=1):
 
 		self._levels = {
 				0: (0, 0, 0),
@@ -124,22 +123,22 @@ class Compressor(object):
 				10: (1, 3, 22),
 		}
 
-		self._compression_level = self._levels[type][level]
+		self._compression_level = self._levels[compress_type][level]
 		self._compression_proc_function = {
-						0: (self._plain_data_compress,			self._plain_data_decompress,	_("Sin compression")),
-						1: (self._zlib_compress,				zlib.decompress,				_("GZIP level={0} (1-9)").format(self._levels[1][level])),
-						2: (self._bz2_compress,					bz2.decompress,					_("BZIP level={0} (1-9)").format(self._levels[2][level])),
-						3: (self._lzma_compress,				lzma.decompress,				_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
-						4: (self._lz4_compress,					lz4.decompress,					_("LZ4 nivel estándar")),
-						5: (self._pylzma_compress,				pylzma.decompress,				_("pyLZMA quality={0} (0-2)").format(self._levels[5][level])),
-						6: (self._blosc_compress,				blosc.decompress,				_("BLOSC blosclz clevel={0} (1-9)").format(self._levels[6][level])),
-						7: (self._snappy_compress,				snappy.decompress,				_("Snappy")),
-						8: (self._lzo_compress,					lzo.decompress,					_("Lzo level={0} (1-9)").format(self._levels[8][level])),
-						9: (self._brotli_best_compress,			brotli.decompress,				_("Brotli quality={0} (1-11)").format(self._levels[9][level])),
-						10: (self._zstd_compress,				zstd.decompress,				_("zstd level={0} (1-22)").format(self._levels[10][level]))
+						0: (self._plain_data_compress,			self._plain_data_decompress,		_("Sin compression")),
+						1: (self._zlib_compress,				zlib.decompress,					_("GZIP level={0} (1-9)").format(self._levels[1][level])),
+						2: (self._bz2_compress,					bz2.decompress,						_("BZIP level={0} (1-9)").format(self._levels[2][level])),
+						3: (self._lzma_compress,				lzma.decompress,					_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
+						4: (self._lz4_compress, 				lz4.decompress,						_("LZ4 nivel estándar")),
+						5: (self._pylzma_compress,				pylzma.decompress,					_("pyLZMA quality={0} (0-2)").format(self._levels[5][level])),
+						6: (self._blosc_compress,				blosc.decompress,					_("BLOSC blosclz clevel={0} (1-9)").format(self._levels[6][level])),
+						7: (snappy.compress,					snappy.decompress,					_("Snappy")),
+						8: (self._lzo_compress,					lzo.decompress,						_("Lzo level={0} (1-9)").format(self._levels[8][level])),
+						9: (self._brotli_best_compress,			brotli.decompress,					_("Brotli quality={0} (1-11)").format(self._levels[9][level])),
+						10: (self._zstd_compress,				zstd.decompress,					_("zstd level={0} (1-22)").format(self._levels[10][level]))
 					}
 
-		self.__compression_type = type
+		self.__compression_type = compress_type
 
 	@property
 	def type(self):
@@ -154,15 +153,15 @@ class Compressor(object):
 		return self.__compression_type
 
 	@type.setter
-	def type(self, type):
+	def type(self, compress_type):
 		"""
 		type. Configura el tipo de compresión a utilizar.
 		"""
-		if type != self.__compression_type:
-			if type not in self._compression_proc_function.keys():
+		if compress_type != self.__compression_type:
+			if compress_type not in self._compression_proc_function.keys():
 				self.__compression_type = 1
 			else:
-				self.__compression_type = type
+				self.__compression_type = compress_type
 
 	@property
 	def level(self):
@@ -223,12 +222,12 @@ class Compressor(object):
 		"""
 		return [(i, self._compression_proc_function[i][2]) for i in self._compression_proc_function]
 
-	def compression_type_info(self, type):
+	def compression_type_info(self, compress_type):
 		"""Retorna la información de un determinado
 		algoritmo de compressión disponible.
 
 		Args:
-			type (int): Id del algoritmo de compresión
+			compress_type (int): Id del algoritmo de compresión
 
 		Returns:
 			string: Información del algoritmo de compresión
@@ -240,7 +239,7 @@ class Compressor(object):
 			zstd level=3 (1-22)
 
 		"""
-		return self._compression_proc_function[type][2]
+		return self._compression_proc_function[compress_type][2]
 
 	def compress(self, data):
 		"""Comprime un conjunto de bytes
@@ -253,7 +252,7 @@ class Compressor(object):
 
 		Example:
 			>>> from openerm.Compressor import Compressor
-			>>> c = Compressor(type=1, level=1)
+			>>> c = Compressor(compress_type=1, level=1)
 			>>> tmp = c.compress(b"Esta es una prueba")
 			>>> print(tmp)
 			b'x^s-.ITH-V(\xcdKT((*MMJ\x04\x00<}\x06\x89'
@@ -271,7 +270,7 @@ class Compressor(object):
 
 		Example:
 			>>> from openerm.Compressor import Compressor
-			>>> c = Compressor(type=1, level=1)
+			>>> c = Compressor(compress_type=1, level=1)
 			>>> tmp = c.compress(b"Esta es una prueba")
 			>>> print(tmp)
 			b'x^s-.ITH-V(\xcdKT((*MMJ\x04\x00<}\x06\x89'
@@ -279,9 +278,6 @@ class Compressor(object):
 			b'Esta es una prueba'
 		"""
 		return self._compression_proc_function[self.__compression_type][1](data)
-
-	def _snappy_compress(self, data):
-		return snappy.compress(data)
 
 	def _zlib_compress(self, data):
 		return zlib.compress(data, self._compression_level)
@@ -317,13 +313,16 @@ class Compressor(object):
 		# return blosc.compress(data, typesize=8, cname='blosclz')
 		return blosc.compress(data, typesize=8, clevel=self._compression_level, cname='blosclz')
 
-	def _plain_data_compress(self, data):
-			return data
+	@staticmethod
+	def _plain_data_compress(data):
+		return data
 
-	def _plain_data_decompress(self, data):
-			return data
+	@staticmethod
+	def _plain_data_decompress(data):
+		return data
 
-	def _lz4_compress(self, data):
+	@staticmethod
+	def _lz4_compress(data):
 		"""Compresión Lz4
 		Args:
 			source (str): Data to compress

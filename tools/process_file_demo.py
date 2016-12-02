@@ -54,7 +54,7 @@ if __name__ == "__main__":
 	for item in block.compressor.available_types:
 
 		print("Procesando: [{0}] {1}".format(item[0],item[1]))
-		
+
 		start = time.time()
 		paginas = 0
 
@@ -63,30 +63,30 @@ if __name__ == "__main__":
 		db	= Database(file = file_name, default_compress_method=item[0], default_encription_method=0, pages_in_container = 10)
 
 		db.add_report( reporte = "Sin identificar", sistema = "n/a", aplicacion = "n/a", departamento = "n/a" )
-		
+
 		with SpoolHostReprint(test_file, buffer_size=102400, encoding="Latin1") as s:
 			for page in s:
 				paginas = paginas + 1
 				db.add_page(page)
-		
+
 		db.close()
 
-		compress_time 	= time.time() - start 
+		compress_time 	= time.time() - start
 		compress_size	= os.path.getsize(file_name)
 
 		start = time.time()
 		db	= Database(file = file_name, mode="rb")
-		for report in db.Reports():
+		for report in db.reports():
 			for page in report:
 				pass
-		uncompress_time 	= time.time() - start 
+		uncompress_time 	= time.time() - start
 
-		resultados.append( [ 
-			"[{0}] {1}".format(item[0],item[1]), 
-			("" if encriptado == 0 else "Si"), 
-			size_test_file, 
-			compress_size, 
-			(compress_size/size_test_file)*100, 
+		resultados.append( [
+			"[{0}] {1}".format(item[0],item[1]),
+			("" if encriptado == 0 else "Si"),
+			size_test_file,
+			compress_size,
+			(compress_size/size_test_file)*100,
 			compress_time,
 			paginas/compress_time,
 			uncompress_time,

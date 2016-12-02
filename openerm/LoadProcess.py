@@ -36,10 +36,7 @@ try:
 	import sys
 	import os
 	import time
-	timefrom progressbar import AnimatedMarker, Bar, BouncingBar, Counter, ETA, \
-		FileTransferSpeed, FormatLabel, Percentage, \
-		ProgressBar, ReverseBar, RotatingMarker, \
-		SimpleProgress, Timer, AdaptiveETA, AbsoluteETA, AdaptiveTransferSpeed
+	from progressbar import Bar, ETA, FileTransferSpeed, FormatLabel, ProgressBar
 
 	sys.path.append('.')
 	sys.path.append('..')
@@ -110,7 +107,7 @@ class LoadProcess(object):
 			   				FileTransferSpeed()] #see docs for other options
 
 				print(_("Procesando archivos...\n"))
-				with ProgressBar(max_value=size_test_file,widgets=widgets) as bar:
+				with ProgressBar(max_value=size_test_file, widgets=widgets) as bar:
 					spool = spool_types[self.config.file_type]
 					with spool as s:
 						for page in s:
@@ -118,8 +115,8 @@ class LoadProcess(object):
 							data = r.match(page)
 							reportname = data[0]
 							if reportname != reportname_anterior:
-								id = db.get_report(reportname)
-								if id:
+								rpt_id = db.get_report(reportname)
+								if rpt_id:
 									db.set_report(reportname)
 								else:
 									db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])

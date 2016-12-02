@@ -57,22 +57,22 @@ except ImportError as err:
 	sys.exit(-1)
 
 root_dir = "openerm.git"
-packages =	{
-				"blosc":		("1.3.3",	"blosc-1.3.3-cp34-cp34m-win32.whl"),
-				"brotlipy":		("0.5.1",	None),
-				"cryptography": ("1.4",		None),
-				"lz4":			("0.8.2",	"lz4-0.8.2-cp34-cp34m-win32.whl"),
-				"pylzma":		("0.4.8",	"pylzma-0.4.8-cp34-none-win32.whl"),
-				"python-lzo":	("1.11",	"python_lzo-1.11-cp34-none-win32.whl"),
-				"python-snappy":("0.5",		"python_snappy-0.5-cp34-none-win32.whl"),
-				"PyYAML":		("3.11",	"PyYAML-3.11-cp34-none-win32.whl"),
-				"zstd":			("0.7.5.1", "zstd-0.7.5.1-cp34-none-win32.whl"),
-				"percentage2":	("3.11.0", 	None),
-				"Cerberus":		("1.0.1",	None),
-				"PyInstaller":	("3.1.1",	None)
+packages = {
+				"blosc":			("1.3.3",	"blosc-1.3.3-cp34-cp34m-win32.whl"),
+				"brotlipy":			("0.5.1",	None),
+				"cryptography":		("1.4",		None),
+				"lz4":				("0.8.2",	"lz4-0.8.2-cp34-cp34m-win32.whl"),
+				"pylzma":			("0.4.8",	"pylzma-0.4.8-cp34-none-win32.whl"),
+				"python-lzo":		("1.11",	"python_lzo-1.11-cp34-none-win32.whl"),
+				"python-snappy":	("0.5",		"python_snappy-0.5-cp34-none-win32.whl"),
+				"PyYAML":			("3.11",	"PyYAML-3.11-cp34-none-win32.whl"),
+				"zstd":				("0.7.5.1", "zstd-0.7.5.1-cp34-none-win32.whl"),
+				"percentage2":		("3.11.0",	None),
+				"Cerberus":			("1.0.1",	None),
+				"PyInstaller":	(	"3.1.1",	None)
 }
 
-manualtasks = [ "No olvidar de corregir venv\Lib\site-packages\cryptography\hazmat\backends\__init__.py para hacer funcionar Criptography cuando se distribuyen en forma binaria las herramientas"]
+manualtasks = ["No olvidar de corregir venv\Lib\site-packages\cryptography\hazmat\backends\__init__.py para hacer funcionar Criptography cuando se distribuyen en forma binaria las herramientas"]
 
 
 tools = [
@@ -83,12 +83,13 @@ tools = [
 
 
 def subprocess_cmd(command):
-	process = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)
+	process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 	stdout_value, stderr_value = process.communicate()
 	if stderr_value:
 		return stderr_value.decode("Latin1")
 	if stdout_value:
 		return stdout_value.decode("Latin1")
+
 
 class MyMake(object):
 
@@ -103,12 +104,13 @@ class MyMake(object):
 Uso: make <command> [<args>]
 
 Los comandos más usados:
-   devcheck   Hace una verificación del entorno de desarrollo
-   devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos
-   docinstall Intalación de Sphinx
-   clear      Elimina archivos innecesarios
-   test	      Ejecuta todos los tests definidos del proyecto
-   tools      Construye la distribución binaria de las herramientas del proyecto
+
+  devcheck   Hace una verificación del entorno de desarrollo
+  devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos
+  docinstall Intalación de Sphinx
+  clear	  Elimina archivos innecesarios
+  test		  Ejecuta todos los tests definidos del proyecto
+  tools	  Construye la distribución binaria de las herramientas del proyecto
 
 ''' % (__appdesc__, __copyright__)
 		)
@@ -134,23 +136,23 @@ Los comandos más usados:
 		self.run_tests()
 
 	def tools(self):
-		self.parser = argparse.ArgumentParser( description='Ejecuta todos los tests del proyecto')
+		self.parser = argparse.ArgumentParser(description='Ejecuta todos los tests del proyecto')
 		print("Running make tools")
 		self.build(tools)
 
 	def devinstall(self):
-		self.parser = argparse.ArgumentParser( description='Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos')
+		self.parser = argparse.ArgumentParser(description='Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos')
 		print("Running make devinstall")
 		self.dev_install()
 		self.run_devcheck()
 
 	def docinstall(self):
-		self.parser = argparse.ArgumentParser( description='Realiza la instalación de Sphinx el documentador')
+		self.parser = argparse.ArgumentParser(description='Realiza la instalación de Sphinx el documentador')
 		print("Running make docinstall")
 		self.doc_install()
 
 	def devcheck(self):
-		self.parser = argparse.ArgumentParser( description='Hace una verificación del entorno de desarrollo')
+		self.parser = argparse.ArgumentParser(description='Hace una verificación del entorno de desarrollo')
 		print("Running make devcheck")
 		self.run_devcheck()
 
@@ -188,8 +190,7 @@ Los comandos más usados:
 			print("----------------------------------------------------------")
 
 		command = self.venv + " &" + "pip install sphinx & pip install solar-theme"
-		ret = subprocess_cmd(command)
-
+		subprocess_cmd(command)
 
 	def dev_install(self, msg=True, debug=False):
 		"""Instalación del entorno de desarrollo en el proyecto
@@ -204,9 +205,9 @@ Los comandos más usados:
 			print("Creando el entorno virtual para desarrollo..")
 			print("----------------------------------------------------------")
 
-		#=================================
+		# =================================
 		# Instalación del entorno Virtual
-		#=================================
+		# =================================
 		if not self.check_virtualenv(False, False):
 			if msg:
 				print("Creando entorno virtual con virtualenv...")
@@ -224,13 +225,12 @@ Los comandos más usados:
 			if msg:
 				print("El entorno virtual ya existe y está operativo...")
 
-
 		status	= self.check_packages(packages, msg=False, debug=False)
 		command = ""
 
 		# Primero los paquetes que se pueden instalar via pip
 		for i in [i for i in status if not i[2] and i[3] != "ok"]:
-			command = command + ' & pip install {0} {1}'.format(("-U" if i[3]=="upgrade" else ""),i[0])
+			command = command + ' & pip install {0} {1}'.format(("-U" if i[3] == "upgrade" else ""), i[0])
 
 		# Luego paquetes que se instaland del wheel que ya está en proyecto
 		for i in [i for i in status if i[2] and i[3] != "ok"]:
@@ -251,8 +251,8 @@ Los comandos más usados:
 				print("\n")
 				print("---------------------------------------------------------")
 				print("Atención, No olvidar las siguientes tareas manuales:\n")
-				for i,t in enumerate(manualtasks,1):
-					print(textwrap.fill("{0}. {1}".format(i,t),60))
+				for i, t in enumerate(manualtasks, 1):
+					print(textwrap.fill("{0}. {1}".format(i, t), 60))
 				print("---------------------------------------------------------")
 				print("\n")
 
@@ -301,25 +301,26 @@ Los comandos más usados:
 				p = l.split("==")
 				found[p[0]] = p[1]
 
-		for k,v in packages.items():
-			ver = found.get(k,None)
+		for k, v in packages.items():
+			ver = found.get(k)
 			if not ver:
 				if msg:
 					print("{0} Not found!!".format(k))
-				packages_status.append( (k, v[0], v[1], "install") )
+				packages_status.append((k, v[0], v[1], "install"))
 			else:
 				if ver < v[0]:
 					if msg:
-						print("{0} found invalid version!! (actual: {1} requiered {2}".format(k,ver,v[0]))
-					packages_status.append( (k, v[0], v[1], "upgrade") )
+						print("{0} found invalid version!! (actual: {1} requiered {2}".format(k, ver, v[0]))
+					packages_status.append((k, v[0], v[1], "upgrade"))
 				else:
 					if msg:
-						print("{0} {1} Ok..".format(k,ver))
-					packages_status.append( (k, v[0], v[1], "ok") )
+						print("{0} {1} Ok..".format(k, ver))
+					packages_status.append((k, v[0], v[1], "ok"))
 
-		return	packages_status
+		return packages_status
 
-	def check_tool(self, tool, command, find, debug=False):
+	@staticmethod
+	def check_tool(tool, command, find, debug=False):
 
 		ret = subprocess_cmd(command)
 
@@ -331,7 +332,6 @@ Los comandos más usados:
 			print("{0} Ok..".format(tool))
 		else:
 			print("{0} Not found!!".format(tool))
-
 
 	def clean(self, pattern, debug=False):
 

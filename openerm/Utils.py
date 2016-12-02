@@ -24,7 +24,6 @@ Utils
 
 Este módulo contiene todo tipo de funciones de uso general para el
 proyecto **OpenErm**
-
 """
 
 import re
@@ -93,7 +92,7 @@ def file_accessible(filepath, mode):
 		filepath (string):
 	"""
 	try:
-		with open(filepath, mode) as file:
+		with open(filepath, mode):
 			pass
 	except IOError:
 		return False
@@ -101,12 +100,12 @@ def file_accessible(filepath, mode):
 	return True
 
 
-def str_to_list(str, max):
+def str_to_list(str_value, maxvalue):
 	"""Devuelve una lista de enteros a partir de un string
 
 	Args:
-		str (string): Cadena de números separados por , o -
-		max (int): Máximo valor que puede tener la lista
+		str_value (string): Cadena de números separados por , o -
+		maxvalue (int): Máximo valor que puede tener la lista
 
 	Ejemplo:
 		>>> from openerm.Utils import *
@@ -124,16 +123,16 @@ def str_to_list(str, max):
 			return 0
 
 	lista = []
-	if str:
-		for c in str.split(","):
+	if str_value:
+		for c in str_value.split(","):
 			if "-" in c:
 				rango = c.split("-")
 				for valor in range(try_int(rango[0]), try_int(rango[1])+1):
-					if valor >= 1 and valor <= max:
+					if 1 <= valor <= maxvalue:
 						lista.append(valor)
 			else:
 				valor = try_int(c)
-				if valor >= 1 and valor <= max:
+				if 1 <= valor <= maxvalue:
 					lista.append(valor)
 
 	return sorted(lista)
@@ -162,12 +161,12 @@ class AutoNum():
 
 	Ejemplo:
 		>>> from openerm.Utils import *
-		>>> id = AutoNum()
-		>>> id.get("Prueba")
+		>>> my_id = AutoNum()
+		>>> my_id.get("Prueba")
 		1
-		>>> id.get("Otra cosa")
+		>>> my_id.get("Otra cosa")
 		2
-		>>> id.get("Prueba")
+		>>> my_id.get("Prueba")
 		1
 	"""
 
@@ -184,7 +183,7 @@ class AutoNum():
 		Return:
 			int: Número único del valor
 		"""
-		if not self.myDict.get(value,None):
+		if not self.myDict.get(value):
 			self.myDict[value] 	= self.lastid
 			self.lastid			+= 1
 
@@ -195,14 +194,14 @@ class AutoNum():
 
 		Ejemplo:
 			>>> from openerm.Utils import *
-			>>> id = AutoNum()
-			>>> id.get("Prueba")
+			>>> my_id = AutoNum()
+			>>> my_id.get("Prueba")
 			1
-			>>> id.get("Otra cosa")
+			>>> my_id.get("Otra cosa")
 			2
-			>>> id.get("Prueba")
+			>>> my_id.get("Prueba")
 			1
-			>>> id.list()
+			>>> my_id.list()
 			[('Otra cosa', 2), ('Prueba', 1)]
 
 		Return:

@@ -59,7 +59,7 @@ try:
 	from openerm.Block import Block
 	from openerm.Database import Database
 	from openerm.ReportMatcher import ReportMatcher
-	from openerm.SpoolHostReprint import SpoolHostReprint
+	# from openerm.SpoolHostReprint import SpoolHostReprint
 	from openerm.SpoolFixedRecordLenght import SpoolFixedRecordLenght
 	from openerm.Utils import slugify, file_accessible
 	from openerm.tabulate import tabulate
@@ -229,7 +229,7 @@ def process_file(configfile, inputfile, outputfile,  compressiontype, complevel,
 
 			start = time.time()
 			db	= Database(file=file_name, mode="rb")
-			for report in db.Reports():
+			for report in db.reports():
 				try:
 					for page in report:
 						pass

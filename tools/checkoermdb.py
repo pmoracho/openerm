@@ -54,7 +54,6 @@ try:
 	gettext.gettext = my_gettext
 
 	import argparse
-	from argparse import RawTextHelpFormatter
 
 	import sys
 	import time
@@ -65,11 +64,10 @@ try:
 	sys.path.append('.')
 	sys.path.append('..')
 
-
-	from openerm.tabulate import *
+	from openerm.tabulate import tabulate
 	from openerm.Block import Block
 	from openerm.PageContainer import PageContainer
-	from openerm.Utils import *
+	from openerm.Utils import file_accessible
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -97,7 +95,7 @@ class OermDataBase(object):
 
 			struct_unpack	= struct.Struct(struct_fmt).unpack_from
 			magic_number	= struct_unpack(data)[0].decode("utf-8")
-			version			= struct_unpack(data)[1]
+			# version			= struct_unpack(data)[1]
 
 			if magic_number != "oerm":
 				raise ValueError(_('{0} no es un archivo oerm válido!').format(self.filename))
@@ -156,10 +154,9 @@ if __name__ == "__main__":
 	except IOError as msg:
 		args.error(str(msg))
 
-
 	test_file		= args.inputfile
 
-	if not Utils.file_accessible(test_file, "rb"):
+	if not file_accessible(test_file, "rb"):
 		print("Error: El archivo {0} no se ha encontrado o no es accesible para lectura".format(test_file))
 		sys.exit(-1)
 
@@ -179,12 +176,8 @@ if __name__ == "__main__":
 
 				longitud_bloque, tipo_bloque, tipo_compresion, tipo_encriptacion, longitud_datos, data, variable_data = bloque
 				resultados.append([longitud_bloque, tipo_bloque, tipo_compresion, tipo_encriptacion, longitud_datos])
-				"""
-				else:
-					k = "{0} comprimido con {1}".format(b.block_types[tipo_bloque], b.compression_proc_function[tipo_compresion][2])
-				"""
 				if tipo_bloque == 2:
-					pg.load(data, variable_data)
+					pg.load(data)
 					paginas += pg.max_page_count
 					k = "{0}. {1} comprimido con {2} (páginas: {3})".format(tipo_bloque, b.block_types[tipo_bloque], b.compressor.available_types[tipo_compresion][1], pg.max_page_count)
 				else:

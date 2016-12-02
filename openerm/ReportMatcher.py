@@ -84,7 +84,6 @@ class ReportMatcher(object):
 				for match in matches:
 					self.matches.append((k, match))
 
-
 	def match(self, page):
 		"""Trata de determinar el reporte en función de los datos de una página
 
@@ -113,7 +112,8 @@ class ReportMatcher(object):
 		"""
 		return self._match(page)
 
-	def _match_none(self, page):
+	@staticmethod
+	def _match_none(page):
 		return ("Sin Identificar", "n/a", "n/a", "n/a", "n/a")
 
 	def _match_report(self, page):

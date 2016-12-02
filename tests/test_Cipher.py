@@ -2,9 +2,10 @@ import unittest
 
 from openerm.Cipher import Cipher
 
+
 class CipherTest(unittest.TestCase):
-	
-	def test_Cipher_with_random_data(self):
+
+	def test_cipher_with_random_data(self):
 		"""Verificar todos los algoritmos de cifrado con información random
 		"""
 		import string
@@ -22,4 +23,3 @@ class CipherTest(unittest.TestCase):
 				tmp = c.encode(random_text)
 				tmp = c.decode(tmp)
 				self.assertEqual(random_text, tmp, "{0} != {1}".format(random_text, tmp))
-
