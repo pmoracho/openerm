@@ -27,12 +27,12 @@ from openerm.Database import Database
 
 class ReportsTest(unittest.TestCase):
 
-
 	def test_find_text(self):
 		"""Genera un database con info random, y realiza un búsqueda de texto
 		"""
 		db	= Database(file=self._filename, mode="rb")
-		matches = db.find_text("Pagina", [1])
+
+		matches = db.reports().find_text(text="Pagina", search_in_reports=[1])
 		# print(matches)
 		esperado = [(1, 1, 0), (1, 1, 12028), (1, 2, 0), (1, 2, 12028), (1, 3, 0), (1, 3, 12028), (1, 4, 0), (1, 4, 12028), (1, 5, 0), (1, 5, 12028), (1, 6, 0), (1, 6, 12028),
 					(1, 7, 0), (1, 7, 12028), (1, 8, 0), (1, 8, 12028), (1, 9, 0), (1, 9, 12028), (1, 10, 0), (1, 10, 12029), (1, 11, 0), (1, 11, 12029), (1, 21, 0), (1, 21, 12028),
