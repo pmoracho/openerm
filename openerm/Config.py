@@ -137,7 +137,7 @@ class Config(object):
 		>>> cfg = Config("file.cfg", schema_yaml)
 
 	"""
-	def __init__(self, configfile, schema):
+	def __init__(self, configfile, schema=None):
 
 		self.configfile = configfile
 		self.schema = schema
@@ -153,15 +153,16 @@ class Config(object):
 			except yaml.YAMLError as e:
 				raise ConfigLoadingException(_("Error de parseo YAML"), [str(e).replace('\n', '')])
 			else:
-				schema = yaml.load(self.schema.replace("\t", " "))
-				v = Validator(schema)
-				if not v.validate(self.dictionary):
-					errores = []
-					for e in v._errors:
-						error = "{0}: {1}({2}) Valor: {3}".format("->".join(e.document_path), e.rule, e.constraint, e.value)
-						errores.append(error)
+				if self.schema:
+					schema = yaml.load(self.schema.replace("\t", " "))
+					v = Validator(schema)
+					if not v.validate(self.dictionary):
+						errores = []
+						for e in v._errors:
+							error = "{0}: {1}({2}) Valor: {3}".format("->".join(e.document_path), e.rule, e.constraint, e.value)
+							errores.append(error)
 
-					raise ConfigLoadingException(_("Error de validación en el archivo {0}: ").format(self.configfile), errores)
+						raise ConfigLoadingException(_("Error de validación en el archivo {0}: ").format(self.configfile), errores)
 
 class LoadConfig(Config):
 	"""

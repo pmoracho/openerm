@@ -52,8 +52,8 @@ class DatabaseTest(unittest.TestCase):
 	def test_find_text(self):
 		"""Genera un database con info random, y realiza un búsqueda de texto
 		"""
-		def get_nice_string(list_or_iterator):
-			return "[" + "\n,".join(str(x) for x in list_or_iterator) + "]"
+		# def get_nice_string(list_or_iterator):
+		# 	return "[" + "\n,".join(str(x) for x in list_or_iterator) + "]"
 
 		block = Block()  # Generic
 

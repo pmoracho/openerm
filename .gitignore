@@ -6,3 +6,5 @@
 /docs/_build
 /docs/_static
 /tests/__pycache__
+/out/*
+!/out/this.is.an.output.folder

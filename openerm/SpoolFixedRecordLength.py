@@ -29,7 +29,7 @@ ser del tipo FCFC, y contar con un canal de control.
 .. seealso::
 	* :class:`openerm.SpoolHostReprint`
 """
-
+# SpoolFixedRecordLenght
 
 class SpoolFixedRecordLength(object):
 	"""Clase base para lectura de archivos de tamaño de registro fijo.
