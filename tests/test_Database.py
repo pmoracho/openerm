@@ -43,7 +43,7 @@ class DatabaseTest(unittest.TestCase):
 			paginas_leidas = []
 			db	= Database(file=filename, mode="rb")
 			for report in db.reports():
-				for i, p in enumerate(report, 0):
+				for p in report:
 					paginas_leidas.append(p)
 			db.close()
 

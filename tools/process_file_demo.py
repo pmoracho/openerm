@@ -41,7 +41,7 @@ if __name__ == "__main__":
 	import time
 	import os
 	from Block import Block
-	from tabulate import *
+	from tabulate import tabulate
 
 	resultados = []
 	encriptado = 0
