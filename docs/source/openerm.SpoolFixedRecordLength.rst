@@ -1,7 +1,7 @@
-SpoolFixedRecordLenght
+SpoolFixedRecordLength
 ======================
 
-.. automodule:: openerm.SpoolFixedRecordLenght
+.. automodule:: openerm.SpoolFixedRecordLength
     :members:
     :undoc-members:
     :show-inheritance:

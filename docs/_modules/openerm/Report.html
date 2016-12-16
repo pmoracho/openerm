@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -126,10 +125,10 @@
 
 <span class="sd">	Args:</span>
 <span class="sd">		database: Objeto :class:`openerm.Database`</span>
-<span class="sd">		id (int): Identificador único del reporte en el Database</span>
+<span class="sd">		idrpt (int): Identificador único del reporte en el Database</span>
 
 <span class="sd">	Example:</span>
-<span class="sd">		&gt;&gt;&gt; from openerm.Database import Database</span>
+<span class="sd">		&gt;&gt;&gt; fuerom openerm.Database import Database</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.Report import Report</span>
 <span class="sd">		&gt;&gt;&gt; db = Database(file = &quot;out/zstd-level-3-1-22.test.oerm&quot;, mode=&quot;rb&quot;)</span>
 <span class="sd">		&gt;&gt;&gt; r = Report(db, 1)</span>
@@ -162,9 +161,9 @@
 
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1"># def __init__(self, file, data):</span>
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">idrpt</span><span class="p">):</span>
 
-		<span class="n">data</span> 						<span class="o">=</span> <span class="p">(</span><span class="nb">id</span><span class="p">,)</span> <span class="o">+</span> <span class="n">database</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+		<span class="n">data</span> 						<span class="o">=</span> <span class="p">(</span><span class="n">idrpt</span><span class="p">,)</span> <span class="o">+</span> <span class="n">database</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">idrpt</span><span class="p">]</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">file</span>					<span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="n">_file</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">id</span> 					<span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>							<span class="c1">#: id del reporte</span>
@@ -256,7 +255,7 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">total_pages</span> <span class="o">=</span> <span class="n">total</span>
 
 		<span class="c1"># Metadatos</span>
-		<span class="n">longitud_bloque</span><span class="p">,</span> <span class="n">tipo_bloque</span><span class="p">,</span> <span class="n">tipo_compresion</span><span class="p">,</span> <span class="n">tipo_encriptacion</span><span class="p">,</span> <span class="n">longitud_datos</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">variable_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_block_data_from_offset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_offset</span><span class="p">)</span>
+		<span class="n">longitud_bloque</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tipo_compresion</span><span class="p">,</span> <span class="n">tipo_encriptacion</span><span class="p">,</span> <span class="n">longitud_datos</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">variable_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_block_data_from_offset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_offset</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadatacontainer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
 
@@ -350,7 +349,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

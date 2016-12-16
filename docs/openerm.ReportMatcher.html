@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,10 +27,8 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
-    <link rel="up" title="Openerm - API" href="openerm.html" />
     <link rel="next" title="Utils" href="openerm.Utils.html" />
-    <link rel="prev" title="SpoolFixedRecordLenght" href="openerm.SpoolFixedRecordLenght.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="prev" title="SpoolHostReprint" href="openerm.SpoolHostReprint.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -46,7 +45,7 @@
           <a href="openerm.Utils.html" title="Utils"
              accesskey="N">siguiente</a> |</li>
         <li class="right" >
-          <a href="openerm.SpoolFixedRecordLenght.html" title="SpoolFixedRecordLenght"
+          <a href="openerm.SpoolHostReprint.html" title="SpoolHostReprint"
              accesskey="P">anterior</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="openerm.html" accesskey="U">Openerm - API</a> &#187;</li> 
@@ -55,15 +54,15 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Tema anterior</h4>
-  <p class="topless"><a href="openerm.SpoolFixedRecordLenght.html"
-                        title="capítulo anterior">SpoolFixedRecordLenght</a></p>
+  <p class="topless"><a href="openerm.SpoolHostReprint.html"
+                        title="capítulo anterior">SpoolHostReprint</a></p>
   <h4>Próximo tema</h4>
   <p class="topless"><a href="openerm.Utils.html"
                         title="próximo capítulo">Utils</a></p>
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.ReportMatcher.txt"
+      <li><a href="_sources/openerm.ReportMatcher.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -90,16 +89,27 @@
 <p><strong>ReportMatcher</strong> es el objeto que identifica los reportes de una
 determinada cola de impresión. Lo hace mediante una serie de reglas que se
 definene en una arcchivo de configuración en formato YAML</p>
+<dl class="function">
+<dt id="openerm.ReportMatcher.BoyerMooreHorspool">
+<code class="descclassname">openerm.ReportMatcher.</code><code class="descname">BoyerMooreHorspool</code><span class="sig-paren">(</span><em>pattern</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#BoyerMooreHorspool"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.BoyerMooreHorspool" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="class">
 <dt id="openerm.ReportMatcher.ReportMatcher">
-<em class="property">class </em><code class="descclassname">openerm.ReportMatcher.</code><code class="descname">ReportMatcher</code><span class="sig-paren">(</span><em>configfile='openerm.cfg'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#ReportMatcher"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.ReportMatcher" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">openerm.ReportMatcher.</code><code class="descname">ReportMatcher</code><span class="sig-paren">(</span><em>configfile='openerm.cfg'</em>, <em>configbuffer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#ReportMatcher"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.ReportMatcher" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Matcher de reportes</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>configfile</strong> (<em>string</em>) &#8211; Path absoluto al archivo de configuración de la clase</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>configfile</strong> (<em>string</em>) &#8211; Path absoluto al archivo de configuración de la clase</li>
+<li><strong>configbuffer</strong> (<em>string</em>) &#8211; Buffer con la configuración YAML de la clase.</li>
+<li><strong>parámatro tiene prioridad en caso de ingresar tambioen</strong> (<em>Este</em>) &#8211; </li>
+<li><strong>_configfile_</strong> &#8211; </li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -171,6 +181,32 @@ definene en una arcchivo de configuración en formato YAML</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="openerm.ReportMatcher.RollingHash">
+<em class="property">class </em><code class="descclassname">openerm.ReportMatcher.</code><code class="descname">RollingHash</code><span class="sig-paren">(</span><em>text</em>, <em>sizeWord</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#RollingHash"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.RollingHash" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="openerm.ReportMatcher.RollingHash.move_window">
+<code class="descname">move_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#RollingHash.move_window"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.RollingHash.move_window" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="openerm.ReportMatcher.RollingHash.window_text">
+<code class="descname">window_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#RollingHash.window_text"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.RollingHash.window_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="openerm.ReportMatcher.rabin_karp">
+<code class="descclassname">openerm.ReportMatcher.</code><code class="descname">rabin_karp</code><span class="sig-paren">(</span><em>word</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#rabin_karp"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.rabin_karp" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="openerm.ReportMatcher.test">
+<code class="descclassname">openerm.ReportMatcher.</code><code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#test"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.test" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 
 
@@ -192,7 +228,7 @@ definene en una arcchivo de configuración en formato YAML</p>
           <a href="openerm.Utils.html" title="Utils"
              >siguiente</a> |</li>
         <li class="right" >
-          <a href="openerm.SpoolFixedRecordLenght.html" title="SpoolFixedRecordLenght"
+          <a href="openerm.SpoolHostReprint.html" title="SpoolHostReprint"
              >anterior</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">documentación de Openerm - 0.1</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="openerm.html" >Openerm - API</a> &#187;</li> 
@@ -200,7 +236,7 @@ definene en una arcchivo de configuración en formato YAML</p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

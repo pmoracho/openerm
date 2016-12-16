@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -107,11 +106,83 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="BoyerMooreHorspool"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.BoyerMooreHorspool">[documentos]</a><span class="k">def</span> <span class="nf">BoyerMooreHorspool</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+	<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+	<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+	<span class="n">skip</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+		<span class="n">skip</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+		<span class="n">skip</span><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">pattern</span><span class="p">[</span><span class="n">k</span><span class="p">])]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+	<span class="n">skip</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">skip</span><span class="p">)</span>
+	<span class="n">k</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+	<span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+		<span class="n">j</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="n">k</span>
+		<span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+			<span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+			<span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="n">k</span> <span class="o">+=</span> <span class="n">skip</span><span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">k</span><span class="p">])]</span>
+	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+<div class="viewcode-block" id="RollingHash"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.RollingHash">[documentos]</a><span class="k">class</span> <span class="nc">RollingHash</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">sizeWord</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sizeWord</span> <span class="o">=</span> <span class="n">sizeWord</span>
+
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sizeWord</span><span class="p">):</span>
+			<span class="c1">#ord maps the character to a number</span>
+			<span class="c1">#subtract out the ASCII value of &quot;a&quot; to start the indexing at zero</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">26</span><span class="o">**</span><span class="p">(</span><span class="n">sizeWord</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+		<span class="c1">#start index of current window</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">window_start</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c1">#end of index window</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">window_end</span> <span class="o">=</span> <span class="n">sizeWord</span>
+
+<div class="viewcode-block" id="RollingHash.move_window"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.RollingHash.move_window">[documentos]</a>	<span class="k">def</span> <span class="nf">move_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_end</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="c1">#remove left letter from hash value</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">-=</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">window_start</span><span class="p">])</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">26</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeWord</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">*=</span> <span class="mi">26</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">+=</span> <span class="nb">ord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">window_end</span><span class="p">])</span><span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">window_start</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">window_end</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="RollingHash.window_text"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.RollingHash.window_text">[documentos]</a>	<span class="k">def</span> <span class="nf">window_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">window_start</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">window_end</span><span class="p">]</span></div></div>
+
+<div class="viewcode-block" id="rabin_karp"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.rabin_karp">[documentos]</a><span class="k">def</span> <span class="nf">rabin_karp</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">text</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">None</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+		<span class="k">return</span> <span class="kc">None</span>
+
+	<span class="n">rolling_hash</span> <span class="o">=</span> <span class="n">RollingHash</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+	<span class="n">word_hash</span> <span class="o">=</span> <span class="n">RollingHash</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+	<span class="c1">#word_hash.move_window()</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">rolling_hash</span><span class="o">.</span><span class="n">hash</span> <span class="o">==</span> <span class="n">word_hash</span><span class="o">.</span><span class="n">hash</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">rolling_hash</span><span class="o">.</span><span class="n">window_text</span><span class="p">()</span> <span class="o">==</span> <span class="n">word</span><span class="p">:</span>
+				<span class="k">return</span> <span class="n">i</span>
+		<span class="n">rolling_hash</span><span class="o">.</span><span class="n">move_window</span><span class="p">()</span>
+	<span class="k">return</span> <span class="kc">None</span></div>
+
+
 <div class="viewcode-block" id="ReportMatcher"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.ReportMatcher">[documentos]</a><span class="k">class</span> <span class="nc">ReportMatcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Matcher de reportes</span>
 
 <span class="sd">	Args:</span>
 <span class="sd">		configfile (string): Path absoluto al archivo de configuración de la clase</span>
+<span class="sd">		configbuffer (string): Buffer con la configuración YAML de la clase.</span>
+<span class="sd">		Este parámatro tiene prioridad en caso de ingresar tambioen</span>
+<span class="sd">		_configfile_</span>
 
 <span class="sd">	Example:</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.ReportMatcher import ReportMatcher</span>
@@ -122,7 +193,7 @@
 <span class="sd">	* orden de matching</span>
 <span class="sd">	* multiples matches x reporte</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configfile</span><span class="o">=</span><span class="s2">&quot;openerm.cfg&quot;</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configfile</span><span class="o">=</span><span class="s2">&quot;openerm.cfg&quot;</span><span class="p">,</span> <span class="n">configbuffer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span> <span class="o">=</span> <span class="p">{}</span>
@@ -130,26 +201,28 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
 
-		<span class="k">if</span> <span class="n">configfile</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">configbuffer</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">configbuffer</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">))</span>
+		<span class="k">elif</span> <span class="n">configfile</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">configfile</span>	<span class="o">=</span> <span class="n">configfile</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__load_config</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">__load_config_file</span><span class="p">()</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_match</span>	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_report</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_match</span>	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_none</span>
 
-	<span class="k">def</span> <span class="nf">__load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Reports&quot;</span><span class="p">,</span> <span class="p">{})</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">rpt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">matches</span> <span class="o">=</span> <span class="n">rpt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;match&quot;</span><span class="p">,</span> <span class="p">{})</span>
+			<span class="k">for</span> <span class="n">match</span><span class="p">,</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">matches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">box</span><span class="p">))</span>
+
+	<span class="k">def</span> <span class="nf">__load_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
 		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configfile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
 			<span class="k">try</span><span class="p">:</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 			<span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
 				<span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-
-		<span class="bp">self</span><span class="o">.</span><span class="n">reports</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Reports&quot;</span><span class="p">,</span> <span class="p">{})</span>
-		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">rpt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-			<span class="k">for</span> <span class="n">matches</span> <span class="ow">in</span> <span class="n">rpt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;match&quot;</span><span class="p">,</span> <span class="p">[]):</span>
-				<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-					<span class="bp">self</span><span class="o">.</span><span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">match</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="ReportMatcher.match"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.ReportMatcher.match">[documentos]</a>	<span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
@@ -178,29 +251,76 @@
 <span class="sd">			&gt;&gt;&gt; r = ReportMatcher(&quot;../var/reports.yaml&quot;)</span>
 <span class="sd">			&gt;&gt;&gt; print(r.match(&quot;R8101611&quot;))</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match</span><span class="p">(</span><span class="n">page</span><span class="p">)</span></div>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_report</span><span class="p">(</span><span class="n">page</span><span class="p">)</span></div>
 
-	<span class="k">def</span> <span class="nf">_match_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">_match_none</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
 		<span class="k">return</span> <span class="p">(</span><span class="s2">&quot;Sin Identificar&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">)</span>
 
 	<span class="k">def</span> <span class="nf">_match_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
 
-		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">match</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches</span><span class="p">:</span>
-			<span class="k">if</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">page</span><span class="p">:</span>
-				<span class="n">d</span> <span class="o">=</span> <span class="p">(</span>	<span class="n">k</span><span class="p">,</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;application&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;department&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">reporte</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">box</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches</span><span class="p">:</span>
+
+			<span class="k">if</span> <span class="n">box</span><span class="p">:</span>
+				<span class="n">slice_line</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+				<span class="n">from_row</span><span class="p">,</span> <span class="n">from_col</span><span class="p">,</span> <span class="n">to_row</span><span class="p">,</span> <span class="n">to_col</span> <span class="o">=</span> <span class="n">box</span>
+
+				<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">from_row</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">to_row</span> <span class="p">]:</span>
+					<span class="n">slice_line</span> <span class="o">+=</span> <span class="n">l</span><span class="p">[</span><span class="n">from_col</span><span class="p">:</span><span class="n">to_col</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+
+				<span class="n">text</span> <span class="o">=</span> <span class="n">slice_line</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">text</span> <span class="o">=</span> <span class="n">page</span>
+
+			<span class="c1"># pos = rabin_karp(match, text)</span>
+			<span class="c1"># if pos &gt;= 0:</span>
+			<span class="k">if</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+				<span class="n">d</span> <span class="o">=</span> <span class="p">(</span>	<span class="n">reporte</span><span class="p">,</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">reporte</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">reporte</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;application&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">reporte</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;department&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">),</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">[</span><span class="n">reporte</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
 					<span class="p">)</span>
 				<span class="k">return</span> <span class="n">d</span>
 
 		<span class="k">return</span> <span class="p">(</span><span class="s2">&quot;Sin Identificar&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="s2">&quot;n/a&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../openerm.ReportMatcher.html#openerm.ReportMatcher.test">[documentos]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+	<span class="n">conf</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">	Reports:</span>
+<span class="s2">		L80010 - CLIENTES - PERSONA JURIDICA:</span>
+<span class="s2">			match:</span>
+<span class="s2">				L80010: [1, 1, 2, 10]</span>
+<span class="s2">				L80011:</span>
+<span class="s2">			system: &quot;Sistema&quot;</span>
+<span class="s2">			application: &quot;Aplicacion&quot;</span>
+<span class="s2">			department: &quot;Departamento&quot;</span>
+<span class="s2">	&quot;&quot;&quot;</span>
+	<span class="n">test_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non lectus scelerisque, accumsan turpis at, malesuada</span>
+<span class="s2">	L80010, turpis. Quisque in orci consectetur, L80010 hendrerit risus in, laoreet tortor. Ut tempor, diam in iaculis ullamcorper, libero</span>
+<span class="s2">	orci consequat tortor, non lacinia lorem ipsum id nisi. Duis condimentum, lacus nec lobortis tristique, sapien massa</span>
+<span class="s2">	accumsan nisl, non finibus massa metus eu risus. Vestibulum placerat augue orci, et mattis neque fermentum suscipit.</span>
+<span class="s2">	Fusce a sem tincidunt, vehicula tellus sed, pretium massa. Fusce ante diam, vestibulum eu nulla eu, pulvinar aliquet</span>
+<span class="s2">	felis. Praesent tristique ligula eget leo sollicitudin, a dapibus mauris cursus. Praesent maximus nibh ut venenatis</span>
+<span class="s2">	blandit.</span>
+
+<span class="s2">	Suspendisse potenti. Phasellus interdum massa sed eros auctor ornare. Morbi eget eros aliquam, aliquam tortor nec,</span>
+<span class="s2">	interdum augue. Sed auctor ex vel libero rhoncus, sed malesuada diam sodales. Vestibulum sollicitudin ac nisi non viverra.</span>
+<span class="s2">	Duis pharetra massa nec nisi varius facilisis. Quisque sed scelerisque metus. Ut auctor condimentum libero sit amet</span>
+<span class="s2">	dapibus. Vestibulum sed sem lobortis, vulputate nunc sed, ultricies felis. Phasellus dictum porta libero eu pellentesque.</span>
+<span class="s2">	Sed placerat et lorem vitae ultrices. In semper nec velit et ultricies.</span>
+<span class="s2">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># r = ReportMatcher(&quot;../var/reports.yaml&quot;)</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="n">ReportMatcher</span><span class="p">(</span><span class="n">configbuffer</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">test_text</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span></div>
+
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-	<span class="n">r</span> <span class="o">=</span> <span class="n">ReportMatcher</span><span class="p">(</span><span class="s2">&quot;../var/reports.yaml&quot;</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;R8101611&quot;</span><span class="p">))</span>
+	<span class="c1"># import timeit</span>
+	<span class="c1"># setup = &quot;from __main__ import test&quot;</span>
+	<span class="c1"># print(timeit.timeit(&quot;test()&quot;, setup=setup, number=1000))</span>
+	<span class="n">test</span><span class="p">()</span>
 </pre></div>
 
           </div>
@@ -223,7 +343,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

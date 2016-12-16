@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,7 +27,6 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="#" />
     <link rel="next" title="Requisitos iniciales" href="desarrollo.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
   </head>
@@ -52,6 +52,7 @@
   <ul>
 <li><a class="reference internal" href="#">Openerm</a><ul>
 <li><a class="reference internal" href="#un-poco-de-historia">Un poco de historia</a></li>
+<li><a class="reference internal" href="#estatus-del-proyecto-a-diciembre-del-2016">Estatus del proyecto a diciembre del 2016</a></li>
 <li><a class="reference internal" href="#estructura-de-un-database-openerm">Estructura de un database OpenErm</a></li>
 <li><a class="reference internal" href="#desarrollo">Desarrollo</a></li>
 <li><a class="reference internal" href="#openerm-api">Openerm - API</a></li>
@@ -67,7 +68,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/index.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -122,6 +123,51 @@ de a poco, sin embargo sigue existiendo un &#8220;nicho&#8221; importante para e
 tipo de herramientas: aún hoy existen empresas que apoyan la gestión
 de su negocio en grande computadores o &#8220;Mainframes&#8221; y siguen generando
 enormes cantidades de listados.</p>
+</div>
+<div class="section" id="estatus-del-proyecto-a-diciembre-del-2016">
+<h2>Estatus del proyecto a diciembre del 2016<a class="headerlink" href="#estatus-del-proyecto-a-diciembre-del-2016" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Esta es la situación actual del proyecto.</p>
+<blockquote>
+<div><p>Definiciones:</p>
+<ul class="simple">
+<li>Estructura fisica dónde salvar los reportes</li>
+</ul>
+<p>Funcionalidad:</p>
+<ul class="simple">
+<li>Varios algoritmos de compresión, ver: <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
+<li>Cifrado (Spritz y Fernet), ver: <a class="reference internal" href="openerm.Cipher.html#module-openerm.Cipher" title="openerm.Cipher"><code class="xref py py-class docutils literal"><span class="pre">openerm.Cipher</span></code></a></li>
+<li>Se implementó una clase para el guardado y recuperación de los reportes y sus páginas, ver: <a class="reference internal" href="openerm.Database.html#module-openerm.Database" title="openerm.Database"><code class="xref py py-class docutils literal"><span class="pre">openerm.Database</span></code></a></li>
+</ul>
+<p>Herramientas:</p>
+<ul class="simple">
+<li>Spl2oerm - Procesador básico de spooles:<ul>
+<li>Procesamiento de spooles ASCII/EBCDIC de registro de longitud fija, ver: <a class="reference internal" href="openerm.SpoolFixedRecordLength.html#module-openerm.SpoolFixedRecordLength" title="openerm.SpoolFixedRecordLength"><code class="xref py py-class docutils literal"><span class="pre">openerm.SpoolFixedRecordLength</span></code></a></li>
+<li>Procesamiento de spooles ASCII/EBCDIC de registro de longitud variable con info de canal, ver: <a class="reference internal" href="openerm.SpoolHostReprint.html#module-openerm.SpoolHostReprint" title="openerm.SpoolHostReprint"><code class="xref py py-class docutils literal"><span class="pre">openerm.SpoolHostReprint</span></code></a></li>
+<li>Identificación de páginas, por texto de salto de página o info de canal</li>
+<li>Identificación simple de reportes por texto encontrado en página</li>
+<li>Configuración completa del proceso definido en archivo de configuración yaml</li>
+<li>Salvado de los reportes en el Database final</li>
+</ul>
+</li>
+<li>readoermdb - Lectura de un database OERM:<ul>
+<li>Lectura de un Database</li>
+<li>Recuperación de reportes</li>
+<li>Lectura de cualquier reporte</li>
+<li>Extracción de páginas</li>
+</ul>
+</li>
+</ul>
+<p>To do:</p>
+<ul class="simple">
+<li>Mejorar la identificación de reportes</li>
+<li>Mas opciones, multiples textos a ubicar</li>
+<li>Configurar ventanas de búsquedas (cabeceras/footers)</li>
+<li>Optimizar identificación mediante algún algoritmo mejorado</li>
+<li>Paralelizar el proceso del spool, separando la lectura de páginas de la identificación de archivos y el salvado final</li>
+<li>Captura de datos (fecha, sistema, aplicación, etc) desde el mismo reporte</li>
+<li>Definir mejor los datos adicionales de los reportes. Hoy el único dato real que identifica un reporte el el nombre del mismo</li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="estructura-de-un-database-openerm">
 <h2>Estructura de un database OpenErm<a class="headerlink" href="#estructura-de-un-database-openerm" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -266,7 +312,7 @@ Estructura de cualquier Bloque
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

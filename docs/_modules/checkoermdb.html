@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../index.html" />
-    <link rel="up" title="Código de módulo" href="index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -121,7 +120,6 @@
 	<span class="n">gettext</span><span class="o">.</span><span class="n">gettext</span> <span class="o">=</span> <span class="n">my_gettext</span>
 
 	<span class="kn">import</span> <span class="nn">argparse</span>
-	<span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">RawTextHelpFormatter</span>
 
 	<span class="kn">import</span> <span class="nn">sys</span>
 	<span class="kn">import</span> <span class="nn">time</span>
@@ -132,11 +130,10 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
 
-
-	<span class="kn">from</span> <span class="nn">openerm.tabulate</span> <span class="k">import</span> <span class="o">*</span>
+	<span class="kn">from</span> <span class="nn">openerm.tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
 	<span class="kn">from</span> <span class="nn">openerm.Block</span> <span class="k">import</span> <span class="n">Block</span>
 	<span class="kn">from</span> <span class="nn">openerm.PageContainer</span> <span class="k">import</span> <span class="n">PageContainer</span>
-	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="o">*</span>
+	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="n">file_accessible</span>
 
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
 	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -164,7 +161,7 @@
 
 			<span class="n">struct_unpack</span>	<span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="n">struct_fmt</span><span class="p">)</span><span class="o">.</span><span class="n">unpack_from</span>
 			<span class="n">magic_number</span>	<span class="o">=</span> <span class="n">struct_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-			<span class="n">version</span>			<span class="o">=</span> <span class="n">struct_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+			<span class="c1"># version			= struct_unpack(data)[1]</span>
 
 			<span class="k">if</span> <span class="n">magic_number</span> <span class="o">!=</span> <span class="s2">&quot;oerm&quot;</span><span class="p">:</span>
 				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> no es un archivo oerm válido!&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
@@ -223,10 +220,9 @@
 	<span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
 		<span class="n">args</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
 
-
 	<span class="n">test_file</span>		<span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">inputfile</span>
 
-	<span class="k">if</span> <span class="ow">not</span> <span class="n">Utils</span><span class="o">.</span><span class="n">file_accessible</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">):</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">file_accessible</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">):</span>
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: El archivo </span><span class="si">{0}</span><span class="s2"> no se ha encontrado o no es accesible para lectura&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_file</span><span class="p">))</span>
 		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
@@ -246,12 +242,8 @@
 
 				<span class="n">longitud_bloque</span><span class="p">,</span> <span class="n">tipo_bloque</span><span class="p">,</span> <span class="n">tipo_compresion</span><span class="p">,</span> <span class="n">tipo_encriptacion</span><span class="p">,</span> <span class="n">longitud_datos</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">variable_data</span> <span class="o">=</span> <span class="n">bloque</span>
 				<span class="n">resultados</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">longitud_bloque</span><span class="p">,</span> <span class="n">tipo_bloque</span><span class="p">,</span> <span class="n">tipo_compresion</span><span class="p">,</span> <span class="n">tipo_encriptacion</span><span class="p">,</span> <span class="n">longitud_datos</span><span class="p">])</span>
-				<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">				else:</span>
-<span class="sd">					k = &quot;{0} comprimido con {1}&quot;.format(b.block_types[tipo_bloque], b.compression_proc_function[tipo_compresion][2])</span>
-<span class="sd">				&quot;&quot;&quot;</span>
 				<span class="k">if</span> <span class="n">tipo_bloque</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-					<span class="n">pg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_data</span><span class="p">)</span>
+					<span class="n">pg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 					<span class="n">paginas</span> <span class="o">+=</span> <span class="n">pg</span><span class="o">.</span><span class="n">max_page_count</span>
 					<span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">. </span><span class="si">{1}</span><span class="s2"> comprimido con </span><span class="si">{2}</span><span class="s2"> (páginas: </span><span class="si">{3}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tipo_bloque</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">block_types</span><span class="p">[</span><span class="n">tipo_bloque</span><span class="p">],</span> <span class="n">b</span><span class="o">.</span><span class="n">compressor</span><span class="o">.</span><span class="n">available_types</span><span class="p">[</span><span class="n">tipo_compresion</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">pg</span><span class="o">.</span><span class="n">max_page_count</span><span class="p">)</span>
 				<span class="k">else</span><span class="p">:</span>
@@ -304,7 +296,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -93,13 +92,8 @@
 
 	<span class="kn">import</span> <span class="nn">sys</span>
 	<span class="kn">import</span> <span class="nn">base64</span>
-	<span class="c1"># import os</span>
-	<span class="c1"># import struct</span>
-	<span class="c1"># import hashlib</span>
 
 	<span class="kn">from</span> <span class="nn">openerm.Spritz</span> <span class="k">import</span> <span class="n">Spritz</span>
-	<span class="c1"># from openerm.simple_rsa	import *</span>
-	<span class="c1"># from cryptography.fernet import Fernet, MultiFernet</span>
 	<span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="k">import</span> <span class="n">Fernet</span>
 	<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
 	<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>
@@ -120,7 +114,7 @@
 <span class="sd">	y descifrar.</span>
 
 <span class="sd">	Args:</span>
-<span class="sd">		type (int): Opcional, Tipo de cifrado por defecto (default=0-Ninguno)</span>
+<span class="sd">		cipher_type (int): Opcional, Tipo de cifrado por defecto (default=0-Ninguno)</span>
 
 <span class="sd">	Example:</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.Cipher import Cipher</span>
@@ -129,7 +123,7 @@
 <span class="sd">		&gt;&gt;&gt; print(tmp)</span>
 <span class="sd">		b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cipher_type</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span> <span class="o">=</span> <span class="p">{</span>
 						<span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_init_none</span><span class="p">,</span> 	<span class="bp">self</span><span class="o">.</span><span class="n">_encode_decode_none</span><span class="p">,</span>			<span class="bp">self</span><span class="o">.</span><span class="n">_encode_decode_none</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sin encriptación&quot;</span><span class="p">)),</span>
@@ -137,7 +131,7 @@
 						<span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_init_fernet</span><span class="p">,</span>	<span class="bp">self</span><span class="o">.</span><span class="n">_encode_fernet</span><span class="p">,</span>				<span class="bp">self</span><span class="o">.</span><span class="n">_decode_fernet</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Fernet&quot;</span><span class="p">))</span>
 					<span class="p">}</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">_type</span>		<span class="o">=</span> <span class="nb">type</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_type</span>		<span class="o">=</span> <span class="n">cipher_type</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_fernet</span>	<span class="o">=</span> <span class="kc">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">key</span>		<span class="o">=</span> <span class="kc">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">spritz</span>		<span class="o">=</span> <span class="kc">None</span>
@@ -155,12 +149,11 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">password</span>	<span class="o">=</span> <span class="n">b</span><span class="s2">&quot;password&quot;</span>
 		<span class="c1"># salt = os.urandom(16)</span>
 		<span class="n">salt</span> <span class="o">=</span> <span class="n">b</span><span class="s1">&#39;</span><span class="se">\xb8\x81</span><span class="s1">)</span><span class="se">\x13\xd3\xfc\x8c\x97\xe1\xc1</span><span class="s1">[</span><span class="se">\xd5\xed\x18\x93</span><span class="s1">!&#39;</span>
-		<span class="n">kdf</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span>	<span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">(),</span>
-							<span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-							<span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span>
-							<span class="n">iterations</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-							<span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">()</span>
-						<span class="p">)</span>
+		<span class="n">kdf</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">(),</span>
+						<span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+						<span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span>
+						<span class="n">iterations</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+						<span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">())</span>
 		<span class="n">key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">kdf</span><span class="o">.</span><span class="n">derive</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">))</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_fernet</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -171,7 +164,7 @@
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span>
 
 	<span class="nd">@type</span><span class="o">.</span><span class="n">setter</span>
-	<span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cipher_type</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Tipo de cifrado a utilizar.</span>
 
 <span class="sd">		Example:</span>
@@ -180,11 +173,11 @@
 <span class="sd">			&gt;&gt;&gt; print(c.type)</span>
 <span class="sd">			1</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">if</span> <span class="nb">type</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">:</span>
-			<span class="k">if</span> <span class="nb">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+		<span class="k">if</span> <span class="n">cipher_type</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">cipher_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="mi">0</span>
 			<span class="k">else</span><span class="p">:</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">cipher_type</span>
 
 			<span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">][</span><span class="mi">0</span><span class="p">]()</span>
 
@@ -203,16 +196,16 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Cipher.type_info"><a class="viewcode-back" href="../../openerm.Cipher.html#openerm.Cipher.Cipher.type_info">[documentos]</a>	<span class="k">def</span> <span class="nf">type_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+<div class="viewcode-block" id="Cipher.type_info"><a class="viewcode-back" href="../../openerm.Cipher.html#openerm.Cipher.Cipher.type_info">[documentos]</a>	<span class="k">def</span> <span class="nf">type_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cipher_type</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Retorna la información de un determinado algoritmo de cifrado disponible.</span>
 
 <span class="sd">		Returns:</span>
 <span class="sd">		(tupla).</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">if</span> <span class="nb">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-			<span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Algoritmo no disponible&quot;</span><span class="p">))</span>
+		<span class="k">if</span> <span class="n">cipher_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+			<span class="k">return</span> <span class="p">(</span><span class="n">cipher_type</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Algoritmo no disponible&quot;</span><span class="p">))</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span></div>
+			<span class="k">return</span> <span class="p">(</span><span class="n">cipher_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">[</span><span class="n">cipher_type</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Cipher.encode"><a class="viewcode-back" href="../../openerm.Cipher.html#openerm.Cipher.Cipher.encode">[documentos]</a>	<span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Cifra conjunto de bytes</span>
@@ -252,7 +245,8 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cipher_proc_function</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">][</span><span class="mi">2</span><span class="p">](</span><span class="n">data</span><span class="p">)</span></div>
 
-	<span class="k">def</span> <span class="nf">_encode_decode_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">_encode_decode_none</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 		<span class="k">return</span> <span class="n">data</span>
 
 	<span class="k">def</span> <span class="nf">_encode_fernet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear</span><span class="p">):</span>
@@ -266,13 +260,7 @@
 		<span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spritz</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)),</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">clear</span><span class="p">)))</span>
 
 	<span class="k">def</span> <span class="nf">_decode_spritz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enc</span><span class="p">):</span>
-		<span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spritz</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)),</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">enc</span><span class="p">)))</span>
-
-	<span class="k">def</span> <span class="nf">_encode_rsa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">clear</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubkey</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-
-	<span class="k">def</span> <span class="nf">_decode_rsa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enc</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+		<span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spritz</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)),</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">enc</span><span class="p">)))</span></div>
 </pre></div>
 
           </div>
@@ -295,7 +283,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

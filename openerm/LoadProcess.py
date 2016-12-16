@@ -61,16 +61,17 @@ class LoadProcess(object):
 
 		self.config = LoadConfig(configfile)
 		self.input_file = input_file
-		self.spool_types = { 	"fixed": SpoolFixedRecordLength(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
-			   					"fcfc":	SpoolHostReprint(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
-		}
 
 	def process_file(self, input_file):
 
 		block					= Block(default_compress_level=self.config.compress_level)
 		resultados				= []
-		size_test_file			= os.path.getsize(self.input_file)
 		self.input_file			= input_file
+		size_test_file			= os.path.getsize(self.input_file)
+
+		self.spool_types = { 	"fixed": SpoolFixedRecordLength(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
+					  "fcfc":	SpoolHostReprint(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
+					  }
 
 		compresiones = [e for e in block.compressor.available_types if e[0] == self.config.compress_type]
 		encriptados = [e for e in block.cipher.available_types if e[0] == self.config.cipher_type]
@@ -99,19 +100,22 @@ class LoadProcess(object):
 				reportname_anterior = ""
 
 				widgets = [ os.path.basename(self.input_file), ': ',
-							FormatLabel('%(value)d bytes de %(max_value)d (%(percentage)0.2f) '),
+							FormatLabel('%(value)d bytes de %(max_value)d (%(percentage)0.2f)'),
 			   				Bar(marker='#',left='[',right=']'), ' ',
 			   				ETA(), ' ',
 			   				FileTransferSpeed()] #see docs for other options
 
 				print(_("Procesando archivos...\n"))
+				p_size = 0
 				with ProgressBar(max_value=size_test_file, widgets=widgets) as bar:
 					spool = self.spool_types[self.config.file_type]
 					with spool as s:
 						for page in s:
-							bar.update(len(page))
+							p_size += len(page)
+							bar.update(p_size)
 							data = r.match(page)
 							reportname = data[0]
+							# print(reportname)
 							if reportname != reportname_anterior:
 								rpt_id = db.get_report(reportname)
 								if rpt_id:

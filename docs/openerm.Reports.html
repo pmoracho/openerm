@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
-    <link rel="up" title="Openerm - API" href="openerm.html" />
     <link rel="next" title="spl2oerm" href="spl2oerm.html" />
     <link rel="prev" title="Report" href="openerm.Report.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -63,7 +62,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.Reports.txt"
+      <li><a href="_sources/openerm.Reports.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -105,7 +104,7 @@ un Database OERM.</p>
 <dl class="class">
 <dt id="openerm.Reports.Reports">
 <em class="property">class </em><code class="descclassname">openerm.Reports.</code><code class="descname">Reports</code><span class="sig-paren">(</span><em>database</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Clase base para manejar una colección de reportes correspondientes a
 un Database OERM.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -179,7 +178,7 @@ un Database OERM.</p>
 
 <dl class="method">
 <dt id="openerm.Reports.Reports.get_report">
-<code class="descname">get_report</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.get_report"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.get_report" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descname">get_report</code><span class="sig-paren">(</span><em>rptid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.get_report"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.get_report" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Retorna un objeto de la clase <a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal"><span class="pre">openerm.Report</span></code></a> según el <strong>id</strong> del mismo</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -243,7 +242,7 @@ un Database OERM.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

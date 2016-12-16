@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -155,7 +154,6 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 
-
 <div class="viewcode-block" id="Compressor"><a class="viewcode-back" href="../../openerm.Compressor.html#openerm.Compressor.Compressor">[documentos]</a><span class="k">class</span> <span class="nc">Compressor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Clase base para el manejo de compresión/descompresión de &quot;bytes&quot;.</span>
@@ -165,17 +163,17 @@
 <span class="sd">	y descomprimir.</span>
 
 <span class="sd">	Args:</span>
-<span class="sd">		type  (int): Tipo de compresión</span>
+<span class="sd">		compress_type  (int): Tipo de compresión</span>
 <span class="sd">		level (int): Nivel de compresión 0=mínimo, 1=normal, 2=máximo</span>
 
 <span class="sd">	Example:</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.Compressor import Compressor</span>
-<span class="sd">		&gt;&gt;&gt; c = Compressor(type=1, level=1)</span>
+<span class="sd">		&gt;&gt;&gt; c = Compressor(compress_type=1, level=1)</span>
 <span class="sd">		&gt;&gt;&gt; tmp = c.compress(b&quot;Esta es una prueba&quot;)</span>
 <span class="sd">		&gt;&gt;&gt; print(tmp)</span>
 <span class="sd">		b&#39;x^s-.ITH-V(\xcdKT((*MMJ\x04\x00&lt;}\x06\x89&#39;</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compress_type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">_levels</span> <span class="o">=</span> <span class="p">{</span>
 				<span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
@@ -191,22 +189,22 @@
 				<span class="mi">10</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span>
 		<span class="p">}</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">_compression_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="n">level</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_compression_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="n">compress_type</span><span class="p">][</span><span class="n">level</span><span class="p">]</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span> <span class="o">=</span> <span class="p">{</span>
-						<span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plain_data_compress</span><span class="p">,</span>			<span class="bp">self</span><span class="o">.</span><span class="n">_plain_data_decompress</span><span class="p">,</span>	<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sin compression&quot;</span><span class="p">)),</span>
-						<span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zlib_compress</span><span class="p">,</span>				<span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;GZIP level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bz2_compress</span><span class="p">,</span>					<span class="n">bz2</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;BZIP level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lzma_compress</span><span class="p">,</span>				<span class="n">lzma</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;LZMA preset=</span><span class="si">{0}</span><span class="s2"> (0-9) &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lz4_compress</span><span class="p">,</span>					<span class="n">lz4</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;LZ4 nivel estándar&quot;</span><span class="p">)),</span>
-						<span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pylzma_compress</span><span class="p">,</span>				<span class="n">pylzma</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;pyLZMA quality=</span><span class="si">{0}</span><span class="s2"> (0-2)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_blosc_compress</span><span class="p">,</span>				<span class="n">blosc</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;BLOSC blosclz clevel=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">7</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snappy_compress</span><span class="p">,</span>				<span class="n">snappy</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Snappy&quot;</span><span class="p">)),</span>
-						<span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lzo_compress</span><span class="p">,</span>					<span class="n">lzo</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Lzo level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">9</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_brotli_best_compress</span><span class="p">,</span>			<span class="n">brotli</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Brotli quality=</span><span class="si">{0}</span><span class="s2"> (1-11)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
-						<span class="mi">10</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zstd_compress</span><span class="p">,</span>				<span class="n">zstd</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>				<span class="n">_</span><span class="p">(</span><span class="s2">&quot;zstd level=</span><span class="si">{0}</span><span class="s2"> (1-22)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="n">level</span><span class="p">]))</span>
+						<span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plain_data_compress</span><span class="p">,</span>			<span class="bp">self</span><span class="o">.</span><span class="n">_plain_data_decompress</span><span class="p">,</span>		<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sin compression&quot;</span><span class="p">)),</span>
+						<span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zlib_compress</span><span class="p">,</span>				<span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;GZIP level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bz2_compress</span><span class="p">,</span>					<span class="n">bz2</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>						<span class="n">_</span><span class="p">(</span><span class="s2">&quot;BZIP level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lzma_compress</span><span class="p">,</span>				<span class="n">lzma</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;LZMA preset=</span><span class="si">{0}</span><span class="s2"> (0-9) &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lz4_compress</span><span class="p">,</span> 				<span class="n">lz4</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>						<span class="n">_</span><span class="p">(</span><span class="s2">&quot;LZ4 nivel estándar&quot;</span><span class="p">)),</span>
+						<span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pylzma_compress</span><span class="p">,</span>				<span class="n">pylzma</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;pyLZMA quality=</span><span class="si">{0}</span><span class="s2"> (0-2)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_blosc_compress</span><span class="p">,</span>				<span class="n">blosc</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;BLOSC blosclz clevel=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">7</span><span class="p">:</span> <span class="p">(</span><span class="n">snappy</span><span class="o">.</span><span class="n">compress</span><span class="p">,</span>					<span class="n">snappy</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Snappy&quot;</span><span class="p">)),</span>
+						<span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lzo_compress</span><span class="p">,</span>					<span class="n">lzo</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>						<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Lzo level=</span><span class="si">{0}</span><span class="s2"> (1-9)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">9</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_brotli_best_compress</span><span class="p">,</span>			<span class="n">brotli</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Brotli quality=</span><span class="si">{0}</span><span class="s2"> (1-11)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="n">level</span><span class="p">])),</span>
+						<span class="mi">10</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zstd_compress</span><span class="p">,</span>				<span class="n">zstd</span><span class="o">.</span><span class="n">decompress</span><span class="p">,</span>					<span class="n">_</span><span class="p">(</span><span class="s2">&quot;zstd level=</span><span class="si">{0}</span><span class="s2"> (1-22)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="n">level</span><span class="p">]))</span>
 					<span class="p">}</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span> <span class="o">=</span> <span class="nb">type</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span> <span class="o">=</span> <span class="n">compress_type</span>
 
 	<span class="nd">@property</span>
 	<span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -221,15 +219,15 @@
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span>
 
 	<span class="nd">@type</span><span class="o">.</span><span class="n">setter</span>
-	<span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compress_type</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		type. Configura el tipo de compresión a utilizar.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">if</span> <span class="nb">type</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span><span class="p">:</span>
-			<span class="k">if</span> <span class="nb">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+		<span class="k">if</span> <span class="n">compress_type</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">compress_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span> <span class="o">=</span> <span class="mi">1</span>
 			<span class="k">else</span><span class="p">:</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span> <span class="o">=</span> <span class="nb">type</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span> <span class="o">=</span> <span class="n">compress_type</span>
 
 	<span class="nd">@property</span>
 	<span class="k">def</span> <span class="nf">level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -290,12 +288,12 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Compressor.compression_type_info"><a class="viewcode-back" href="../../openerm.Compressor.html#openerm.Compressor.Compressor.compression_type_info">[documentos]</a>	<span class="k">def</span> <span class="nf">compression_type_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+<div class="viewcode-block" id="Compressor.compression_type_info"><a class="viewcode-back" href="../../openerm.Compressor.html#openerm.Compressor.Compressor.compression_type_info">[documentos]</a>	<span class="k">def</span> <span class="nf">compression_type_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compress_type</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Retorna la información de un determinado</span>
 <span class="sd">		algoritmo de compressión disponible.</span>
 
 <span class="sd">		Args:</span>
-<span class="sd">			type (int): Id del algoritmo de compresión</span>
+<span class="sd">			compress_type (int): Id del algoritmo de compresión</span>
 
 <span class="sd">		Returns:</span>
 <span class="sd">			string: Información del algoritmo de compresión</span>
@@ -307,7 +305,7 @@
 <span class="sd">			zstd level=3 (1-22)</span>
 
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span></div>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="p">[</span><span class="n">compress_type</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Compressor.compress"><a class="viewcode-back" href="../../openerm.Compressor.html#openerm.Compressor.Compressor.compress">[documentos]</a>	<span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Comprime un conjunto de bytes</span>
@@ -320,7 +318,7 @@
 
 <span class="sd">		Example:</span>
 <span class="sd">			&gt;&gt;&gt; from openerm.Compressor import Compressor</span>
-<span class="sd">			&gt;&gt;&gt; c = Compressor(type=1, level=1)</span>
+<span class="sd">			&gt;&gt;&gt; c = Compressor(compress_type=1, level=1)</span>
 <span class="sd">			&gt;&gt;&gt; tmp = c.compress(b&quot;Esta es una prueba&quot;)</span>
 <span class="sd">			&gt;&gt;&gt; print(tmp)</span>
 <span class="sd">			b&#39;x^s-.ITH-V(\xcdKT((*MMJ\x04\x00&lt;}\x06\x89&#39;</span>
@@ -338,7 +336,7 @@
 
 <span class="sd">		Example:</span>
 <span class="sd">			&gt;&gt;&gt; from openerm.Compressor import Compressor</span>
-<span class="sd">			&gt;&gt;&gt; c = Compressor(type=1, level=1)</span>
+<span class="sd">			&gt;&gt;&gt; c = Compressor(compress_type=1, level=1)</span>
 <span class="sd">			&gt;&gt;&gt; tmp = c.compress(b&quot;Esta es una prueba&quot;)</span>
 <span class="sd">			&gt;&gt;&gt; print(tmp)</span>
 <span class="sd">			b&#39;x^s-.ITH-V(\xcdKT((*MMJ\x04\x00&lt;}\x06\x89&#39;</span>
@@ -346,9 +344,6 @@
 <span class="sd">			b&#39;Esta es una prueba&#39;</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_proc_function</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__compression_type</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="n">data</span><span class="p">)</span></div>
-
-	<span class="k">def</span> <span class="nf">_snappy_compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-		<span class="k">return</span> <span class="n">snappy</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 	<span class="k">def</span> <span class="nf">_zlib_compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 		<span class="k">return</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression_level</span><span class="p">)</span>
@@ -384,13 +379,16 @@
 		<span class="c1"># return blosc.compress(data, typesize=8, cname=&#39;blosclz&#39;)</span>
 		<span class="k">return</span> <span class="n">blosc</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">typesize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">clevel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compression_level</span><span class="p">,</span> <span class="n">cname</span><span class="o">=</span><span class="s1">&#39;blosclz&#39;</span><span class="p">)</span>
 
-	<span class="k">def</span> <span class="nf">_plain_data_compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-			<span class="k">return</span> <span class="n">data</span>
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">_plain_data_compress</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">_plain_data_decompress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-			<span class="k">return</span> <span class="n">data</span>
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">_plain_data_decompress</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">_lz4_compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">_lz4_compress</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Compresión Lz4</span>
 <span class="sd">		Args:</span>
 <span class="sd">			source (str): Data to compress</span>
@@ -524,7 +522,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

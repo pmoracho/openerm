@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,9 +27,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
-    <link rel="up" title="Openerm - API" href="openerm.html" />
-    <link rel="next" title="MetadataContainer" href="openerm.MetadataContainer.html" />
+    <link rel="next" title="Config" href="openerm.Config.html" />
     <link rel="prev" title="ReportMatcher" href="openerm.ReportMatcher.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
   </head>
@@ -43,7 +42,7 @@
           <a href="py-modindex.html" title="Índice de Módulos Python"
              >módulos</a> |</li>
         <li class="right" >
-          <a href="openerm.MetadataContainer.html" title="MetadataContainer"
+          <a href="openerm.Config.html" title="Config"
              accesskey="N">siguiente</a> |</li>
         <li class="right" >
           <a href="openerm.ReportMatcher.html" title="ReportMatcher"
@@ -58,12 +57,12 @@
   <p class="topless"><a href="openerm.ReportMatcher.html"
                         title="capítulo anterior">ReportMatcher</a></p>
   <h4>Próximo tema</h4>
-  <p class="topless"><a href="openerm.MetadataContainer.html"
-                        title="próximo capítulo">MetadataContainer</a></p>
+  <p class="topless"><a href="openerm.Config.html"
+                        title="próximo capítulo">Config</a></p>
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.Utils.txt"
+      <li><a href="_sources/openerm.Utils.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -92,17 +91,17 @@ proyecto <strong>OpenErm</strong></p>
 <dl class="class">
 <dt id="openerm.Utils.AutoNum">
 <em class="property">class </em><code class="descclassname">openerm.Utils.</code><code class="descname">AutoNum</code><a class="reference internal" href="_modules/openerm/Utils.html#AutoNum"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Utils.AutoNum" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Clase autonumeradora de valores</p>
 <dl class="docutils">
 <dt>Ejemplo:</dt>
 <dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span> <span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Otra cosa&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Otra cosa&quot;</span><span class="p">)</span>
 <span class="go">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
 <span class="go">1</span>
 </pre></div>
 </div>
@@ -134,14 +133,14 @@ proyecto <strong>OpenErm</strong></p>
 <dl class="docutils">
 <dt>Ejemplo:</dt>
 <dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span> <span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Otra cosa&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Otra cosa&quot;</span><span class="p">)</span>
 <span class="go">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Prueba&quot;</span><span class="p">)</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_id</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 <span class="go">[(&#39;Otra cosa&#39;, 2), (&#39;Prueba&#39;, 1)]</span>
 </pre></div>
 </div>
@@ -267,15 +266,15 @@ proyecto <strong>OpenErm</strong></p>
 
 <dl class="function">
 <dt id="openerm.Utils.str_to_list">
-<code class="descclassname">openerm.Utils.</code><code class="descname">str_to_list</code><span class="sig-paren">(</span><em>str</em>, <em>max</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Utils.html#str_to_list"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Utils.str_to_list" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descclassname">openerm.Utils.</code><code class="descname">str_to_list</code><span class="sig-paren">(</span><em>str_value</em>, <em>maxvalue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Utils.html#str_to_list"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Utils.str_to_list" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Devuelve una lista de enteros a partir de un string</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
-<li><strong>str</strong> (<em>string</em>) &#8211; Cadena de números separados por , o -</li>
-<li><strong>max</strong> (<em>int</em>) &#8211; Máximo valor que puede tener la lista</li>
+<li><strong>str_value</strong> (<em>string</em>) &#8211; Cadena de números separados por , o -</li>
+<li><strong>maxvalue</strong> (<em>int</em>) &#8211; Máximo valor que puede tener la lista</li>
 </ul>
 </td>
 </tr>
@@ -312,7 +311,7 @@ proyecto <strong>OpenErm</strong></p>
           <a href="py-modindex.html" title="Índice de Módulos Python"
              >módulos</a> |</li>
         <li class="right" >
-          <a href="openerm.MetadataContainer.html" title="MetadataContainer"
+          <a href="openerm.Config.html" title="Config"
              >siguiente</a> |</li>
         <li class="right" >
           <a href="openerm.ReportMatcher.html" title="ReportMatcher"
@@ -323,7 +322,7 @@ proyecto <strong>OpenErm</strong></p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

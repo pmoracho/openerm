@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
-    <link rel="up" title="Openerm - API" href="openerm.html" />
     <link rel="next" title="MetadataContainer" href="openerm.MetadataContainer.html" />
     <link rel="prev" title="Utils" href="openerm.Utils.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -63,7 +62,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.Config.txt"
+      <li><a href="_sources/openerm.Config.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -92,8 +91,8 @@ de la carga de los archivos .cfg (formato yaml), realiza la validación de cada
 uno y devuelve un diccionario de datos para ser aprovechado luego.</p>
 <dl class="class">
 <dt id="openerm.Config.Config">
-<em class="property">class </em><code class="descclassname">openerm.Config.</code><code class="descname">Config</code><span class="sig-paren">(</span><em>configfile</em>, <em>schema</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Config.html#Config"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Config.Config" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">openerm.Config.</code><code class="descname">Config</code><span class="sig-paren">(</span><em>configfile</em>, <em>schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Config.html#Config"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Config.Config" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Clase base para el manejo de configuraciones &#8220;jerarquicas&#8221;.
 :param configfile: Nombre del archivo físico de configuración a cargar
 :type configfile: string
@@ -109,14 +108,14 @@ uno y devuelve un diccionario de datos para ser aprovechado luego.</p>
 <dl class="exception">
 <dt id="openerm.Config.ConfigLoadingException">
 <em class="property">exception </em><code class="descclassname">openerm.Config.</code><code class="descname">ConfigLoadingException</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Config.html#ConfigLoadingException"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Config.ConfigLoadingException" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>Excepciones especiales para los cargadores de configuraciones</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="openerm.Config.LoadConfig">
 <em class="property">class </em><code class="descclassname">openerm.Config.</code><code class="descname">LoadConfig</code><span class="sig-paren">(</span><em>configfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Config.html#LoadConfig"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Config.LoadConfig" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <a class="reference internal" href="#openerm.Config.Config" title="openerm.Config.Config"><code class="xref py py-class docutils literal"><span class="pre">openerm.Config.Config</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#openerm.Config.Config" title="openerm.Config.Config"><code class="xref py py-class docutils literal"><span class="pre">openerm.Config.Config</span></code></a></p>
 <p>Clase base para el manejo de la configuración del proceso de carga.</p>
 </dd></dl>
 
@@ -149,7 +148,7 @@ uno y devuelve un diccionario de datos para ser aprovechado luego.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

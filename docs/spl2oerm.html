@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,7 +27,6 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
     <link rel="next" title="catalogrepo" href="catalogrepo.html" />
     <link rel="prev" title="Reports" href="openerm.Reports.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -68,7 +68,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/spl2oerm.txt"
+      <li><a href="_sources/spl2oerm.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -147,8 +147,8 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
         <span class="c1">#</span>
         <span class="c1">#  Definición del archivo de input</span>
         <span class="c1">#</span>
-        <span class="n">file</span><span class="p">:</span>
-                <span class="n">encoding</span><span class="p">:</span> <span class="n">cp500</span>             <span class="c1"># Codificación del archivo de entrada</span>
+        <span class="n">inputfile</span><span class="p">:</span>
+                <span class="n">encoding</span><span class="p">:</span> <span class="n">cp500</span>             <span class="c1"># Codificación del archivo de entrada (cp500=EBCDIC)</span>
                 <span class="n">record</span><span class="o">-</span><span class="n">length</span><span class="p">:</span> <span class="mi">256</span>          <span class="c1"># Longitud del registro</span>
                 <span class="n">file</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="n">fixed</span>            <span class="c1"># Tipo de input fixed, fcfc</span>
                 <span class="n">buffer</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">102400</span>         <span class="c1"># Tamaño del buffer de lectura</span>
@@ -173,14 +173,12 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </div>
 <p>Detalle:</p>
 <blockquote>
-<div><ul>
-<li><p class="first">Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</p>
-</li>
-<li><p class="first">La primer sección <cite>load</cite> define completamente el proceso de carga</p>
-</li>
+<div><ul class="simple">
+<li>Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</li>
+<li>La primer sección <cite>load</cite> define completamente el proceso de carga</li>
 <li><dl class="first docutils">
 <dt>En <cite>file</cite> se configuran los parámetros para la interpretación básica del archivo</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><cite>encoding</cite> define la codificación del archivo, ver <a class="reference external" href="https://docs.python.org/3/library/codecs.html#standard-encodings">aqui</a> la lista de psoibles codecs</li>
 <li><cite>record-lenght</cite>, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</li>
 <li><cite>file-type</cite> tipo de archivo, actualmente hay dos implementaciones <cite>fixed</cite> y <cite>fcfc</cite></li>
@@ -191,7 +189,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </li>
 <li><dl class="first docutils">
 <dt>En <cite>process</cite> se configuran los parámetros inherentes al proceso lógico del spool</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><cite>EOP</cite> define el caracter o cadena que determina el cambio de página dentro del reporte.</li>
 <li><cite>report-cfg</cite> define el archivo de configuración de los reportes</li>
 </ul>
@@ -200,27 +198,18 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </li>
 <li><dl class="first docutils">
 <dt>En <cite>output</cite> se configuran los parámetros que definen el database físico a generar</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><cite>output-path</cite> define el archivo de configuración de los reportes</li>
 <li><cite>compress-type</cite> define el tipo de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
 <li><cite>compress-level</cite> define el nivel de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
+<li><cite>cipher-type</cite> define el cifrado de los archivos. Ver más documentación en <a class="reference internal" href="openerm.Cipher.html#module-openerm.Cipher" title="openerm.Cipher"><code class="xref py py-class docutils literal"><span class="pre">openerm.Cipher</span></code></a></li>
+<li><cite>pages-in-group</cite> define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en <code class="xref py py-class docutils literal"><span class="pre">openerm.Pagecontainer</span></code></li>
 </ul>
 </dd>
 </dl>
 </li>
 </ul>
 </div></blockquote>
-<dl class="class">
-<dt id="spl2oerm.LoadProcess">
-<em class="property">class </em><code class="descclassname">spl2oerm.</code><code class="descname">LoadProcess</code><span class="sig-paren">(</span><em>configfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#LoadProcess"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.LoadProcess" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="spl2oerm.LoadProcess.process_file">
-<code class="descname">process_file</code><span class="sig-paren">(</span><em>inputfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#LoadProcess.process_file"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.LoadProcess.process_file" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="function">
 <dt id="spl2oerm.Main">
 <code class="descclassname">spl2oerm.</code><code class="descname">Main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spl2oerm.html#Main"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#spl2oerm.Main" title="Enlazar permanentemente con esta definición">¶</a></dt>
@@ -266,7 +255,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -91,7 +90,6 @@
 
 <span class="sd">Este módulo contiene todo tipo de funciones de uso general para el</span>
 <span class="sd">proyecto **OpenErm**</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
@@ -160,7 +158,7 @@
 <span class="sd">		filepath (string):</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="k">try</span><span class="p">:</span>
-		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
 			<span class="k">pass</span>
 	<span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
 		<span class="k">return</span> <span class="kc">False</span>
@@ -168,12 +166,12 @@
 	<span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="str_to_list"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.str_to_list">[documentos]</a><span class="k">def</span> <span class="nf">str_to_list</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<div class="viewcode-block" id="str_to_list"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.str_to_list">[documentos]</a><span class="k">def</span> <span class="nf">str_to_list</span><span class="p">(</span><span class="n">str_value</span><span class="p">,</span> <span class="n">maxvalue</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Devuelve una lista de enteros a partir de un string</span>
 
 <span class="sd">	Args:</span>
-<span class="sd">		str (string): Cadena de números separados por , o -</span>
-<span class="sd">		max (int): Máximo valor que puede tener la lista</span>
+<span class="sd">		str_value (string): Cadena de números separados por , o -</span>
+<span class="sd">		maxvalue (int): Máximo valor que puede tener la lista</span>
 
 <span class="sd">	Ejemplo:</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.Utils import *</span>
@@ -191,16 +189,16 @@
 			<span class="k">return</span> <span class="mi">0</span>
 
 	<span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">if</span> <span class="nb">str</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">str_value</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">str_value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
 			<span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
 				<span class="n">rango</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
 				<span class="k">for</span> <span class="n">valor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">try_int</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">try_int</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-					<span class="k">if</span> <span class="n">valor</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">:</span>
+					<span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="n">maxvalue</span><span class="p">:</span>
 						<span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="n">valor</span> <span class="o">=</span> <span class="n">try_int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-				<span class="k">if</span> <span class="n">valor</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">:</span>
+				<span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="n">maxvalue</span><span class="p">:</span>
 					<span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
 
 	<span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span></div>
@@ -229,12 +227,12 @@
 
 <span class="sd">	Ejemplo:</span>
 <span class="sd">		&gt;&gt;&gt; from openerm.Utils import *</span>
-<span class="sd">		&gt;&gt;&gt; id = AutoNum()</span>
-<span class="sd">		&gt;&gt;&gt; id.get(&quot;Prueba&quot;)</span>
+<span class="sd">		&gt;&gt;&gt; my_id = AutoNum()</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
 <span class="sd">		1</span>
-<span class="sd">		&gt;&gt;&gt; id.get(&quot;Otra cosa&quot;)</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Otra cosa&quot;)</span>
 <span class="sd">		2</span>
-<span class="sd">		&gt;&gt;&gt; id.get(&quot;Prueba&quot;)</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
 <span class="sd">		1</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
@@ -251,7 +249,7 @@
 <span class="sd">		Return:</span>
 <span class="sd">			int: Número único del valor</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="kc">None</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> 	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastid</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">lastid</span>			<span class="o">+=</span> <span class="mi">1</span>
 
@@ -262,14 +260,14 @@
 
 <span class="sd">		Ejemplo:</span>
 <span class="sd">			&gt;&gt;&gt; from openerm.Utils import *</span>
-<span class="sd">			&gt;&gt;&gt; id = AutoNum()</span>
-<span class="sd">			&gt;&gt;&gt; id.get(&quot;Prueba&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; my_id = AutoNum()</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
 <span class="sd">			1</span>
-<span class="sd">			&gt;&gt;&gt; id.get(&quot;Otra cosa&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Otra cosa&quot;)</span>
 <span class="sd">			2</span>
-<span class="sd">			&gt;&gt;&gt; id.get(&quot;Prueba&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
 <span class="sd">			1</span>
-<span class="sd">			&gt;&gt;&gt; id.list()</span>
+<span class="sd">			&gt;&gt;&gt; my_id.list()</span>
 <span class="sd">			[(&#39;Otra cosa&#39;, 2), (&#39;Prueba&#39;, 1)]</span>
 
 <span class="sd">		Return:</span>
@@ -298,7 +296,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

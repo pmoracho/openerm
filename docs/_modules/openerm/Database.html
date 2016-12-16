@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
-    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -141,8 +140,6 @@
 <span class="sd">		&gt;&gt;&gt; dbin = Database(file = &quot;out/.sin_compression_sin_encriptacion.oerm&quot;)</span>
 <span class="sd">		&gt;&gt;&gt; # Apertura en modo escritura (NO append)</span>
 <span class="sd">		&gt;&gt;&gt; dbout = Database(file = &quot;out/.sin_compression_sin_encriptacion.oerm&quot;, mode=&quot;wb&quot;)</span>
-
-
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s2">&quot;prueba.oerm&quot;</span><span class="p">,</span>
 						<span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">,</span>
@@ -180,7 +177,6 @@
 
 	<span class="k">def</span> <span class="nf">_open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;wb&quot;</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_file</span>	<span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_write_magicnumber</span><span class="p">()</span>
@@ -203,6 +199,22 @@
 					<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> no es un archivo oerm válido!&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">))</span>
 
 				<span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Database.get_report"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.get_report">[documentos]</a>	<span class="k">def</span> <span class="nf">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Retorna el id de un Reporte</span>
+<span class="sd">		.. warning::</span>
+<span class="sd">			Documentación pendiente</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="n">reporte</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Database.set_report"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.set_report">[documentos]</a>	<span class="k">def</span> <span class="nf">set_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Establece el reporte actual</span>
+<span class="sd">		.. warning::</span>
+<span class="sd">			Documentación pendiente</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">current_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="n">reporte</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.add_report"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.add_report">[documentos]</a>	<span class="k">def</span> <span class="nf">add_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">sistema</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">aplicacion</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">departamento</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -238,7 +250,7 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">pcontainer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">page</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Database.find_text"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.find_text">[documentos]</a>	<span class="k">def</span> <span class="nf">find_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">reports</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="Database.find_text"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.find_text">[documentos]</a>	<span class="k">def</span> <span class="nf">find_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">reports</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Búsqueda de un texto dentro de uno o más reportes</span>
 
 <span class="sd">		Args:</span>
@@ -254,8 +266,9 @@
 <span class="sd">		Return:</span>
 <span class="sd">			Lista de reportes y páginas</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">reports</span> <span class="o">=</span> <span class="n">reports</span> <span class="ow">or</span> <span class="p">[]</span>
 		<span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Reports</span><span class="p">()</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">reports</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">reports</span><span class="p">]:</span>
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">()</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">reports</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">reports</span><span class="p">]:</span>
 
 			<span class="n">lista</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">find_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 			<span class="k">if</span> <span class="n">lista</span><span class="p">:</span>
@@ -309,9 +322,7 @@
 		<span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;[PageContainer]---&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 		<span class="k">return</span> <span class="n">s</span>
 
-		<span class="k">return</span> <span class="kc">None</span>
-
-<div class="viewcode-block" id="Database.Reports"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.Reports">[documentos]</a>	<span class="k">def</span> <span class="nf">Reports</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.reports"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.reports">[documentos]</a>	<span class="k">def</span> <span class="nf">reports</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Retorna la colección de Reportes del **Database**</span>
 
@@ -321,7 +332,7 @@
 <span class="sd">		Example:</span>
 <span class="sd">			&gt;&gt;&gt; from openerm.Database import Database</span>
 <span class="sd">			&gt;&gt;&gt; db = Database(file = &quot;out/.sin_compression_sin_encriptacion.oerm&quot;)</span>
-<span class="sd">			&gt;&gt;&gt; for report in db.Reports():</span>
+<span class="sd">			&gt;&gt;&gt; for report in db.reports():</span>
 <span class="sd">			...     print(report)</span>
 <span class="sd">			Report: Reporte 1</span>
 <span class="sd">			Report: Reporte 2</span>
@@ -353,7 +364,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

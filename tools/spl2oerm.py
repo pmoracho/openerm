@@ -78,7 +78,7 @@ Un ejemplo sencillo::
 		#  Definición del archivo de input
 		#
 		inputfile:
-			encoding: cp500             # Codificación del archivo de entrada
+			encoding: cp500             # Codificación del archivo de entrada (cp500=EBCDIC)
 			record-length: 256          # Longitud del registro
 			file-type: fixed            # Tipo de input fixed, fcfc
 			buffer-size: 102400         # Tamaño del buffer de lectura
@@ -116,6 +116,8 @@ Detalle:
 		* `output-path` define el archivo de configuración de los reportes
 		* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
 		* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
+		* `cipher-type` define el cifrado de los archivos. Ver más documentación en :class:`openerm.Cipher`
+		* `pages-in-group` define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en :class:`openerm.Pagecontainer`
 
 
 """

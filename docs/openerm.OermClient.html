@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
-    <link rel="up" title="Openerm - API" href="openerm.html" />
     <link rel="next" title="Database" href="openerm.Database.html" />
     <link rel="prev" title="Openerm - API" href="openerm.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -63,7 +62,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.OermClient.txt"
+      <li><a href="_sources/openerm.OermClient.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -101,7 +100,7 @@ lógicas de los reportes físicos</p>
 <dl class="class">
 <dt id="openerm.OermClient.OermClient">
 <em class="property">class </em><code class="descclassname">openerm.OermClient.</code><code class="descname">OermClient</code><span class="sig-paren">(</span><em>configfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Clase Cliente para acceso a reportes Oerm. Los reportes OERM
 se clasifican en: Catalogos y Repositorios. Un catalogo en
 realidad representa un conjunto lógico de repositorios, los
@@ -114,12 +113,6 @@ repositorios representan carpetas físicas.</p>
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="openerm.OermClient.OermClient.attributes">
-<code class="descname">attributes</code><span class="sig-paren">(</span><em>attribute</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.attributes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.attributes" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna la lista de atributos de los reportes del repositorio</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.catalogs">
 <code class="descname">catalogs</code><span class="sig-paren">(</span><em>enabled=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.catalogs"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.catalogs" title="Enlazar permanentemente con esta definición">¶</a></dt>
@@ -170,12 +163,6 @@ repositorios representan carpetas físicas.</p>
 <dt id="openerm.OermClient.OermClient.current_catalog">
 <code class="descname">current_catalog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.current_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.current_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="openerm.OermClient.OermClient.find_indexes">
-<code class="descname">find_indexes</code><span class="sig-paren">(</span><em>indexname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.find_indexes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.find_indexes" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna la lista de indices que coincidan por indexname</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.open_catalog">
@@ -315,12 +302,6 @@ se puede hacer búsquedas parciales tipo LIKE en sql</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="openerm.OermClient.OermClient.search_for_indexes">
-<code class="descname">search_for_indexes</code><span class="sig-paren">(</span><em>indexnames</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.search_for_indexes"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.search_for_indexes" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna la lista de indices que coincidan por indexname</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="openerm.OermClient.OermClient.systems">
 <code class="descname">systems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.systems"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.systems" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Retorna la lista completa de sistemas del repositorio activo</p>
@@ -376,7 +357,7 @@ se puede hacer búsquedas parciales tipo LIKE en sql</p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>
