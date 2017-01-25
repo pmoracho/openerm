@@ -83,7 +83,7 @@ load:
 					required: true
 					type: integer
 					anyof:
-						- {max: 10,  min: 1}
+						- {max: 100,  min: 1}
 		process:
 			type: dict
 			allow_unknown: true
