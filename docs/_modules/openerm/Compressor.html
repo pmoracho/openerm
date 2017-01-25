@@ -101,28 +101,25 @@
 <span class="sd">	* **level**: Nivel de compresión  0=mínimo/rápido, 1=normal/estándar,2=máximo/lento</span>
 
 
-<span class="sd">Tipos/Algoritmos de compresión</span>
-<span class="sd">==============================</span>
+<span class="sd">## Tipos/Algoritmos de compresión</span>
 
-<span class="sd">	==== ================================================</span>
-<span class="sd">	Tipo Detalle</span>
-<span class="sd">	==== ================================================</span>
-<span class="sd">	0    Sin compresión</span>
-<span class="sd">	1    **Gzip** es una abreviatura de GNU ZIP, un software libre GNU que reemplaza al programa compress de UNIX. gzip fue creado por Jean-loup Gailly y Mark Adler. Apareció el 31 de octubre de 1992 (versión 0.1). La versión 1.0 apareció en febrero de 1993. Gzip se basa en el algoritmo Deflate, que es una combinación del LZ77 y la codificación Huffman. Deflate se desarrolló como respuesta a las patentes que cubrieron LZW y otros algoritmos de compresión y limitaba el uso del compress.</span>
-<span class="sd">	2    **Bzip2** es un programa libre desarrollado bajo licencia BSD que comprime y descomprime ficheros usando los algoritmos de compresión de Burrows-Wheeler y de codificación de Huffman. El porcentaje de compresión alcanzado depende del contenido del fichero a comprimir, pero por lo general es bastante mejor al de los compresores basados en el algoritmo LZ77/LZ78 (gzip, compress, WinZip, pkzip,...). Como contrapartida, bzip2 emplea más memoria y más tiempo en su ejecución.</span>
-<span class="sd">	3    **LZMA** El Algoritmo de cadena de Lempel-Ziv-Markov o LZMA es un algoritmo de compresión de datos en desarrollo desde 1998. Se utiliza un esquema de compresión diccionario algo similar a LZ77, cuenta con una alta relación de compresión y una compresión de tamaño variable diccionario (de hasta 4 GB). Se utiliza en el formato 7z del archivador 7-Zip.</span>
-<span class="sd">	4    **LZ4** is lossless compression algorithm, providing compression speed at 400 MB/s per core (0.16 Bytes/cycle). It features an extremely fast decoder, with speed in multiple GB/s per core (0.71 Bytes/cycle). A high compression derivative, called LZ4_HC, is available, trading customizable CPU time for compression ratio. LZ4 library is provided as open source software using a BSD license.</span>
-<span class="sd">	5    **pyLZMA**, otra implementación de **LZMA**</span>
-<span class="sd">	6    **BLOSC** an extremely fast, multi-threaded, meta-compressor library</span>
-<span class="sd">	7    **Snappy** (previously known as Zippy) is a fast data compression and decompression library written in C++ by Google based on ideas from LZ77 and open-sourced in 2011. It does not aim for maximum compression, or compatibility with any other compression library; instead, it aims for very high speeds and reasonable compression</span>
-<span class="sd">	8    **Lzo** or Lempel–Ziv–Oberhumer is a lossless data compression algorithm that is focused on decompression speed</span>
-<span class="sd">	9    **Brotli** es una librería de compresión de datos de código abierto desarrollada por Jyrki Alakuijala y Zoltán Szabadka.1 2 Brotli está basado en una variante moderna del algoritmo LZ77, codificación Huffman y modelado de contexto de segundo orden.</span>
-<span class="sd">	10   **Zstandard**, or zstd as short version, is a fast lossless compression algorithm, targeting real-time compression scenarios at zlib-level and better compression ratios.</span>
-<span class="sd">	==== ================================================</span>
+<span class="sd">==== ================================================</span>
+<span class="sd">Tipo Detalle</span>
+<span class="sd">==== ================================================</span>
+<span class="sd">0    Sin compresión</span>
+<span class="sd">1    **Gzip** es una abreviatura de GNU ZIP, un software libre GNU que reemplaza al programa compress de UNIX. gzip fue creado por Jean-loup Gailly y Mark Adler. Apareció el 31 de octubre de 1992 (versión 0.1). La versión 1.0 apareció en febrero de 1993. Gzip se basa en el algoritmo Deflate, que es una combinación del LZ77 y la codificación Huffman. Deflate se desarrolló como respuesta a las patentes que cubrieron LZW y otros algoritmos de compresión y limitaba el uso del compress.</span>
+<span class="sd">2    **Bzip2** es un programa libre desarrollado bajo licencia BSD que comprime y descomprime ficheros usando los algoritmos de compresión de Burrows-Wheeler y de codificación de Huffman. El porcentaje de compresión alcanzado depende del contenido del fichero a comprimir, pero por lo general es bastante mejor al de los compresores basados en el algoritmo LZ77/LZ78 (gzip, compress, WinZip, pkzip,...). Como contrapartida, bzip2 emplea más memoria y más tiempo en su ejecución.</span>
+<span class="sd">3    **LZMA** El Algoritmo de cadena de Lempel-Ziv-Markov o LZMA es un algoritmo de compresión de datos en desarrollo desde 1998. Se utiliza un esquema de compresión diccionario algo similar a LZ77, cuenta con una alta relación de compresión y una compresión de tamaño variable diccionario (de hasta 4 GB). Se utiliza en el formato 7z del archivador 7-Zip.</span>
+<span class="sd">4    **LZ4** is lossless compression algorithm, providing compression speed at 400 MB/s per core (0.16 Bytes/cycle). It features an extremely fast decoder, with speed in multiple GB/s per core (0.71 Bytes/cycle). A high compression derivative, called LZ4_HC, is available, trading customizable CPU time for compression ratio. LZ4 library is provided as open source software using a BSD license.</span>
+<span class="sd">5    **pyLZMA**, otra implementación de **LZMA**</span>
+<span class="sd">6    **BLOSC** an extremely fast, multi-threaded, meta-compressor library</span>
+<span class="sd">7    **Snappy** (previously known as Zippy) is a fast data compression and decompression library written in C++ by Google based on ideas from LZ77 and open-sourced in 2011. It does not aim for maximum compression, or compatibility with any other compression library; instead, it aims for very high speeds and reasonable compression</span>
+<span class="sd">8    **Lzo** or Lempel–Ziv–Oberhumer is a lossless data compression algorithm that is focused on decompression speed</span>
+<span class="sd">9    **Brotli** es una librería de compresión de datos de código abierto desarrollada por Jyrki Alakuijala y Zoltán Szabadka.1 2 Brotli está basado en una variante moderna del algoritmo LZ77, codificación Huffman y modelado de contexto de segundo orden.</span>
+<span class="sd">10   **Zstandard**, or zstd as short version, is a fast lossless compression algorithm, targeting real-time compression scenarios at zlib-level and better compression ratios.</span>
+<span class="sd">==== ================================================</span>
 
 
-<span class="sd">Descripción de la clase</span>
-<span class="sd">=======================</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 

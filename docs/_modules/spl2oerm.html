@@ -102,88 +102,89 @@
 <span class="sd">Básicamente esta herramienta es un &quot;loader&quot; o &quot;cargador&quot; de los reportes a la</span>
 <span class="sd">base de datos de un sistema Oerm para su posterior uso y consulta.</span>
 
-<span class="sd">Ejecución</span>
-<span class="sd">=========</span>
+<span class="sd">	Ejecución</span>
+<span class="sd">	=========</span>
 
-<span class="sd">Una ejecución sin parámetros muestra esta ayuda::</span>
+<span class="sd">	Una ejecución sin parámetros muestra esta ayuda::</span>
 
-<span class="sd">	uso: spl2oerm [-h] [--config-file CONFIGFILE] inputfile</span>
+<span class="sd">		uso: spl2oerm [-h] [--config-file CONFIGFILE] inputfile</span>
 
-<span class="sd">	Procesador de archivo de spool a Oerm (c) 2016, Patricio Moracho</span>
-<span class="sd">	&lt;pmoracho@gmail.com&gt;</span>
+<span class="sd">		Procesador de archivo de spool a Oerm (c) 2016, Patricio Moracho</span>
+<span class="sd">		&lt;pmoracho@gmail.com&gt;</span>
 
-<span class="sd">	argumentos posicionales:</span>
-<span class="sd">	inputfile                                Archivo a procesar</span>
+<span class="sd">		argumentos posicionales:</span>
+<span class="sd">		inputfile                                Archivo a procesar</span>
 
-<span class="sd">	argumentos opcionales:</span>
-<span class="sd">	-h, --help                               mostrar esta ayuda y salir</span>
-<span class="sd">	--config-file CONFIGFILE, -f CONFIGFILE  Archivo de configuración del proceso.</span>
+<span class="sd">		argumentos opcionales:</span>
+<span class="sd">		-h, --help                               mostrar esta ayuda y salir</span>
+<span class="sd">		--config-file CONFIGFILE, -f CONFIGFILE  Archivo de configuración del proceso.</span>
 
-<span class="sd">Esto claramente nos dice, que para ejecutar esta herramienta solo requerimos</span>
-<span class="sd">dos parámetros:</span>
+<span class="sd">	Esto claramente nos dice, que para ejecutar esta herramienta solo requerimos</span>
+<span class="sd">	dos parámetros:</span>
 
-<span class="sd">	* El Archivo &quot;spool&quot; de entrada</span>
-<span class="sd">	* Un archivo de configuración del proceso que explicaremos a continuación</span>
+<span class="sd">		* El Archivo &quot;spool&quot; de entrada</span>
+<span class="sd">		* Un archivo de configuración del proceso que explicaremos a continuación</span>
 
 
-<span class="sd">Configuración del proceso</span>
-<span class="sd">=========================</span>
+<span class="sd">	Configuración del proceso</span>
+<span class="sd">	=========================</span>
 
-<span class="sd">El proceso en sí requiere una serie de datos para funcionar y llevar a cabo</span>
-<span class="sd">exitosamente la carga de los reportes. Esta configuración se define en una</span>
-<span class="sd">archivo de texto escrito en formato `yaml &lt;http://yaml.org/&gt;`_</span>
+<span class="sd">	El proceso en sí requiere una serie de datos para funcionar y llevar a cabo</span>
+<span class="sd">	exitosamente la carga de los reportes. Esta configuración se define en una</span>
+<span class="sd">	archivo de texto escrito en formato `yaml &lt;http://yaml.org/&gt;`_</span>
 
-<span class="sd">Un ejemplo sencillo::</span>
+<span class="sd">	Un ejemplo sencillo::</span>
 
-<span class="sd">	# vi: ft=yaml</span>
-<span class="sd">	# Openerm spool file load config file</span>
-<span class="sd">	#</span>
-
-<span class="sd">	load:</span>
+<span class="sd">		# vi: ft=yaml</span>
+<span class="sd">		# Openerm spool file load config file</span>
 <span class="sd">		#</span>
-<span class="sd">		#  Definición del archivo de input</span>
-<span class="sd">		#</span>
-<span class="sd">		inputfile:</span>
-<span class="sd">			encoding: cp500             # Codificación del archivo de entrada (cp500=EBCDIC)</span>
-<span class="sd">			record-length: 256          # Longitud del registro</span>
-<span class="sd">			file-type: fixed            # Tipo de input fixed, fcfc</span>
-<span class="sd">			buffer-size: 102400         # Tamaño del buffer de lectura</span>
 
-<span class="sd">		#</span>
-<span class="sd">		# Definiciones del proceso</span>
-<span class="sd">		#</span>
-<span class="sd">		process:</span>
-<span class="sd">			EOP: NEVADO                 # Caracter o String que define el salto de página</span>
-<span class="sd">			report-cfg: ./reports.cfg   # Archivo de definición de los reportes</span>
+<span class="sd">		load:</span>
+<span class="sd">			#</span>
+<span class="sd">			#  Definición del archivo de input</span>
+<span class="sd">			#</span>
+<span class="sd">			inputfile:</span>
+<span class="sd">				encoding: cp500             # Codificación del archivo de entrada (cp500=EBCDIC)</span>
+<span class="sd">				record-length: 256          # Longitud del registro</span>
+<span class="sd">				file-type: fixed            # Tipo de input fixed, fcfc</span>
+<span class="sd">				buffer-size: 102400         # Tamaño del buffer de lectura</span>
 
-<span class="sd">		#</span>
-<span class="sd">		# Definiciones de la salida</span>
-<span class="sd">		#</span>
-<span class="sd">		output:</span>
-<span class="sd">			output-path: default</span>
-<span class="sd">			compress-type: 10</span>
-<span class="sd">			compress-level: 1</span>
-<span class="sd">			cipher-type: 0</span>
-<span class="sd">			pages-in-group: 10</span>
+<span class="sd">			#</span>
+<span class="sd">			# Definiciones del proceso</span>
+<span class="sd">			#</span>
+<span class="sd">			process:</span>
+<span class="sd">				EOP: NEVADO                 # Caracter o String que define el salto de página</span>
+<span class="sd">				report-cfg: ./reports.cfg   # Archivo de definición de los reportes</span>
 
-<span class="sd">Detalle:</span>
+<span class="sd">			#</span>
+<span class="sd">			# Definiciones de la salida</span>
+<span class="sd">			#</span>
+<span class="sd">			output:</span>
+<span class="sd">				output-path: default</span>
+<span class="sd">				compress-type: 10</span>
+<span class="sd">				compress-level: 1</span>
+<span class="sd">				cipher-type: 0</span>
+<span class="sd">				pages-in-group: 10</span>
 
-<span class="sd">	* Toda línea o texto que comienza con el caracter `#` es considerada un comentario</span>
-<span class="sd">	* La primer sección `load` define completamente el proceso de carga</span>
-<span class="sd">	* En `file` se configuran los parámetros para la interpretación básica del archivo</span>
-<span class="sd">		* `encoding` define la codificación del archivo, ver `aqui &lt;https://docs.python.org/3/library/codecs.html#standard-encodings&gt;`_ la lista de psoibles codecs</span>
-<span class="sd">		* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</span>
-<span class="sd">		* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`</span>
-<span class="sd">		* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.</span>
-<span class="sd">	* En `process` se configuran los parámetros inherentes al proceso lógico del spool</span>
-<span class="sd">		* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.</span>
-<span class="sd">		* `report-cfg` define el archivo de configuración de los reportes</span>
-<span class="sd">	* En `output` se configuran los parámetros que definen el database físico a generar</span>
-<span class="sd">		* `output-path` define el archivo de configuración de los reportes</span>
-<span class="sd">		* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
-<span class="sd">		* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
-<span class="sd">		* `cipher-type` define el cifrado de los archivos. Ver más documentación en :class:`openerm.Cipher`</span>
-<span class="sd">		* `pages-in-group` define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en :class:`openerm.Pagecontainer`</span>
+<span class="sd">	Detalle:</span>
+<span class="sd">	========</span>
+
+<span class="sd">		* Toda línea o texto que comienza con el caracter `#` es considerada un comentario</span>
+<span class="sd">		* La primer sección `load` define completamente el proceso de carga</span>
+<span class="sd">		* En `file` se configuran los parámetros para la interpretación básica del archivo</span>
+<span class="sd">			* `encoding` define la codificación del archivo, ver `aqui &lt;https://docs.python.org/3/library/codecs.html#standard-encodings&gt;`_ la lista de psoibles codecs</span>
+<span class="sd">			* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</span>
+<span class="sd">			* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`</span>
+<span class="sd">			* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.</span>
+<span class="sd">		* En `process` se configuran los parámetros inherentes al proceso lógico del spool</span>
+<span class="sd">			* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.</span>
+<span class="sd">			* `report-cfg` define el archivo de configuración de los reportes</span>
+<span class="sd">		* En `output` se configuran los parámetros que definen el database físico a generar</span>
+<span class="sd">			* `output-path` define el archivo de configuración de los reportes</span>
+<span class="sd">			* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
+<span class="sd">			* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`</span>
+<span class="sd">			* `cipher-type` define el cifrado de los archivos. Ver más documentación en :class:`openerm.Cipher`</span>
+<span class="sd">			* `pages-in-group` define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en :class:`openerm.Pagecontainer`</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>

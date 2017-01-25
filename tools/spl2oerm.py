@@ -36,88 +36,89 @@ impresión) y realiza las algunas de las siguientes operaciones:
 Básicamente esta herramienta es un "loader" o "cargador" de los reportes a la
 base de datos de un sistema Oerm para su posterior uso y consulta.
 
-Ejecución
-=========
+	Ejecución
+	=========
 
-Una ejecución sin parámetros muestra esta ayuda::
+	Una ejecución sin parámetros muestra esta ayuda::
 
-	uso: spl2oerm [-h] [--config-file CONFIGFILE] inputfile
+		uso: spl2oerm [-h] [--config-file CONFIGFILE] inputfile
 
-	Procesador de archivo de spool a Oerm (c) 2016, Patricio Moracho
-	<pmoracho@gmail.com>
+		Procesador de archivo de spool a Oerm (c) 2016, Patricio Moracho
+		<pmoracho@gmail.com>
 
-	argumentos posicionales:
-	inputfile                                Archivo a procesar
+		argumentos posicionales:
+		inputfile                                Archivo a procesar
 
-	argumentos opcionales:
-	-h, --help                               mostrar esta ayuda y salir
-	--config-file CONFIGFILE, -f CONFIGFILE  Archivo de configuración del proceso.
+		argumentos opcionales:
+		-h, --help                               mostrar esta ayuda y salir
+		--config-file CONFIGFILE, -f CONFIGFILE  Archivo de configuración del proceso.
 
-Esto claramente nos dice, que para ejecutar esta herramienta solo requerimos
-dos parámetros:
+	Esto claramente nos dice, que para ejecutar esta herramienta solo requerimos
+	dos parámetros:
 
-	* El Archivo "spool" de entrada
-	* Un archivo de configuración del proceso que explicaremos a continuación
+		* El Archivo "spool" de entrada
+		* Un archivo de configuración del proceso que explicaremos a continuación
 
 
-Configuración del proceso
-=========================
+	Configuración del proceso
+	=========================
 
-El proceso en sí requiere una serie de datos para funcionar y llevar a cabo
-exitosamente la carga de los reportes. Esta configuración se define en una
-archivo de texto escrito en formato `yaml <http://yaml.org/>`_
+	El proceso en sí requiere una serie de datos para funcionar y llevar a cabo
+	exitosamente la carga de los reportes. Esta configuración se define en una
+	archivo de texto escrito en formato `yaml <http://yaml.org/>`_
 
-Un ejemplo sencillo::
+	Un ejemplo sencillo::
 
-	# vi: ft=yaml
-	# Openerm spool file load config file
-	#
-
-	load:
+		# vi: ft=yaml
+		# Openerm spool file load config file
 		#
-		#  Definición del archivo de input
-		#
-		inputfile:
-			encoding: cp500             # Codificación del archivo de entrada (cp500=EBCDIC)
-			record-length: 256          # Longitud del registro
-			file-type: fixed            # Tipo de input fixed, fcfc
-			buffer-size: 102400         # Tamaño del buffer de lectura
 
-		#
-		# Definiciones del proceso
-		#
-		process:
-			EOP: NEVADO                 # Caracter o String que define el salto de página
-			report-cfg: ./reports.cfg   # Archivo de definición de los reportes
+		load:
+			#
+			#  Definición del archivo de input
+			#
+			inputfile:
+				encoding: cp500             # Codificación del archivo de entrada (cp500=EBCDIC)
+				record-length: 256          # Longitud del registro
+				file-type: fixed            # Tipo de input fixed, fcfc
+				buffer-size: 102400         # Tamaño del buffer de lectura
 
-		#
-		# Definiciones de la salida
-		#
-		output:
-			output-path: default
-			compress-type: 10
-			compress-level: 1
-			cipher-type: 0
-			pages-in-group: 10
+			#
+			# Definiciones del proceso
+			#
+			process:
+				EOP: NEVADO                 # Caracter o String que define el salto de página
+				report-cfg: ./reports.cfg   # Archivo de definición de los reportes
 
-Detalle:
+			#
+			# Definiciones de la salida
+			#
+			output:
+				output-path: default
+				compress-type: 10
+				compress-level: 1
+				cipher-type: 0
+				pages-in-group: 10
 
-	* Toda línea o texto que comienza con el caracter `#` es considerada un comentario
-	* La primer sección `load` define completamente el proceso de carga
-	* En `file` se configuran los parámetros para la interpretación básica del archivo
-		* `encoding` define la codificación del archivo, ver `aqui <https://docs.python.org/3/library/codecs.html#standard-encodings>`_ la lista de psoibles codecs
-		* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos
-		* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`
-		* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.
-	* En `process` se configuran los parámetros inherentes al proceso lógico del spool
-		* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.
-		* `report-cfg` define el archivo de configuración de los reportes
-	* En `output` se configuran los parámetros que definen el database físico a generar
-		* `output-path` define el archivo de configuración de los reportes
-		* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
-		* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
-		* `cipher-type` define el cifrado de los archivos. Ver más documentación en :class:`openerm.Cipher`
-		* `pages-in-group` define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en :class:`openerm.Pagecontainer`
+	Detalle:
+	========
+
+		* Toda línea o texto que comienza con el caracter `#` es considerada un comentario
+		* La primer sección `load` define completamente el proceso de carga
+		* En `file` se configuran los parámetros para la interpretación básica del archivo
+			* `encoding` define la codificación del archivo, ver `aqui <https://docs.python.org/3/library/codecs.html#standard-encodings>`_ la lista de psoibles codecs
+			* `record-lenght`, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos
+			* `file-type` tipo de archivo, actualmente hay dos implementaciones `fixed` y `fcfc`
+			* `buffer-size`, tamaño del buffer de lectura, para los archivos de registros de tamño variable.
+		* En `process` se configuran los parámetros inherentes al proceso lógico del spool
+			* `EOP` define el caracter o cadena que determina el cambio de página dentro del reporte.
+			* `report-cfg` define el archivo de configuración de los reportes
+		* En `output` se configuran los parámetros que definen el database físico a generar
+			* `output-path` define el archivo de configuración de los reportes
+			* `compress-type` define el tipo de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
+			* `compress-level` define el nivel de compresión a usar. Ver más documentación en :class:`openerm.Compressor`
+			* `cipher-type` define el cifrado de los archivos. Ver más documentación en :class:`openerm.Cipher`
+			* `pages-in-group` define la cantidad de páginas que manejara el contenedor correspondiente. Ver más documentación en :class:`openerm.Pagecontainer`
 
 
 """

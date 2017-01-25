@@ -124,7 +124,7 @@ base sqlite (repo.db) en el directorio root del repositorio.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
-<li><strong>catalog_id</strong> (<em>string</em>) &#8211; Id del catálogo al cual se agregará este repositorio</li>
+<li><strong>catalog_id</strong> (<em>string</em>) &#8211; Id del catálogo al cual se le agregará este repositorio</li>
 <li><strong>path</strong> (<em>string</em>) &#8211; Carpeta principal del repositorio</li>
 <li><strong>update</strong> (<em>bool</em>) &#8211; (Opcional) Se actualiza o regenera completamente el catalogo</li>
 </ul>
@@ -132,6 +132,15 @@ base sqlite (repo.db) en el directorio root del repositorio.</p>
 </tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt>Ejemplo:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_repo</span><span class="p">(</span><span class="s2">&quot;catalogo1&quot;</span><span class="p">,</span> <span class="s2">&quot;/var/repo1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

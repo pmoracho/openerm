@@ -52,13 +52,6 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Tabla de Contenidos</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">spl2oerm</a></li>
-<li><a class="reference internal" href="#ejecucion">Ejecución</a></li>
-<li><a class="reference internal" href="#configuracion-del-proceso">Configuración del proceso</a></li>
-</ul>
-
   <h4>Tema anterior</h4>
   <p class="topless"><a href="openerm.Reports.html"
                         title="capítulo anterior">Reports</a></p>
@@ -107,10 +100,8 @@ impresión) y realiza las algunas de las siguientes operaciones:</p>
 </div></blockquote>
 <p>Básicamente esta herramienta es un &#8220;loader&#8221; o &#8220;cargador&#8221; de los reportes a la
 base de datos de un sistema Oerm para su posterior uso y consulta.</p>
-</div>
-<div class="section" id="ejecucion">
-<h1>Ejecución<a class="headerlink" href="#ejecucion" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Una ejecución sin parámetros muestra esta ayuda:</p>
+<blockquote>
+<div><p>Una ejecución sin parámetros muestra esta ayuda:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">uso</span><span class="p">:</span> <span class="n">spl2oerm</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span> <span class="n">CONFIGFILE</span><span class="p">]</span> <span class="n">inputfile</span>
 
 <span class="n">Procesador</span> <span class="n">de</span> <span class="n">archivo</span> <span class="n">de</span> <span class="n">spool</span> <span class="n">a</span> <span class="n">Oerm</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2016</span><span class="p">,</span> <span class="n">Patricio</span> <span class="n">Moracho</span>
@@ -132,9 +123,6 @@ dos parámetros:</p>
 <li>Un archivo de configuración del proceso que explicaremos a continuación</li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="configuracion-del-proceso">
-<h1>Configuración del proceso<a class="headerlink" href="#configuracion-del-proceso" title="Enlazar permanentemente con este título">¶</a></h1>
 <p>El proceso en sí requiere una serie de datos para funcionar y llevar a cabo
 exitosamente la carga de los reportes. Esta configuración se define en una
 archivo de texto escrito en formato <a class="reference external" href="http://yaml.org/">yaml</a></p>
@@ -171,7 +159,6 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
                 <span class="n">pages</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">group</span><span class="p">:</span> <span class="mi">10</span>
 </pre></div>
 </div>
-<p>Detalle:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</li>
@@ -209,6 +196,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </dl>
 </li>
 </ul>
+</div></blockquote>
 </div></blockquote>
 <dl class="function">
 <dt id="spl2oerm.Main">

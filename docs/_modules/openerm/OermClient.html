@@ -404,15 +404,19 @@
 			<span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OermClient.add_repo"><a class="viewcode-back" href="../../openerm.OermClient.html#openerm.OermClient.OermClient.add_repo">[documentos]</a>	<span class="k">def</span> <span class="nf">add_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog_id</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-
 		<span class="sd">&quot;&quot;&quot;Procesa el path de un repositorio de datbases Oerm y genera el</span>
 <span class="sd">		repo.db (sqlite). Basicamente cataloga cada database y genera una</span>
 <span class="sd">		base sqlite (repo.db) en el directorio root del repositorio.</span>
 
 <span class="sd">		Args:</span>
-<span class="sd">			catalog_id (string): Id del catálogo al cual se agregará este repositorio</span>
+<span class="sd">			catalog_id (string): Id del catálogo al cual se le agregará este repositorio</span>
 <span class="sd">			path (string): Carpeta principal del repositorio</span>
 <span class="sd">			update (bool): (Opcional) Se actualiza o regenera completamente el catalogo</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.add_repo(&quot;catalogo1&quot;, &quot;/var/repo1&quot;)</span>
 
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">dbname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;repo.db&#39;</span><span class="p">)</span>
