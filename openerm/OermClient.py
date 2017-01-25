@@ -48,6 +48,9 @@ try:
 	import sqlite3
 	# from openerm.Utils import *
 	from openerm.tabulate import tabulate
+	from openerm.Utils import file_accessible, AutoNum, filesInPath
+	from openerm.Database import Database
+
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -306,6 +309,110 @@ class OermClient(object):
 			return tablestr
 
 		return lista
+
+	def catalog_create(self, catalogdict):
+		"""Crear un catálogo (lógico) de repositorios Oerm.
+
+		Args:
+			catalogdict (dict): Configuración del catálogo
+
+		Raise:
+			ValueError si el catalogo <id> ya existe
+
+		Ejemplo:
+			>>> from openerm.OermClient import OermClient
+			>>> c = OermClient("samples/openermcfg.yaml")
+			>>> catalog_config = {"catalogo1": { "name": "Ejemplo catalogo local", "type": "path", "enabled": True, "url": "c:/oerm/"}}
+			>>> c.catalog_create(catalog_config)
+
+		"""
+
+		if id in self._catalogs:
+			raise ValueError(_("El catalogo {0} ya está definido en la instancia actual del cliente Oerm").format(id))
+		else:
+			self.config["catalogs"].update(catalogdict)
+			self._flush()
+
+	def _flush(self):
+		with open(self.configfile, 'w') as outfile:
+			yaml.dump(self.config, outfile, default_flow_style=True)
+
+	def add_repo(self, catalog_id, path, update=False):
+
+		"""Procesa el path de un repositorio de datbases Oerm y genera el
+		repo.db (sqlite). Basicamente cataloga cada database y genera una
+		base sqlite (repo.db) en el directorio root del repositorio.
+
+		Args:
+			catalog_id (string): Id del catálogo al cual se agregará este repositorio
+			path (string): Carpeta principal del repositorio
+			update (bool): (Opcional) Se actualiza o regenera completamente el catalogo
+
+		"""
+		dbname = os.path.join(path, 'repo.db')
+		if file_accessible(dbname, "r"):
+			os.remove(dbname)
+
+		conn = sqlite3.connect(dbname)
+		# conn.text_factory = lambda x: repr(x)
+		c = conn.cursor()
+		c.execute("CREATE TABLE databases (database_id int, path text)")
+
+		c.execute("CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)")
+		c.execute("CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)")
+		c.execute("CREATE TABLE application (application_id INTEGER PRIMARY KEY ASC, application_name text)")
+		c.execute("CREATE TABLE department	(department_id INTEGER PRIMARY KEY ASC, department_name text)")
+		c.execute("CREATE TABLE report		(report_id INTEGER PRIMARY KEY ASC, report_name text)")
+
+		c.execute("CREATE TABLE reports	(database_id int, report_id int, aplicacion_id int, date_id int, system_id, department_id int, pages int)")
+		# c.execute("CREATE TABLE reports (database_id int, report_id text, report_name text, aplicacion text, fecha text, sistema text, departamento text, pages int)")
+
+		databases		= []
+		reports_list	= []
+
+		reportid 	= AutoNum()
+		dateid		= AutoNum()
+		systemid	= AutoNum()
+		appid		= AutoNum()
+		deptid		= AutoNum()
+
+		for i, f in enumerate(filesInPath(path, "*.oerm"), 1):
+			databases.append((i, f))
+			d = Database(os.path.join(path, f), mode="rb")
+			print(os.path.join(path, f))
+			for report in d.reports():
+
+				# print("{0}: {1}".format(report.nombre, reportid.get(report.nombre)))
+
+				elemento = (i,
+							reportid.get(report.nombre),
+							appid.get(report.aplicacion),
+							dateid.get(report.fecha),
+							systemid.get(report.sistema),
+							deptid.get(report.departamento),
+							report.total_pages
+						)
+				reports_list.append(elemento)
+
+		c.executemany("INSERT INTO date (date, date_id) VALUES (?,?)", dateid.list())
+		c.executemany("INSERT INTO system (system_name, system_id) VALUES (?,?)", systemid.list())
+		c.executemany("INSERT INTO application (application_name, application_id) VALUES (?,?)", appid.list())
+		c.executemany("INSERT INTO department (department_name, department_id) VALUES (?,?)", deptid.list())
+		c.executemany("INSERT INTO report (report_name, report_id) VALUES (?,?)", reportid.list())
+		c.executemany("INSERT INTO databases (database_id, path) VALUES (?,?)", databases)
+		c.executemany("INSERT INTO reports (database_id, report_id, aplicacion_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?,?)", reports_list)
+
+		conn.commit()
+		conn.close()
+
+		d = self.config["catalogs"].get(catalog_id)
+		if "url" not in d:
+			d["url"] = [path]
+		else:
+			d["url"].append(path)
+
+		self._flush()
+
 
 	# def attributes(self, attribute):
 	# 	"""Retorna la lista de atributos de los reportes del repositorio"""

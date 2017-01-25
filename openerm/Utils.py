@@ -150,7 +150,7 @@ def filesInPath(path, pattern='*.*'):
 		>>> 	print(f)
 
 	"""
-	for dirpath, dirs, filenames in os.walk(path):
+	for dirpath, _, filenames in os.walk(path):
 		for filename in fnmatch.filter(filenames, pattern):
 			relative_path = os.path.relpath(dirpath, path)
 			yield os.path.join(relative_path, filename)

@@ -66,8 +66,8 @@ try:
 	sys.path.append('.')
 	sys.path.append('..')
 
-	from openerm.Database import Database
 	from openerm.Utils import file_accessible, AutoNum, filesInPath
+	from openerm.Database import Database
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]

@@ -125,7 +125,7 @@ Los comandos más usados:
 		if sys.platform == 'win32':
 			self.venv	= "venv\\Scripts\\activate.bat"
 		else:
-			self.venv	= ". venv\\bin\\activate"
+			self.venv	= ". venv/bin/activate"
 
 		# use dispatch pattern to invoke method with same name
 		getattr(self, args.command)()
@@ -167,7 +167,7 @@ Los comandos más usados:
 			print("Running tests..")
 			print("----------------------------------------------------------")
 
-		command = self.venv + " & python tests\\runtests.py"
+		command = self.venv + " & python tests/runtests.py"
 		ret = subprocess_cmd(command)
 
 		if debug:
