@@ -338,15 +338,19 @@ class OermClient(object):
 			yaml.dump(self.config, outfile, default_flow_style=True)
 
 	def add_repo(self, catalog_id, path, update=False):
-
 		"""Procesa el path de un repositorio de datbases Oerm y genera el
 		repo.db (sqlite). Basicamente cataloga cada database y genera una
 		base sqlite (repo.db) en el directorio root del repositorio.
 
 		Args:
-			catalog_id (string): Id del catálogo al cual se agregará este repositorio
+			catalog_id (string): Id del catálogo al cual se le agregará este repositorio
 			path (string): Carpeta principal del repositorio
 			update (bool): (Opcional) Se actualiza o regenera completamente el catalogo
+
+		Ejemplo:
+			>>> from openerm.OermClient import OermClient
+			>>> c = OermClient("samples/openermcfg.yaml")
+			>>> c.add_repo("catalogo1", "/var/repo1")
 
 		"""
 		dbname = os.path.join(path, 'repo.db')
