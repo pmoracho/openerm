@@ -132,8 +132,8 @@
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
 
-	<span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
 	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="n">file_accessible</span><span class="p">,</span> <span class="n">AutoNum</span><span class="p">,</span> <span class="n">filesInPath</span>
+	<span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
 
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
 	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>

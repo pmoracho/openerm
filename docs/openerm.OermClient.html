@@ -114,6 +114,53 @@ repositorios representan carpetas físicas.</p>
 </tbody>
 </table>
 <dl class="method">
+<dt id="openerm.OermClient.OermClient.add_repo">
+<code class="descname">add_repo</code><span class="sig-paren">(</span><em>catalog_id</em>, <em>path</em>, <em>update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.add_repo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.add_repo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Procesa el path de un repositorio de datbases Oerm y genera el
+repo.db (sqlite). Basicamente cataloga cada database y genera una
+base sqlite (repo.db) en el directorio root del repositorio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>catalog_id</strong> (<em>string</em>) &#8211; Id del catálogo al cual se agregará este repositorio</li>
+<li><strong>path</strong> (<em>string</em>) &#8211; Carpeta principal del repositorio</li>
+<li><strong>update</strong> (<em>bool</em>) &#8211; (Opcional) Se actualiza o regenera completamente el catalogo</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.catalog_create">
+<code class="descname">catalog_create</code><span class="sig-paren">(</span><em>catalogdict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.catalog_create"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.catalog_create" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Crear un catálogo (lógico) de repositorios Oerm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>catalogdict</strong> (<em>dict</em>) &#8211; Configuración del catálogo</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Raise:</dt>
+<dd>ValueError si el catalogo &lt;id&gt; ya existe</dd>
+<dt>Ejemplo:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.OermClient</span> <span class="k">import</span> <span class="n">OermClient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">catalog_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;catalogo1&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Ejemplo catalogo local&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/oerm/&quot;</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">catalog_create</span><span class="p">(</span><span class="n">catalog_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="openerm.OermClient.OermClient.catalogs">
 <code class="descname">catalogs</code><span class="sig-paren">(</span><em>enabled=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.catalogs"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.catalogs" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Lista los catalogos disponibles</p>

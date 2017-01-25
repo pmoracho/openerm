@@ -114,6 +114,9 @@
 	<span class="kn">import</span> <span class="nn">sqlite3</span>
 	<span class="c1"># from openerm.Utils import *</span>
 	<span class="kn">from</span> <span class="nn">openerm.tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
+	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="n">file_accessible</span><span class="p">,</span> <span class="n">AutoNum</span><span class="p">,</span> <span class="n">filesInPath</span>
+	<span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+
 
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
 	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -371,7 +374,111 @@
 			<span class="p">)</span>
 			<span class="k">return</span> <span class="n">tablestr</span>
 
-		<span class="k">return</span> <span class="n">lista</span></div></div>
+		<span class="k">return</span> <span class="n">lista</span></div>
+
+<div class="viewcode-block" id="OermClient.catalog_create"><a class="viewcode-back" href="../../openerm.OermClient.html#openerm.OermClient.OermClient.catalog_create">[documentos]</a>	<span class="k">def</span> <span class="nf">catalog_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalogdict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Crear un catálogo (lógico) de repositorios Oerm.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			catalogdict (dict): Configuración del catálogo</span>
+
+<span class="sd">		Raise:</span>
+<span class="sd">			ValueError si el catalogo &lt;id&gt; ya existe</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; catalog_config = {&quot;catalogo1&quot;: { &quot;name&quot;: &quot;Ejemplo catalogo local&quot;, &quot;type&quot;: &quot;path&quot;, &quot;enabled&quot;: True, &quot;url&quot;: &quot;c:/oerm/&quot;}}</span>
+<span class="sd">			&gt;&gt;&gt; c.catalog_create(catalog_config)</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;El catalogo </span><span class="si">{0}</span><span class="s2"> ya está definido en la instancia actual del cliente Oerm&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;catalogs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">catalogdict</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span></div>
+
+	<span class="k">def</span> <span class="nf">_flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+			<span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OermClient.add_repo"><a class="viewcode-back" href="../../openerm.OermClient.html#openerm.OermClient.OermClient.add_repo">[documentos]</a>	<span class="k">def</span> <span class="nf">add_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog_id</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="sd">&quot;&quot;&quot;Procesa el path de un repositorio de datbases Oerm y genera el</span>
+<span class="sd">		repo.db (sqlite). Basicamente cataloga cada database y genera una</span>
+<span class="sd">		base sqlite (repo.db) en el directorio root del repositorio.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			catalog_id (string): Id del catálogo al cual se agregará este repositorio</span>
+<span class="sd">			path (string): Carpeta principal del repositorio</span>
+<span class="sd">			update (bool): (Opcional) Se actualiza o regenera completamente el catalogo</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">dbname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;repo.db&#39;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">file_accessible</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">):</span>
+			<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+
+		<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+		<span class="c1"># conn.text_factory = lambda x: repr(x)</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE databases (database_id int, path text)&quot;</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE application (application_id INTEGER PRIMARY KEY ASC, application_name text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE department	(department_id INTEGER PRIMARY KEY ASC, department_name text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE report		(report_id INTEGER PRIMARY KEY ASC, report_name text)&quot;</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE reports	(database_id int, report_id int, aplicacion_id int, date_id int, system_id, department_id int, pages int)&quot;</span><span class="p">)</span>
+		<span class="c1"># c.execute(&quot;CREATE TABLE reports (database_id int, report_id text, report_name text, aplicacion text, fecha text, sistema text, departamento text, pages int)&quot;)</span>
+
+		<span class="n">databases</span>		<span class="o">=</span> <span class="p">[]</span>
+		<span class="n">reports_list</span>	<span class="o">=</span> <span class="p">[]</span>
+
+		<span class="n">reportid</span> 	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">dateid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">systemid</span>	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">appid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">deptid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filesInPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;*.oerm&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+			<span class="n">databases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+			<span class="n">d</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+			<span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">reports</span><span class="p">():</span>
+
+				<span class="c1"># print(&quot;{0}: {1}&quot;.format(report.nombre, reportid.get(report.nombre)))</span>
+
+				<span class="n">elemento</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span>
+							<span class="n">reportid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">nombre</span><span class="p">),</span>
+							<span class="n">appid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">aplicacion</span><span class="p">),</span>
+							<span class="n">dateid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">fecha</span><span class="p">),</span>
+							<span class="n">systemid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">sistema</span><span class="p">),</span>
+							<span class="n">deptid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">departamento</span><span class="p">),</span>
+							<span class="n">report</span><span class="o">.</span><span class="n">total_pages</span>
+						<span class="p">)</span>
+				<span class="n">reports_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elemento</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO date (date, date_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">dateid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO system (system_name, system_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">systemid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO application (application_name, application_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">appid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO department (department_name, department_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">deptid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO report (report_name, report_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">reportid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO databases (database_id, path) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">databases</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO reports (database_id, report_id, aplicacion_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?,?)&quot;</span><span class="p">,</span> <span class="n">reports_list</span><span class="p">)</span>
+
+		<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+		<span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;catalogs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">catalog_id</span><span class="p">)</span>
+		<span class="k">if</span> <span class="s2">&quot;url&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+			<span class="n">d</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">d</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span></div></div>
+
 
 	<span class="c1"># def attributes(self, attribute):</span>
 	<span class="c1"># 	&quot;&quot;&quot;Retorna la lista de atributos de los reportes del repositorio&quot;&quot;&quot;</span>
