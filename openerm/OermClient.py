@@ -107,8 +107,8 @@ class OermClient(object):
 		self._current_catalog = self._catalogs[catalogid]
 		self._repo_catalogs	= {}
 		if self._current_catalog.get("type", "path"):
-			for d in self._current_catalog.get("urls", []):
-				(n, p), = d.items()
+			for n, p in enumerate(self._current_catalog.get("urls", []),1):
+				# (n, p), = d.items()
 				self._repo_catalogs.update({n: os.path.join(p, "repo.db")})
 
 	def close_catalog(self, catalog):
@@ -138,8 +138,8 @@ class OermClient(object):
 			>>> print("Catalogos disponibles: {0}".format(c.catalogs(enabled=None)))
 			Catalogos disponibles: {'sql-test': {'enabled': False, 'name': 'Ejemplo catalogo SQL', 'type': 'sql'}, '
 			local-test': {'enabled': True, 'name': 'Ejemplo catalogo local', 'type': 'path', 'urls':
-			[{'Prueba1': 'D:\\pm\\data\\git.repo\\openerm\\samples\\repo'},
-			{'Prueba2': 'D:\\pm\\data\\git.repo\\openerm\\samples\\otro'}]}}
+			['D:\\pm\\data\\git.repo\\openerm\\samples\\repo',
+			'D:\\pm\\data\\git.repo\\openerm\\samples\\otro'}]}
 
 		"""
 		return {k: self._catalogs[k] for k, v in self._catalogs.items() if enabled is None or v["enabled"] == enabled}
@@ -410,10 +410,10 @@ class OermClient(object):
 		conn.close()
 
 		d = self.config["catalogs"].get(catalog_id)
-		if "url" not in d:
-			d["url"] = [path]
+		if "urls" not in d:
+			d["urls"] = [path]
 		else:
-			d["url"].append(path)
+			d["urls"].append(path)
 
 		self._flush()
 
