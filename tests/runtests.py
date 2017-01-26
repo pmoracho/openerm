@@ -65,7 +65,7 @@ class _XmlTestResult(unittest.TestResult):
 
 		self.current_test_id += 1
 		nombre_test = test.id()[test.id().rfind(".")+1:]
-		v = (self.current_test_id, nombre_test, test.shortDescription().encode("ascii", "replace"), timeTaken, "Ok", None)
+		v = (self.current_test_id, nombre_test, test.shortDescription().encode("ascii", "ignore"), timeTaken, "Ok", None)
 		self.resultados.append(v)
 
 	def addErrorsToList(self):
@@ -77,7 +77,7 @@ class _XmlTestResult(unittest.TestResult):
 		for test, err in errors:
 			self.current_test_id += 1
 			nombre_test = test.id()[test.id().rfind(".")+1:]
-			v = (self.current_test_id, nombre_test, str(test.shortDescription()), 0, flavor, err)
+			v = (self.current_test_id, nombre_test, test.shortDescription().encode("ascii", "ignore"), 0, flavor, err)
 			self.resultados.append(v)
 
 	def printErrorList(self, flavor, errors):

@@ -26,15 +26,13 @@ class OermClientTest(unittest.TestCase):
 		c = OermClient(self._configfile)
 		self.assertEqual(c.catalogs(enabled=None), self.catalog_config)
 
-	# def test_repos(self):
-	# 	"""Verifica la lista de repositorios
-	# 	"""
-		# c.open_catalog("catalogo1")
+	def test_open_catalog(self):
+		"""Verifica repositorios de un catalogo"""
 
-	# 	c = OermClient(self._configfile)
-	# 	c.open_catalog("catalogo1")
-	# 	self.assertEqual(c.catalogs(), {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True}})
+		c = OermClient(self._configfile)
+		c.open_catalog("catalogo1")
 
+		self.assertEqual(c.repos(), {1: os.path.join(self._repopath,"repo.db")})
 
 	@classmethod
 	def _generate_db(cls, path):
