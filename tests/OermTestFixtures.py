@@ -78,4 +78,3 @@ class OermTestFixtures(unittest.TestCase):
 		"""Borra completamente los datos generados para el testing"""
 		# print("OermTestFixtures.tearDownClass")
 		shutil.rmtree(cls._startpath)
-		pass
