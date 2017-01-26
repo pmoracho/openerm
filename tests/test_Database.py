@@ -26,7 +26,6 @@ from openerm.Database import Database
 from openerm.Block import Block
 from OermTestFixtures import OermTestFixtures
 
-
 class DatabaseTest(OermTestFixtures):
 
 	def test_read_database(self):
@@ -36,24 +35,25 @@ class DatabaseTest(OermTestFixtures):
 		for item in block.compressor.available_types:
 
 			filename       = os.path.join(self._repopath, "test.{0}-{1}.oerm".format(item[0], 0))
-			paginas_leidas = []
 			db             = Database(file=filename, mode="rb")
+			paginas_leidas = []
 			for report in db.reports():
 				for p in report:
 					paginas_leidas.append(p)
 			db.close()
 			self.assertEqual(self._paginas_escritas, paginas_leidas)
 
-	def test_find_text(self):
+	def test_database_find_text(self):
 		"""Genera un database con info random, y realiza un búsqueda de texto"""
-		block = Block()  # Generic
+
+		block    = Block()  # Generic
+		esperado = [(1, 1, 0), (1, 1, 12028), (1, 2, 0), (1, 2, 12028), (1, 3, 0), (1, 3, 12028), (1, 4, 0), (1, 4, 12028), (1, 5, 0), (1, 5, 12028), (1, 6, 0), (1, 6, 12028),
+				(1, 7, 0), (1, 7, 12028), (1, 8, 0), (1, 8, 12028), (1, 9, 0), (1, 9, 12028), (1, 10, 0), (1, 10, 12029)]
 
 		for item in block.compressor.available_types:
 
 			filename = os.path.join(self._repopath, "test.{0}-{1}.oerm".format(item[0], 0))
 			db       = Database(file=filename, mode="rb")
 			matches  = db.find_text("Pagina", reports=[1])
-			esperado = [(1, 1, 0), (1, 1, 12028), (1, 2, 0), (1, 2, 12028), (1, 3, 0), (1, 3, 12028), (1, 4, 0), (1, 4, 12028), (1, 5, 0), (1, 5, 12028), (1, 6, 0), (1, 6, 12028),
-			   			(1, 7, 0), (1, 7, 12028), (1, 8, 0), (1, 8, 12028), (1, 9, 0), (1, 9, 12028), (1, 10, 0), (1, 10, 12028)]
 
 			self.assertEqual([(x[0], x[1], x[2]) for x in matches], esperado)

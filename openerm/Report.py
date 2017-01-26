@@ -251,7 +251,7 @@ class Report(object):
 
 		lfind 	= len(text)
 		ocurrences 	= []
-		for np in range(1, self.total_pages):
+		for np in range(1, self.total_pages+1):
 			p = self.get_page(np)
 			if p:
 				pos = p.find(text)

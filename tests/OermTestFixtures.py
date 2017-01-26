@@ -47,7 +47,7 @@ class OermTestFixtures(unittest.TestCase):
 		cls._configfile       = os.path.join(cls._startpath, "test.yaml")
 		cls._repopath         = os.path.join(cls._startpath, "repo1")
 		cls._dbpath           = os.path.join(cls._repopath, "testdb")
-		cls._total_pages      = 22
+		cls._total_pages      = 20
 		cls._paginas_escritas = []
 
 		for i in range(1, cls._total_pages + 1):

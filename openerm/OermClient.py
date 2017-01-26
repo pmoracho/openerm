@@ -383,7 +383,6 @@ class OermClient(object):
 		for i, f in enumerate(filesInPath(path, "*.oerm"), 1):
 			databases.append((i, f))
 			d = Database(os.path.join(path, f), mode="rb")
-			print(os.path.join(path, f))
 			for report in d.reports():
 
 				# print("{0}: {1}".format(report.nombre, reportid.get(report.nombre)))

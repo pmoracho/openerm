@@ -203,7 +203,6 @@ class Database(object):
 		reports = reports or []
 		matches = []
 		for r in [r for r in self.reports() if r.id in reports or not reports]:
-
 			lista = r.find_text(text)
 			if lista:
 				matches.extend(lista)
