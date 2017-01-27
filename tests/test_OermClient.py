@@ -1,6 +1,6 @@
 from openerm.OermClient import OermClient
 from OermTestFixtures import OermTestFixtures
-
+import os
 
 class OermClientTest(OermTestFixtures):
 
@@ -21,11 +21,8 @@ class OermClientTest(OermTestFixtures):
 		c = OermClient(self._configfile)
 		self.assertEqual(c.catalogs(enabled=None), self.catalog_config)
 
-	# def test_repos(self):
-	# 	"""Verifica la lista de repositorios
-	# 	"""
-		# c.open_catalog("catalogo1")
-
-	# 	c = OermClient(self._configfile)
-	# 	c.open_catalog("catalogo1")
-	# 	self.assertEqual(c.catalogs(), {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True}})
+	def test_repos(self):
+		"""Verifica la lista de repositorios del catalogo"""
+		c = OermClient(self._configfile)
+		c.open_catalog("catalogo1")
+		self.assertEqual(c.repos(), [{1: os.path.join(self._repopath, "repo.db")}])

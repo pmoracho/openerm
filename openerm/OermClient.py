@@ -71,7 +71,7 @@ class OermClient(object):
 	def __init__(self, configfile=None):
 
 		self._catalogs			= []			#: Lista de catalogos disponibles
-		self._repo_catalogs		= []			#: Catalogs de cada repositorio
+		self._repos				= []			#: Catalogs de cada repositorio
 		self._current_catalog	= {}			#: Catalogo activo
 		self.config				= {}
 		self.configfile			= configfile
@@ -105,11 +105,11 @@ class OermClient(object):
 
 		"""
 		self._current_catalog = self._catalogs[catalogid]
-		self._repo_catalogs	= {}
+		self._repos	= []
 		if self._current_catalog.get("type", "path"):
 			for n, p in enumerate(self._current_catalog.get("urls", []),1):
 				# (n, p), = d.items()
-				self._repo_catalogs.update({n: os.path.join(p, "repo.db")})
+				self._repos.append({n: os.path.join(p, "repo.db")})
 
 	def close_catalog(self, catalog):
 		"""Cierra el catalgo activo
@@ -118,7 +118,7 @@ class OermClient(object):
 			catalogid (string): Id del catalogo que se desea cerrar
 		"""
 		self._current_catalog	= {}
-		self._repo_catalogs		= []
+		self._repos		= []
 
 	def catalogs(self, enabled=True):
 		"""Lista los catalogos disponibles
@@ -162,7 +162,7 @@ class OermClient(object):
 			'Prueba1': 'D:\\pm\\data\\git.repo\\openerm\\samples\\repo\\repo.db'}
 
 		"""
-		return self._repo_catalogs
+		return self._repos
 
 	def open_repo(self, repo):
 		"""Abre un repositorio
@@ -173,10 +173,10 @@ class OermClient(object):
 		Raise:
 			ValueError: Si el repositorio no existe en el catalgo abierto
 		"""
-		if repo not in self._repo_catalogs:
+		if repo not in self._repos:
 			raise ValueError(_("El repositorio {0} no existe").format(repo))
 		else:
-			self._current_repo = {repo: self._repo_catalogs[repo]}
+			self._current_repo = {repo: self._repos[repo]}
 
 	def reports(self, system=None):
 		"""Retorna la lista completa de reportes del repositorio activo
