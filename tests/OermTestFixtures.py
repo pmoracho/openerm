@@ -21,7 +21,7 @@ class OermTestFixtures(unittest.TestCase):
 
 		# Primer reporte
 		db	= Database(file=filename, mode="wb", default_compress_method=compress_method, default_encription_method=encription_method, pages_in_container=10)
-		db.add_report(reporte="Reporte 1", sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
+		db.add_report(reporte=cls._reports[0][1], sistema="Sistema 1", aplicacion="Aplicacion 1", departamento="Departamento 1")
 		for p in cls._paginas_escritas[:10]:
 			db.add_page(p)
 
@@ -29,7 +29,7 @@ class OermTestFixtures(unittest.TestCase):
 
 		# Segundo reporte
 		db	= Database(file=filename, mode="ab", default_compress_method=compress_method, default_encription_method=encription_method, pages_in_container=10)
-		db.add_report(reporte="Reporte 2", sistema="Sistema 2", aplicacion="Aplicacion 2", departamento="Departamento 2")
+		db.add_report(reporte=cls._reports[1][1], sistema="Sistema 2", aplicacion="Aplicacion 2", departamento="Departamento 2")
 		for p in cls._paginas_escritas[10:]:
 			db.add_page(p)
 
@@ -49,6 +49,7 @@ class OermTestFixtures(unittest.TestCase):
 		cls._dbpath           = os.path.join(cls._repopath, "testdb")
 		cls._total_pages      = 20
 		cls._paginas_escritas = []
+		cls._reports          = [(1, 'Reporte 1'), (2, 'Reporte 2')]
 
 		for i in range(1, cls._total_pages + 1):
 			random_text = rnd_generator(size=200*60)

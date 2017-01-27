@@ -2,27 +2,23 @@ from openerm.OermClient import OermClient
 from OermTestFixtures import OermTestFixtures
 import os
 
+
 class OermClientTest(OermTestFixtures):
 
-	# def test_catalogs(self):
-	# 	"""Verifica la lista de catalogos
-	# 	"""
-
-	# 	# lista = {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True},
-	# 	#			"catalogo2": {"name": "Ejemplo catalogo SQL", "type": "sql", "enabled": False}
-	# 	# }
-
-	# 	c = OermClient(self._configfile)
-	# 	# print(c.catalogs())
-	# 	self.assertEqual(c.catalogs(), {"catalogo1": {"name": "Ejemplo catalogo local", "type": "path", "enabled": True}})
-
-	def test_catalogs(self):
+	def test_get_catalogs_list(self):
 		"""Verifica la lista de catalogos disponibles coincida con la que se acaba de salvar"""
 		c = OermClient(self._configfile)
 		self.assertEqual(c.catalogs(enabled=None), self.catalog_config)
 
-	def test_repos(self):
+	def test_get_repos_list(self):
 		"""Verifica la lista de repositorios del catalogo"""
 		c = OermClient(self._configfile)
 		c.open_catalog("catalogo1")
-		self.assertEqual(c.repos(), [{1: os.path.join(self._repopath, "repo.db")}])
+		self.assertEqual(c.repos(), {1: os.path.join(self._repopath, "repo.db")})
+
+	def test_get_reports_list(self):
+		"""Verifica la lista de repositorios del catalogo"""
+		c = OermClient(self._configfile)
+		c.open_catalog("catalogo1")
+		c.open_repo(1)
+		self.assertEqual(c.reports(), self._reports)

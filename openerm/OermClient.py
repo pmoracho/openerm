@@ -71,7 +71,7 @@ class OermClient(object):
 	def __init__(self, configfile=None):
 
 		self._catalogs			= []			#: Lista de catalogos disponibles
-		self._repos				= []			#: Catalogs de cada repositorio
+		self._repos				= {}			#: Catalogs de cada repositorio
 		self._current_catalog	= {}			#: Catalogo activo
 		self.config				= {}
 		self.configfile			= configfile
@@ -93,32 +93,27 @@ class OermClient(object):
 		self._catalogs = self.config.get("catalogs", {})
 
 	def open_catalog(self, catalogid):
-		"""Conexión y apertura de un catalogo
+		"""Apertura de un catalogo
 
 		Args:
 			catalogid (string): Id del catalogo que se desea abrir
 
 		Tipos de catalogos:
 
-			- Lista de paths + catalog.db
-			- Centralizado en Servidor SQL
+			- Lista de paths + repo.db
+			- Centralizado en Servidor SQL (TO DO)
 
 		"""
 		self._current_catalog = self._catalogs[catalogid]
-		self._repos	= []
+		self._repos	= {}
 		if self._current_catalog.get("type", "path"):
 			for n, p in enumerate(self._current_catalog.get("urls", []),1):
-				# (n, p), = d.items()
-				self._repos.append({n: os.path.join(p, "repo.db")})
+				self._repos.update({n: os.path.join(p, "repo.db")})
 
-	def close_catalog(self, catalog):
-		"""Cierra el catalgo activo
-
-		Args:
-			catalogid (string): Id del catalogo que se desea cerrar
-		"""
-		self._current_catalog	= {}
-		self._repos		= []
+	def close_catalog(self):
+		"""Cierra el catalgo activo	"""
+		self._current_catalog = {}
+		self._repos	= {}
 
 	def catalogs(self, enabled=True):
 		"""Lista los catalogos disponibles
@@ -145,10 +140,15 @@ class OermClient(object):
 		return {k: self._catalogs[k] for k, v in self._catalogs.items() if enabled is None or v["enabled"] == enabled}
 
 	def current_catalog(self):
+		"""Retorna el catalogo activo
+
+		Return:
+			dict
+		"""
 		return self._current_catalog
 
 	def repos(self):
-		"""Lista los repositorios disponibles para conectarse
+		"""Lista los repositorios disponibles del catalgo activo
 
 		Return:
 			List: Lista de repositorios
@@ -164,21 +164,21 @@ class OermClient(object):
 		"""
 		return self._repos
 
-	def open_repo(self, repo):
+	def open_repo(self, reponum):
 		"""Abre un repositorio
 
 		Args:
-			repo (string): Nombre del repositorio a abrir
+			repo (int): Número del repositorio a abrir
 
 		Raise:
 			ValueError: Si el repositorio no existe en el catalgo abierto
 		"""
-		if repo not in self._repos:
-			raise ValueError(_("El repositorio {0} no existe").format(repo))
+		if reponum not in self._repos:
+			raise ValueError(_("El repositorio {0} no existe").format(reponum))
 		else:
-			self._current_repo = {repo: self._repos[repo]}
+			self._current_repo = {reponum: self._repos[reponum]}
 
-	def reports(self, system=None):
+	def reports(self):
 		"""Retorna la lista completa de reportes del repositorio activo
 
 		Returns:
@@ -324,7 +324,6 @@ class OermClient(object):
 			>>> c = OermClient("samples/openermcfg.yaml")
 			>>> catalog_config = {"catalogo1": { "name": "Ejemplo catalogo local", "type": "path", "enabled": True, "url": "c:/oerm/"}}
 			>>> c.catalog_create(catalog_config)
-
 		"""
 
 		if id in self._catalogs:
@@ -416,18 +415,6 @@ class OermClient(object):
 
 		self._flush()
 
-
-	# def attributes(self, attribute):
-	# 	"""Retorna la lista de atributos de los reportes del repositorio"""
-	# 	return []
-
-	# def find_indexes(self, indexname):
-	# 	"""Retorna la lista de indices que coincidan por indexname"""
-	# 	return []
-
-	# def search_for_indexes(self, indexnames, value):
-	# 	"""Retorna la lista de indices que coincidan por indexname"""
-	# 	return []
 
 if __name__ == "__main__":
 
