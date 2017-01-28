@@ -195,35 +195,36 @@ base sqlite (repo.db) en el directorio root del repositorio.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Catalogos disponibles: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">catalogs</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">)))</span>
 <span class="go">Catalogos disponibles: {&#39;sql-test&#39;: {&#39;enabled&#39;: False, &#39;name&#39;: &#39;Ejemplo catalogo SQL&#39;, &#39;type&#39;: &#39;sql&#39;}, &#39;</span>
 <span class="go">local-test&#39;: {&#39;enabled&#39;: True, &#39;name&#39;: &#39;Ejemplo catalogo local&#39;, &#39;type&#39;: &#39;path&#39;, &#39;urls&#39;:</span>
-<span class="go">[{&#39;Prueba1&#39;: &#39;D:\pm\data\git.repo\openerm\samples\repo&#39;},</span>
-<span class="go">{&#39;Prueba2&#39;: &#39;D:\pm\data\git.repo\openerm\samples\otro&#39;}]}}</span>
+<span class="go">[&#39;D:\pm\data\git.repo\openerm\samples\repo&#39;,</span>
+<span class="go">&#39;D:\pm\data\git.repo\openerm\samples\otro&#39;}]}</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.close_catalog">
-<code class="descname">close_catalog</code><span class="sig-paren">(</span><em>catalog</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.close_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.close_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descname">close_catalog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.close_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.close_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Cierra el catalgo activo</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.OermClient.OermClient.current_catalog">
+<code class="descname">current_catalog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.current_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.current_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna el catalogo activo</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>catalogid</strong> (<em>string</em>) &#8211; Id del catalogo que se desea cerrar</td>
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">dict</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="openerm.OermClient.OermClient.current_catalog">
-<code class="descname">current_catalog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.current_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.current_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="openerm.OermClient.OermClient.open_catalog">
 <code class="descname">open_catalog</code><span class="sig-paren">(</span><em>catalogid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.open_catalog"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.open_catalog" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Conexión y apertura de un catalogo</p>
+<dd><p>Apertura de un catalogo</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -235,21 +236,21 @@ base sqlite (repo.db) en el directorio root del repositorio.</p>
 <p>Tipos de catalogos:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Lista de paths + catalog.db</li>
-<li>Centralizado en Servidor SQL</li>
+<li>Lista de paths + repo.db</li>
+<li>Centralizado en Servidor SQL (TO DO)</li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.open_repo">
-<code class="descname">open_repo</code><span class="sig-paren">(</span><em>repo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.open_repo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.open_repo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descname">open_repo</code><span class="sig-paren">(</span><em>reponum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.open_repo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.open_repo" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Abre un repositorio</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>repo</strong> (<em>string</em>) &#8211; Nombre del repositorio a abrir</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>repo</strong> (<em>int</em>) &#8211; Número del repositorio a abrir</td>
 </tr>
 </tbody>
 </table>
@@ -308,7 +309,7 @@ se puede hacer búsquedas parciales tipo LIKE en sql</p>
 
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.reports">
-<code class="descname">reports</code><span class="sig-paren">(</span><em>system=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descname">reports</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Retorna la lista completa de reportes del repositorio activo</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -334,7 +335,7 @@ se puede hacer búsquedas parciales tipo LIKE en sql</p>
 <dl class="method">
 <dt id="openerm.OermClient.OermClient.repos">
 <code class="descname">repos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.repos"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.repos" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Lista los repositorios disponibles para conectarse</p>
+<dd><p>Lista los repositorios disponibles del catalgo activo</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

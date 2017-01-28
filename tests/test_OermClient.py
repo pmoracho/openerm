@@ -1,9 +1,9 @@
 from openerm.OermClient import OermClient
-from OermTestFixtures import OermTestFixtures
+from OermTestFixtures import OermTestCatalogFixtures
 import os
 
 
-class OermClientTest(OermTestFixtures):
+class OermClientTest(OermTestCatalogFixtures):
 
 	def test_get_catalogs_list(self):
 		"""Verifica la lista de catalogos disponibles coincida con la que se acaba de salvar"""

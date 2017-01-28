@@ -22,11 +22,11 @@ Software# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
 
 from openerm.Database import Database
 from openerm.Block import Block
-from OermTestFixtures import OermTestFixtures
+from OermTestFixtures import OermTestCatalogFixtures
 import os
 
 
-class ReportsTest(OermTestFixtures):
+class ReportsTest(OermTestCatalogFixtures):
 
 	def test_reports_find_text(self):
 		"""Genera un database con info random, y realiza un búsqueda de texto

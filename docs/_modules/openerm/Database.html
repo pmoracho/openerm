@@ -201,18 +201,20 @@
 				<span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Database.get_report"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.get_report">[documentos]</a>	<span class="k">def</span> <span class="nf">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">		Retorna el id de un Reporte</span>
+		<span class="sd">&quot;&quot;&quot;Retorna el id de un Reporte</span>
+
 <span class="sd">		.. warning::</span>
 <span class="sd">			Documentación pendiente</span>
+
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="n">reporte</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.set_report"><a class="viewcode-back" href="../../openerm.Database.html#openerm.Database.Database.set_report">[documentos]</a>	<span class="k">def</span> <span class="nf">set_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">		Establece el reporte actual</span>
+		<span class="sd">&quot;&quot;&quot;Establece el reporte actual</span>
+
 <span class="sd">		.. warning::</span>
 <span class="sd">			Documentación pendiente</span>
+
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">current_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="n">reporte</span><span class="p">)</span></div>
 
@@ -269,7 +271,6 @@
 		<span class="n">reports</span> <span class="o">=</span> <span class="n">reports</span> <span class="ow">or</span> <span class="p">[]</span>
 		<span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
 		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reports</span><span class="p">()</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">reports</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">reports</span><span class="p">]:</span>
-
 			<span class="n">lista</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">find_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 			<span class="k">if</span> <span class="n">lista</span><span class="p">:</span>
 				<span class="n">matches</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>

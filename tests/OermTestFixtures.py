@@ -10,14 +10,16 @@ from openerm.OermClient import OermClient
 from openerm.Database import Database
 from openerm.Block import Block
 
-class OermTestFixtures(unittest.TestCase):
+
+class OermTestCatalogFixtures(unittest.TestCase):
+	"""Clase para generar un catalogo y repositorio de prueba heredable a los test relacionados"""
 
 	@classmethod
 	def _generate_db(cls, compress_method=1,  encription_method=0):
 		"""Genera un Database Oerm con info random en un path temporal"""
 
 		# print("OermTestFixtures._generate_db")
-		filename         = os.path.join(cls._repopath, "test.{0}-{1}.oerm".format(compress_method, encription_method))
+		filename = os.path.join(cls._repopath, "test.{0}-{1}.oerm".format(compress_method, encription_method))
 
 		# Primer reporte
 		db	= Database(file=filename, mode="wb", default_compress_method=compress_method, default_encription_method=encription_method, pages_in_container=10)
@@ -78,4 +80,44 @@ class OermTestFixtures(unittest.TestCase):
 	def tearDownClass(cls):
 		"""Borra completamente los datos generados para el testing"""
 		# print("OermTestFixtures.tearDownClass")
+		shutil.rmtree(cls._startpath)
+
+
+class OermTestSpoolFixtures(unittest.TestCase):
+	"""Clase para generar un spool de prueba heredable a los test relacionados"""
+
+	@classmethod
+	def _generate_spool(cls):
+		"""Genera un archivo de texto tipo Spool host reprint en una carpeta temporal"""
+		def rnd_line_generator(size=1024, chars=string.ascii_uppercase + string.digits):
+			"""Genera un string random de determinada longitud"""
+			return ''.join(random.choice(chars) for _ in range(size))
+
+		# Crear directorios de trabajo
+		cls._startpath   = tempfile.mkdtemp()
+		cls._spoolfile   = os.path.join(cls._startpath, "spool.txt")
+		cls._total_pages = 10
+		cls._paginas     = []
+
+		for i in range(1, cls._total_pages + 1):
+			pagina = ""
+			pagina = pagina + "1{:10}{:60}Pagina:{:>3}\n".format("Reporte 1", "", i)
+			pagina = pagina + " " + 80 * "=" + "\n"
+
+			for j in range(0, 60):
+				pagina = pagina + " " + rnd_line_generator(size=80) + "\n"
+
+			cls._paginas.append(pagina)
+
+		with open(cls._spoolfile, "w") as text_file:
+			for p in cls._paginas:
+				text_file.write(p)
+
+	@classmethod
+	def setUpClass(cls):
+		cls._generate_spool()
+
+	@classmethod
+	def tearDownClass(cls):
+		"""Borra completamente los datos generados para el testing"""
 		shutil.rmtree(cls._startpath)

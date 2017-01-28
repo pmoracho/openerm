@@ -26,9 +26,16 @@ try:
 	gettext.textdomain('openerm')
 
 	import sys
+	import time
+	import os
 
-	from Database import Database
-	from SpoolHostReprint import SpoolHostReprint
+	sys.path.append('.')
+	sys.path.append('..')
+
+	from openerm.Database import Database
+	from openerm.SpoolHostReprint import SpoolHostReprint
+	from openerm.Block import Block
+	from openerm.tabulate import tabulate
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -38,10 +45,6 @@ except ImportError as err:
 
 if __name__ == "__main__":
 
-	import time
-	import os
-	from Block import Block
-	from tabulate import tabulate
 
 	resultados = []
 	encriptado = 0

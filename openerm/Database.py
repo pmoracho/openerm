@@ -135,18 +135,20 @@ class Database(object):
 				self.Index.read()
 
 	def get_report(self, reporte):
-		"""
-		Retorna el id de un Reporte
+		"""Retorna el id de un Reporte
+
 		.. warning::
 			Documentación pendiente
+
 		"""
 		return self.Index.get_report(reporte)
 
 	def set_report(self, reporte):
-		"""
-		Establece el reporte actual
+		"""Establece el reporte actual
+
 		.. warning::
 			Documentación pendiente
+
 		"""
 		self.current_report = self.Index.get_report(reporte)
 

@@ -155,7 +155,6 @@ def filesInPath(path, pattern='*.*'):
 			relative_path = os.path.relpath(dirpath, path)
 			yield os.path.join(relative_path, filename)
 
-
 class AutoNum():
 	"""Clase autonumeradora de valores
 

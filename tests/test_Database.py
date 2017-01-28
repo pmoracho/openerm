@@ -24,9 +24,9 @@ import os
 
 from openerm.Database import Database
 from openerm.Block import Block
-from OermTestFixtures import OermTestFixtures
+from OermTestFixtures import OermTestCatalogFixtures
 
-class DatabaseTest(OermTestFixtures):
+class DatabaseTest(OermTestCatalogFixtures):
 
 	def test_read_database(self):
 		"""Lee un database con info random y verifica los resultados"""
