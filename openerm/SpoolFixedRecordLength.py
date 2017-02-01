@@ -29,7 +29,7 @@ ser del tipo FCFC, y contar con un canal de control.
 .. seealso::
 	* :class:`openerm.SpoolHostReprint`
 """
-# SpoolFixedRecordLenght
+
 
 class SpoolFixedRecordLength(object):
 	"""Clase base para lectura de archivos de tamaño de registro fijo.
@@ -67,11 +67,12 @@ class SpoolFixedRecordLength(object):
 		self._last_chunk	= False
 
 		self._lines			= []
+		self._newpage		= False
 
 	def __enter__(self):
 		"Apertura del archivo del spool a procesar"
 		# file_size		= os.path.getsize(self.filename)
-		self.open_file 	= open(self.filename, mode="rt", encoding=self.encoding)
+		self.open_file 	= open(self.filename, mode="r", encoding=self.encoding)
 		return self
 
 	def __exit__(self, *args):
@@ -83,58 +84,24 @@ class SpoolFixedRecordLength(object):
 		return self
 
 	def __next__(self):
-		"""Devuelve la siguiente página leída
+		"""Devuelve una página del spool"""
 
-		Return:
-			string: Texto completo de la página
+		if self._current_page is None:
+			raise StopIteration
 
-		"""
+		while True:
+			line = self.open_file.read(self.record_len)
+			if not line:
+				# Fin de archivo
+				page = self._current_page
+				self._current_page = None
+				return page
 
-		if self._current_line >= len(self._lines):
-			l = self.open_file.read(self.record_len)
-			self._lines = [l.strip() + "\n"]
-			if not self._lines:
-				if self._current_page == "":
-					raise StopIteration
-				else:
-					page = self._current_page
-					self._current_page = ""
-					return page
-
-			self._current_line = 0
-
-		for line in self._lines[self._current_line:]:
-			self._current_line += 1
+			line = line.rstrip() + "\n"
 			if line[0:self.lnewpage_code] == self.newpage_code and self._current_page != "":
+				# Detectado fin de página
 				page = self._current_page
 				self._current_page = line
 				return page
-
-			self._current_page += line
-
-		return self.__next__()
-
-
-if __name__ == "__main__":
-
-	import time
-
-	test_file		= "d:/mfw/test.txt"
-	paginas			= 0
-
-	start = time.time()
-
-	with SpoolFixedRecordLength(test_file, 102400) as s:
-		for page in s:
-			# sys.stdout.buffer.write(page[1:10].encode('ascii', "ignore"))
-			# l = page.split("\n")
-			# print(repr(l[0][-10:]))
-			paginas += 1
-
-			if paginas == 48628:
-				print(page)
-
-	elapsed = time.time() - start
-
-	print("")
-	print("Tiempo de lectura: {:,.2f}".format(elapsed))
+			else:
+				self._current_page += line

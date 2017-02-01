@@ -20,52 +20,30 @@
 Software# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 """
 
-import unittest
+from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength
+from OermTestFixtures import OermTestSpoolFixtures
 
-from openerm.SpoolHostReprint import SpoolHostReprint
 
-
-class SpoolHostReprintTest(unittest.TestCase):
+class SpoolFixedRecordLengthtTest(OermTestSpoolFixtures):
 
 	def test_load_process(self):
 		"""Genera un spool y realiza la lectura del mismo
 		"""
-		pagina = 0
+		pagina     = 0
 		read_pages = []
-		with SpoolHostReprint(self._filename, 102400) as s:
+		with SpoolFixedRecordLength(self._spools['SpoolFixedRecordLength'].get('filename'), 102400, encoding="cp500", record_len=132) as s:
 			for page in s:
 				pagina += 1
-				# print(page)
-				# print(self.paginas[pagina-1])
 				read_pages.append(page)
 
+		# print("Esperadas: ----------------------")
+		# for p in self._paginas:
+		# 	print(p)
+		# print("Leidas:    ---------------------")
+		# for p in read_pages:
+		# 	print(p)
+		# print("--------------------------------")
+
+		self.maxDiff = None
 		self.assertEqual(pagina, 10)
-		self.assertEqual(self.paginas, read_pages)
-
-	@classmethod
-	def setUpClass(cls):
-		cls._filename = "./out/spool.txt"
-		cls._generate_spool()
-
-	@classmethod
-	def tearDownClass(cls):
-		pass
-
-	@classmethod
-	def _generate_spool(cls):
-
-		import string
-		import random
-
-		def rnd_generator(size=1024, chars=string.ascii_uppercase + string.digits):
-			return ''.join(random.choice(chars) for _ in range(size))
-
-		cls.paginas = []
-		with open(cls._filename, "wt") as text_file:
-			p = 1
-			while p <= 10:
-				p += 1
-				random_text = "1" + rnd_generator(size=132)+"\n"+" " + rnd_generator(size=132)+"\n"
-				cls.paginas.append(random_text)
-				text_file.write(random_text)
-
+		self.assertListEqual(self._paginas, read_pages)

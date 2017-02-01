@@ -84,24 +84,24 @@ class OermTestCatalogFixtures(unittest.TestCase):
 
 
 class OermTestSpoolFixtures(unittest.TestCase):
-	"""Clase para generar un spool de prueba heredable a los test relacionados"""
+	"""Clase para generar spooles de prueba heredable a los test relacionados"""
 
 	@classmethod
-	def _generate_spool(cls):
-		"""Genera un archivo de texto tipo Spool host reprint en una carpeta temporal"""
+	def _generate_spools(cls):
+		"""	Genera:
+
+			* un archivo de texto tipo Spool host reprint
+			* un archivo ebcdic
+
+		Todo en una carpeta temporal.
+		"""
 		def rnd_line_generator(size=1024, chars=string.ascii_uppercase + string.digits):
 			"""Genera un string random de determinada longitud"""
 			return ''.join(random.choice(chars) for _ in range(size))
 
-		# Crear directorios de trabajo
-		cls._startpath   = tempfile.mkdtemp()
-		cls._spoolfile   = os.path.join(cls._startpath, "spool.txt")
-		cls._total_pages = 10
-		cls._paginas     = []
-
 		for i in range(1, cls._total_pages + 1):
 			pagina = ""
-			pagina = pagina + "1{:10}{:60}Pagina:{:>3}\n".format("Reporte 1", "", i)
+			pagina = pagina + "1{:9}{:>60}Pagina:{:>3}".format("Reporte 1", "", i) + "\n"
 			pagina = pagina + " " + 80 * "=" + "\n"
 
 			for j in range(0, 60):
@@ -109,15 +109,45 @@ class OermTestSpoolFixtures(unittest.TestCase):
 
 			cls._paginas.append(pagina)
 
-		with open(cls._spoolfile, "w") as text_file:
+		for (k,v) in cls._spools.items():
+			filename = os.path.join(cls._startpath, "{0}.spool".format(k))
+			v["filename"] = filename
+			v["wfunction"]()
+
+	@classmethod
+	def _SpoolHostReprint_Save(cls):
+
+		file_name = cls._spools['SpoolHostReprint'].get("filename")
+		with open(file_name, "w") as text_file:
 			for p in cls._paginas:
 				text_file.write(p)
 
 	@classmethod
+	def _SpoolFixedRecordLength_Save(cls):
+
+		file_name = cls._spools['SpoolFixedRecordLength'].get("filename")
+		# with open(file_name, "w") as text_file:
+		with open(file_name, "w", encoding="cp500") as text_file:
+			for p in cls._paginas:
+				for l in p.split("\n"):
+					if l:
+						text_file.write('{:132}'.format(l))
+
+	@classmethod
 	def setUpClass(cls):
-		cls._generate_spool()
+		# Crear directorios de trabajo
+		cls._startpath   = tempfile.mkdtemp()
+		cls._total_pages = 10
+		cls._paginas     = []
+		cls._spools  	 = {
+						'SpoolHostReprint': {"wfunction": cls._SpoolHostReprint_Save, "filename": ""} ,
+						'SpoolFixedRecordLength': {"wfunction": cls._SpoolFixedRecordLength_Save, "filename": ""}
+					  }
+
+		cls._generate_spools()
 
 	@classmethod
 	def tearDownClass(cls):
 		"""Borra completamente los datos generados para el testing"""
+		# print(cls._startpath)
 		shutil.rmtree(cls._startpath)

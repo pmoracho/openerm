@@ -29,9 +29,9 @@ class SpoolHostReprintTest(OermTestSpoolFixtures):
 	def test_load_process(self):
 		"""Genera un spool y realiza la lectura del mismo
 		"""
-		pagina = 0
+		pagina     = 0
 		read_pages = []
-		with SpoolHostReprint(self._spoolfile, 102400) as s:
+		with SpoolHostReprint(self._spools['SpoolHostReprint'].get('filename'), 102400) as s:
 			for page in s:
 				pagina += 1
 				read_pages.append(page)
