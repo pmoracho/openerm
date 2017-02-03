@@ -261,8 +261,8 @@ base sqlite (repo.db) en el directorio root del repositorio.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="openerm.OermClient.OermClient.query">
-<code class="descname">query</code><span class="sig-paren">(</span><em>reporte=None</em>, <em>sistema=None</em>, <em>aplicacion=None</em>, <em>departamento=None</em>, <em>fecha=None</em>, <em>limit=None</em>, <em>returntype='list'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.query"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.query" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="openerm.OermClient.OermClient.query_reports">
+<code class="descname">query_reports</code><span class="sig-paren">(</span><em>reporte=None</em>, <em>sistema=None</em>, <em>aplicacion=None</em>, <em>departamento=None</em>, <em>fecha=None</em>, <em>limit=None</em>, <em>returntype='list'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/OermClient.html#OermClient.query_reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.OermClient.OermClient.query_reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Consulta básica para buscar un reporte en los repositorios del catalogo.
 La busqueda se hace por cualquier de los atributos básicos de un reporte, y
 se puede hacer búsquedas parciales tipo LIKE en sql</p>
@@ -292,7 +292,7 @@ se puede hacer búsquedas parciales tipo LIKE en sql</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">OermClient</span><span class="p">(</span><span class="s2">&quot;samples/openermcfg.yaml&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;local-test&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">open_repo</span><span class="p">(</span><span class="s2">&quot;Prueba1&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resultados</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">reporte</span><span class="o">=</span><span class="s2">&quot;Carta&quot;</span><span class="p">,</span> <span class="n">returntype</span><span class="o">=</span><span class="s2">&quot;tablestr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resultados</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">query_reports</span><span class="p">(</span><span class="n">reporte</span><span class="o">=</span><span class="s2">&quot;Carta&quot;</span><span class="p">,</span> <span class="n">returntype</span><span class="o">=</span><span class="s2">&quot;tablestr&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">resultados</span><span class="p">)</span>
 <span class="go">+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+</span>
 <span class="go">| Nombre                                             |    Fecha | Departamento   | Sistema   | Aplicación   |   Páginas | Path                |</span>

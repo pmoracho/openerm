@@ -78,6 +78,7 @@ class _XmlTestResult(unittest.TestResult):
 		for test, err in errors:
 			self.current_test_id += 1
 			nombre_test = test.id()[test.id().rfind(".")+1:]
+			print(test.shortDescription())
 			desc = None if not test.shortDescription() else test.shortDescription().encode("ascii", "ignore")
 			v = (self.current_test_id, nombre_test, desc, 0, flavor, err)
 			self.resultados.append(v)

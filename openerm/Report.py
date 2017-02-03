@@ -189,7 +189,7 @@ class Report(object):
 		self.total_pages = total
 
 		# Metadatos
-		longitud_bloque, _, tipo_compresion, tipo_encriptacion, longitud_datos, data, _ = self._get_block_data_from_offset(self.metadata_offset)
+		longitud_bloque, _, tipo_compresion, _, longitud_datos, data, _ = self._get_block_data_from_offset(self.metadata_offset)
 		self.metadata = self.metadatacontainer.load(data)
 		self.__dict__.update(self.metadata)
 

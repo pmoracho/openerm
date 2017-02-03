@@ -104,7 +104,7 @@ class OermTestSpoolFixtures(unittest.TestCase):
 			pagina = pagina + "1{:9}{:>60}Pagina:{:>3}".format("Reporte 1", "", i) + "\n"
 			pagina = pagina + " " + 80 * "=" + "\n"
 
-			for j in range(0, 60):
+			for _ in range(0, 60):
 				pagina = pagina + " " + rnd_line_generator(size=80) + "\n"
 
 			cls._paginas.append(pagina)

@@ -222,7 +222,7 @@ class OermClient(object):
 		conn.close()
 		return r
 
-	def query(self, reporte=None, sistema=None, aplicacion=None, departamento=None, fecha=None, limit=None, returntype="list"):
+	def query_reports(self, reporte=None, sistema=None, aplicacion=None, departamento=None, fecha=None, limit=None, returntype="list"):
 		"""Consulta básica para buscar un reporte en los repositorios del catalogo.
 		La busqueda se hace por cualquier de los atributos básicos de un reporte, y
 		se puede hacer búsquedas parciales tipo LIKE en sql
@@ -244,7 +244,7 @@ class OermClient(object):
 			>>> c = OermClient("samples/openermcfg.yaml")
 			>>> c.open_catalog("local-test")
 			>>> c.open_repo("Prueba1")
-			>>> resultados = c.query(reporte="Carta", returntype="tablestr")
+			>>> resultados = c.query_reports(reporte="Carta", returntype="tablestr")
 			>>> print(resultados)
 			+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+
 			| Nombre                                             |    Fecha | Departamento   | Sistema   | Aplicación   |   Páginas | Path                |
@@ -283,7 +283,6 @@ class OermClient(object):
 		aplicacion = '%' if aplicacion is None else '%' + aplicacion + '%'
 		departamento = '%' if departamento is None else '%' + departamento + '%'
 		fecha = '%' if fecha is None else '%' + fecha + '%'
-
 		for dbname in self._current_repo.values():
 			conn = sqlite3.connect(dbname)
 			c = conn.cursor()
@@ -333,6 +332,7 @@ class OermClient(object):
 			self._flush()
 
 	def _flush(self):
+		"""Escribe los cambios en los archivos físicos"""
 		with open(self.configfile, 'w') as outfile:
 			yaml.dump(self.config, outfile, default_flow_style=True)
 
@@ -414,45 +414,3 @@ class OermClient(object):
 			d["urls"].append(path)
 
 		self._flush()
-
-
-if __name__ == "__main__":
-
-	config = """
-	catalogs:
-		local-test:
-			name: Ejemplo catalogo local
-			type: path
-			enabled: True
-			urls:
-				- Prueba1: D:\\pm\\data\\git.repo\\openerm\\samples\\repo
-				- Prueba2: D:\\pm\\data\\git.repo\\openerm\\samples\\otro
-		sql-test:
-			name: Ejemplo catalogo SQL
-			type: sql
-			enabled: false
-	"""
-	c = OermClient()
-	c._load_config(config)
-
-	print("Catalogos disponibles: {0}".format(c.catalogs(enabled=None)))
-
-	c.open_catalog("local-test")
-
-	print("Repositorios disponibles: {0}".format(c.repos()))
-
-	try:
-		c.open_repo("Prueba1")
-	except ValueError as e:
-		print(e)
-
-	print(c._current_repo)
-	# print(c.reports())
-	# print(c.systems())
-
-	resultados = c.query(reporte="Cartas", returntype="tablestr")
-	print(resultados)
-	resultados = c.query(fecha="0926", returntype="tablestr")
-	print(resultados)
-	resultados = c.query(reporte="Carta", returntype="tablestr")
-	print(resultados)

@@ -1,5 +1,6 @@
 from openerm.OermClient import OermClient
 from OermTestFixtures import OermTestCatalogFixtures
+from openerm.Block import Block
 import os
 
 
@@ -22,3 +23,14 @@ class OermClientTest(OermTestCatalogFixtures):
 		c.open_catalog("catalogo1")
 		c.open_repo(1)
 		self.assertEqual(c.reports(), self._reports)
+
+	def test_query(self):
+		"""Verifica la consulta de reportes en el repositorio"""
+		c = OermClient(self._configfile)
+		c.open_catalog("catalogo1")
+		c.open_repo(1)
+		resultados = c.query_reports(reporte="Reporte 2", returntype="list")
+
+		block = Block()  # Generic
+
+		self.assertEqual(len(resultados), len(block.compressor.available_types))
