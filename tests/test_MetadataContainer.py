@@ -37,13 +37,19 @@ class MetadataContainerTest(unittest.TestCase):
 
 		data = (rnd_generator(size=50), rnd_generator(size=15), rnd_generator(size=15), rnd_generator(size=15))
 
-		d = MetadataContainer(data[0], data[1], data[2], data[3])
+		metadata = {"dato0": data[0], "dato1": data[1], "dato2": data[2], "dato3": data[3]}
+
+		d = MetadataContainer(metadata)
+
+		extradata = {"Otra cosa": 11}
+		d.add(extradata)
+
 		text = d.dump()
 
-		orig = d.metadata
+		orig = metadata.copy()
+		orig.update(extradata)
 
 		o = MetadataContainer()
-		o.load(text)
+		new = o.load(text)
 
-		new = o.metadata
-		self.assertTrue(orig == new, "Orig <> new")
+		self.assertTrue(orig == new, "{0} <> {1}".format(orig, new))

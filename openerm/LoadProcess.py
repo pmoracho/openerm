@@ -59,27 +59,28 @@ class LoadProcess(object):
 
 	def __init__(self, configfile, input_file=None):
 
-		self.config = LoadConfig(configfile)
+		self.config     = LoadConfig(configfile)
 		self.input_file = input_file
 
 	def process_file(self, input_file):
 
-		block					= Block(default_compress_level=self.config.compress_level)
-		resultados				= []
-		self.input_file			= input_file
-		size_test_file			= os.path.getsize(self.input_file)
+		block           = Block(default_compress_level = self.config.compress_level)
+		resultados      = []
+		self.input_file = input_file
+		size_test_file  = os.path.getsize(self.input_file)
 
-		self.spool_types = { 	"fixed": SpoolFixedRecordLength(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
-					  "fcfc":	SpoolHostReprint(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
+		self.spool_types = {
+						"fixed": SpoolFixedRecordLength(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding, newpage_code=self.config.EOP ),
+					  	"fcfc":	SpoolHostReprint(self.input_file, buffer_size=self.config.buffer_size, encoding=self.config.encoding )
 					  }
 
-		compresiones = [e for e in block.compressor.available_types if e[0] == self.config.compress_type]
-		encriptados = [e for e in block.cipher.available_types if e[0] == self.config.cipher_type]
+		compresiones 	= [e for e in block.compressor.available_types if e[0] == self.config.compress_type]
+		encriptados 	= [e for e in block.cipher.available_types if e[0] == self.config.cipher_type]
 
 		mode = "ab"
 
 		r = ReportMatcher(self.config.report_cfg)
-
+		reports = []
 		for encriptado in encriptados:
 			for compress in compresiones:
 
@@ -105,7 +106,6 @@ class LoadProcess(object):
 			   				ETA(), ' ',
 			   				FileTransferSpeed()] #see docs for other options
 
-				print(_("Procesando archivos...\n"))
 				p_size = 0
 				with ProgressBar(max_value=size_test_file, widgets=widgets) as bar:
 					spool = self.spool_types[self.config.file_type]
@@ -115,7 +115,10 @@ class LoadProcess(object):
 							bar.update(p_size)
 							data = r.match(page)
 							reportname = data[0]
-							# print(reportname)
+
+							if reportname not in reports:
+								reports.append(reportname)
+
 							if reportname != reportname_anterior:
 								rpt_id = db.get_report(reportname)
 								if rpt_id:
@@ -138,12 +141,13 @@ class LoadProcess(object):
 					float(size_test_file),
 					float(compress_size),
 					(compress_size/size_test_file)*100,
-					paginas/compress_time
+					paginas/compress_time,
+					len(reports)
 				])
 
 		tablestr = tabulate(
 						tabular_data		= resultados,
-						headers				= ["Algoritmo", "Encript.", "Real (bytes)", "Compr. (bytes)", "Ratio", "Compr. Pg/Seg"],
+						headers				= ["Algoritmo", "Encript.", "Real (bytes)", "Compr. (bytes)", "Ratio", "Compr. Pg/Seg", "Reportes"],
 						floatfmt			= "8.2f",
 						tablefmt			= "psql",
 						numalign			= "right",

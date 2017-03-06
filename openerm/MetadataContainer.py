@@ -38,7 +38,6 @@ try:
 
 	import sys
 	import json
-	import datetime
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -50,33 +49,20 @@ class MetadataContainer(object):
 	"""Contenedeor de los "metadatos" del reporte
 
 	Args:
-		report (string): Nombre del reporte
-		sistema (string): Sistema que generó el reporte
-		aplicacion (string): Aplicación o módulo que generó el reporte
-		departamento (string): Departamento al que aplica el reporte
-		fecha (datetime): Fecha de emisión y/o creación del reporte
+		metadata (dict): Diccionario de los datos fundamentales de un reporte
 
 
 	"""
-	def __init__(self, reporte="n/a", sistema="n/a", aplicacion="n/a", departamento="n/a", fecha=datetime.datetime.now().strftime("%Y%m%d")):
+	def __init__(self, metadata={}):
 
-		#: Diccionario de metadatos del contenedor
-		self.metadata	= {
-							"reporte": reporte,
-							"sistema": sistema,
-							"aplicacion": aplicacion,
-							"departamento": departamento,
-							"fecha": fecha
-						}
-
-		self.tipo_bloque	= 1
+		self.metadata    = metadata
+		self.tipo_bloque = 1
 
 	def __str__(self):
-
 		return repr(self.metadata)
 
 	def add(self, extradata):
-		"""Agrega un diccionario de datos al contenedor
+		"""Agrega un diccionario de datos extra al contenedor
 
 		Args:
 			extradata (dict): Datos adicionales

@@ -163,7 +163,17 @@ class Database(object):
 		if self.hasflush:
 			self.flush()
 
-		data	= MetadataContainer(reporte, sistema, aplicacion, departamento, fecha).dump()
+
+		#: Diccionario de metadatos del contenedor
+		metadata	= {
+							"reporte": reporte,
+							"sistema": sistema,
+							"aplicacion": aplicacion,
+							"departamento": departamento,
+							"fecha": fecha
+						}
+
+		data	= MetadataContainer(metadata).dump()
 		cblock	= self.block.dump(1, data)
 
 		self.current_report = self.Index.add_report(reporte, self._file.tell(), self.pages_in_container)

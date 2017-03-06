@@ -33,6 +33,7 @@ try:
 
 	import yaml
 	import datetime
+	import numpy as np
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -191,20 +192,40 @@ class ReportMatcher(object):
 	def _match_none(page):
 		return ("Sin Identificar", "n/a", "n/a", "n/a", "n/a")
 
+	@staticmethod
+	def create_matrix(text, x, y):
+
+		lines = [l.ljust(y)[:y] for l in text.split('\n')]
+		if len(lines) > x:
+			lines = lines[:x]
+		else:
+			lines = lines + [''.ljust(y)[:y] for i in range(x-len(lines))]
+
+		return np.array([list(l) for l in lines])
+
+
 	def _match_report(self, page):
 
 		for reporte, match, box in self.matches:
 
 			if box:
-				slice_line = ""
 				from_row, from_col, to_row, to_col = box
+				print(from_row, from_col, to_row, to_col)
 
-				for l in [line for i, line in enumerate(page.split("\n"),1) if i >= from_row and i <= to_row ]:
-					slice_line += l[from_col:to_col] + " "
+				try:
+					matrix = self.create_matrix(page, 300, 300)
+				except Exception as exc:
+					print(exc)
 
-				text = slice_line
+
+				print(matrix[from_row-1:to_row, from_col-1:to_col])
+				# print(matrix[0:0, 0:5])
+				# for l in [line for i, line in enumerate(page.split("\n"),1) if i >= from_row and i <= to_row ]:
+				#	slice_line += l[from_col:to_col] + " "
+				# text = slice_line
 			else:
 				text = page
+			text = page
 
 			# pos = rabin_karp(match, text)
 			# if pos >= 0:
