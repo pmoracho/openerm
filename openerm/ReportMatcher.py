@@ -65,7 +65,7 @@ class ReportMatcher(object):
 		self.now     = datetime.datetime.now().strftime("%Y%m%d")
 
 		if configbuffer:
-			self.config = yaml.load(configbuffer.replace("\t", " "))
+			self.config = yaml.safe_load(configbuffer.replace("\t", " "))
 		elif configfile:
 			self.configfile	= configfile
 			self.__load_config_file()
@@ -84,7 +84,7 @@ class ReportMatcher(object):
 
 		with open(self.configfile, 'r', encoding='utf-8') as stream:
 			try:
-				self.config = yaml.load(stream)
+				self.config = yaml.safe_load(stream)
 			except yaml.YAMLError as exc:
 				print(exc)
 
