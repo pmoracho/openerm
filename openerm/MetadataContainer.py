@@ -53,9 +53,9 @@ class MetadataContainer(object):
 
 
 	"""
-	def __init__(self, metadata={}):
+	def __init__(self, metadata=None:
 
-		self.metadata    = metadata
+		self.metadata    = metadata if metadata else {}
 		self.tipo_bloque = 1
 
 	def __str__(self):

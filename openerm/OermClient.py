@@ -79,14 +79,14 @@ class OermClient(object):
 			self._load_configfile()
 
 	def _load_config(self, yamltext):
-		self.config = yaml.load(yamltext)
+		self.config = yaml.safe_load(yamltext)
 		self._catalogs = self.config.get("catalogs", {})
 
 	def _load_configfile(self):
 		"""Carga la configuración en el diccionario interno de la clase"""
 		with open(self.configfile, 'r') as stream:
 			try:
-				self.config = yaml.load(stream)
+				self.config = yaml.safe_load(stream)
 			except yaml.YAMLError as exc:
 				print(exc)
 

@@ -149,12 +149,12 @@ class Config(object):
 
 		with open(self.configfile, 'r', encoding='utf-8') as stream:
 			try:
-				self.dictionary = yaml.load(stream)
+				self.dictionary = yaml.safe_load(stream)
 			except yaml.YAMLError as e:
 				raise ConfigLoadingException(_("Error de parseo YAML"), [str(e).replace('\n', '')])
 			else:
 				if self.schema:
-					schema = yaml.load(self.schema.replace("\t", " "))
+					schema = yaml.safe_load(self.schema.replace("\t", " "))
 					v = Validator(schema)
 					if not v.validate(self.dictionary):
 						errores = []

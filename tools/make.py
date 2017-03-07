@@ -339,7 +339,7 @@ Los comandos más usados:
 		import os
 		import os.path
 		mypath = "."
-		for root, dirs, files in os.walk(mypath):
+		for root, _, files in os.walk(mypath):
 			for file in filter(lambda x: re.match(pattern, x), files):
 				os.remove(os.path.join(root, file))
 

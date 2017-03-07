@@ -107,27 +107,3 @@ class SpoolHostReprint(object):
 			self._current_page += line
 
 		return self.__next__()
-
-if __name__ == "__main__":
-
-	import time
-
-	test_file		= "d:/mfw/test.txt"
-	paginas			= 0
-
-	start = time.time()
-
-	with SpoolHostReprint(test_file, 102400) as s:
-		for page in s:
-			# sys.stdout.buffer.write(page[1:10].encode('ascii', "ignore"))
-			# l = page.split("\n")
-			# print(repr(l[0][-10:]))
-			paginas += 1
-
-			if paginas == 48628:
-				print(page)
-
-	elapsed = time.time() - start
-
-	print("")
-	print("Tiempo de lectura: {:,.2f}".format(elapsed))
