@@ -53,7 +53,7 @@ class MetadataContainer(object):
 
 
 	"""
-	def __init__(self, metadata=None:
+	def __init__(self, metadata=None):
 
 		self.metadata    = metadata if metadata else {}
 		self.tipo_bloque = 1

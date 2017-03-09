@@ -375,7 +375,7 @@ def simple_separated_format(separator):
 
 def _isconvertible(conv, string):
 	try:
-		n = conv(string)
+		conv(string)
 		return True
 	except (ValueError, TypeError):
 		return False
@@ -731,9 +731,9 @@ def _normalize_tabular_data(tabular_data, headers, showindex="default"):
 
 	try:
 		bool(headers)
-		is_headers2bool_broken = False
+		# is_headers2bool_broken = False
 	except ValueError: # numpy.ndarray, pandas.core.index.Index, ...
-		is_headers2bool_broken = True
+		# is_headers2bool_broken = True
 		headers = list(headers)
 
 	index = None
@@ -860,8 +860,7 @@ def _normalize_tabular_data(tabular_data, headers, showindex="default"):
 
 def tabulate(tabular_data, headers=(), tablefmt="simple",
 			 floatfmt="g", numalign="decimal", stralign="left",
-			 missingval="", showindex="default", 
-			 override_cols_align=None, override_cols_fmt=None):
+			 missingval="", showindex="default", override_cols_align=None, override_cols_fmt=None):
 	"""Format a fixed width table for pretty printing.
 
 	>>> print(tabulate([[1, 2.34], [-56, "8.999"], ["2", "10001"]]))
@@ -1115,7 +1114,7 @@ def tabulate(tabular_data, headers=(), tablefmt="simple",
 	# "" should be escaped as "\\ " or ".."
 	if tablefmt == 'rst':
 		list_of_lists, headers = _rst_escape_first_column(list_of_lists, headers)
-	
+
 	# optimization: look for ANSI control codes once,
 	# enable smart width functions only if a control code is found
 	plain_text = '\n'.join(['\t'.join(map(_text_type, headers))] + \

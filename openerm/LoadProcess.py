@@ -104,7 +104,7 @@ class LoadProcess(object):
 							FormatLabel('%(value)d bytes de %(max_value)d (%(percentage)0.2f)'),
 			   				Bar(marker='#',left='[',right=']'), ' ',
 			   				ETA(), ' ',
-			   				FileTransferSpeed()] #see docs for other options
+			   				FileTransferSpeed()]
 
 				p_size = 0
 				with ProgressBar(max_value=size_test_file, widgets=widgets) as bar:
