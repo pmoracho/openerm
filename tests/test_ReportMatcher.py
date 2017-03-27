@@ -21,11 +21,13 @@
 """
 
 import sys
+import unittest
+
 sys.path.append('.')
 sys.path.append('..')
 
-import unittest
 from openerm.ReportMatcher import ReportMatcher
+
 
 class ReportMatcherTest(unittest.TestCase):
 
@@ -49,7 +51,6 @@ class ReportMatcherTest(unittest.TestCase):
 	def test_simple_match(self):
 		"""Pruebas de un matching simple de reporte, se busca en todo el texto"""
 
-
 		config = """
 		Reports:
 			"Prueba":
@@ -67,7 +68,6 @@ class ReportMatcherTest(unittest.TestCase):
 
 	def test_box_match(self):
 		"""Pruebas de un matching único con recorte por box"""
-
 
 		config = """
 		Reports:
