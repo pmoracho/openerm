@@ -42,6 +42,10 @@ except ImportError as err:
 class ReportMatcher(object):
 	"""Matcher de reportes
 
+	El matcher de reportes se configura mediante un archivo yaml. Ver ejemplos
+	en la carpeta `tools`, aunque tambien puede configurarase mediante un "buffer"
+	o string yaml ya definido.
+
 	Args:
 		configfile (string): Path absoluto al archivo de configuración de la clase
 		configbuffer (string): Buffer con la configuración YAML de la clase.
@@ -62,13 +66,13 @@ class ReportMatcher(object):
 		self.reports = {}
 		self.matches = []
 		self.reports = {}
-		self.now     = datetime.datetime.now().strftime("%Y%m%d")
 
 		if configbuffer:
 			self.config = yaml.safe_load(configbuffer.replace("\t", " "))
 		elif configfile:
 			self.configfile	= configfile
 			self.__load_config_file()
+
 			self._match	= self._match_report
 		else:
 			self._match	= self._match_none
@@ -78,7 +82,6 @@ class ReportMatcher(object):
 			matches = rpt.get("match", {})
 			for match, box in matches.items():
 				self.matches.append((k, match, box))
-
 
 	def __load_config_file(self):
 
@@ -118,7 +121,7 @@ class ReportMatcher(object):
 
 	@staticmethod
 	def _match_none(page):
-		return ("Sin Identificar", "n/a", "n/a", "n/a", "n/a")
+		return ("Sin Identificar", "n/a", "n/a", "n/a", None)
 
 	def _match_report(self, text):
 
@@ -127,24 +130,4 @@ class ReportMatcher(object):
 			if box:
 				for i,l in enumerate(text.split("\n"),1):
 					if i in range(box[0], box[1]+1):
-						print(l[box[2]-1:box[3]+1])
-						if match in l[box[2]-1:box[3]+1]:
-							d = (	reporte,
-									self.reports[reporte].get("system", "n/a"),
-									self.reports[reporte].get("application", "n/a"),
-									self.reports[reporte].get("department", "n/a"),
-									self.reports[reporte].get("date", self.now)
-								)
-							return d
-			else:
-
-				if match in text:
-					d = (	reporte,
-							self.reports[reporte].get("system", "n/a"),
-							self.reports[reporte].get("application", "n/a"),
-							self.reports[reporte].get("department", "n/a"),
-							self.reports[reporte].get("date", self.now)
-						)
-					return d
-
-		return ("Sin Identificar", "n/a", "n/a", "n/a", "n/a")
+						print(l[box[2]-1:box[3]+1])b
