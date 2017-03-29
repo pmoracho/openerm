@@ -32,7 +32,7 @@ try:
 	gettext.textdomain('openerm')
 
 	import yaml
-	import datetime
+	# import datetime
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -130,4 +130,13 @@ class ReportMatcher(object):
 			if box:
 				for i,l in enumerate(text.split("\n"),1):
 					if i in range(box[0], box[1]+1):
-						print(l[box[2]-1:box[3]+1])b
+						# print(l[box[2]-1:box[3]+1])
+						if match in l[box[2]-1:box[3]+1]:
+							return (reporte, "n/a", "n/a", "n/a", None)
+
+			else:
+				if match in text:
+					return (reporte, "n/a", "n/a", "n/a", None)
+
+
+		return ("Sin Identificar", "n/a", "n/a", "n/a", None)

@@ -124,7 +124,7 @@ class LoadProcess(object):
 								if rpt_id:
 									db.set_report(reportname)
 								else:
-									db.add_report(reporte=reportname, sistema=data[1], aplicacion=data[2], departamento=data[3], fecha=data[4])
+									db.add_report(reporte=reportname, sistema=data[1], departamento=data[2], fecha=data[3])
 								reportname_anterior = reportname
 
 							paginas = paginas + 1
