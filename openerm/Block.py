@@ -212,7 +212,7 @@ class Block(object):
 		if longitud_datos_variables > 0:
 			struct_fmt			= struct_fmt + "{0}s".format(longitud_datos_variables)
 			struct_unpack		= struct.Struct(struct_fmt).unpack_from
-			fields				= struct_unpack(data[header_len:])
+			fields				= struct_unpack(data[header_len:])VIAJES_VIAJE_AltaAdelantoReintegroRendicion_A_1_0_0
 			data				= fields[0]
 			variable_data		= fields[1]
 		else:

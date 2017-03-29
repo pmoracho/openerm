@@ -262,7 +262,6 @@ class OermClient(object):
 				date.date,
 				department.department_name,
 				system.system_name,
-				application.application_name,
 				reports.pages,
 				databases.path
 		From
@@ -270,7 +269,6 @@ class OermClient(object):
 				department On reports.department_id = department.department_id Inner Join
 				date On reports.date_id = date.date_id Inner Join
 				report On reports.report_id = report.report_id Inner Join
-				application On reports.aplicacion_id = application.application_id Inner Join
 				system On reports.system_id = system.system_id Inner Join
 				databases On reports.database_id = databases.database_id
 		where	1 = 1
@@ -280,7 +278,6 @@ class OermClient(object):
 
 		reporte = '%' if reporte is None else '%' + reporte + '%'
 		sistema = '%' if sistema is None else '%' + sistema + '%'
-		aplicacion = '%' if aplicacion is None else '%' + aplicacion + '%'
 		departamento = '%' if departamento is None else '%' + departamento + '%'
 		fecha = '%' if fecha is None else '%' + fecha + '%'
 		for dbname in self._current_repo.values():
@@ -363,11 +360,10 @@ class OermClient(object):
 
 		c.execute("CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)")
 		c.execute("CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)")
-		c.execute("CREATE TABLE application (application_id INTEGER PRIMARY KEY ASC, application_name text)")
 		c.execute("CREATE TABLE department	(department_id INTEGER PRIMARY KEY ASC, department_name text)")
 		c.execute("CREATE TABLE report		(report_id INTEGER PRIMARY KEY ASC, report_name text)")
 
-		c.execute("CREATE TABLE reports	(database_id int, report_id int, aplicacion_id int, date_id int, system_id, department_id int, pages int)")
+		c.execute("CREATE TABLE reports	(database_id int, report_id int, date_id int, system_id, department_id int, pages int)")
 		# c.execute("CREATE TABLE reports (database_id int, report_id text, report_name text, aplicacion text, fecha text, sistema text, departamento text, pages int)")
 
 		databases		= []
@@ -376,7 +372,6 @@ class OermClient(object):
 		reportid 	= AutoNum()
 		dateid		= AutoNum()
 		systemid	= AutoNum()
-		appid		= AutoNum()
 		deptid		= AutoNum()
 
 		for i, f in enumerate(filesInPath(path, "*.oerm"), 1):
@@ -388,7 +383,6 @@ class OermClient(object):
 
 				elemento = (i,
 							reportid.get(report.nombre),
-							appid.get(report.aplicacion),
 							dateid.get(report.fecha),
 							systemid.get(report.sistema),
 							deptid.get(report.departamento),
@@ -398,11 +392,10 @@ class OermClient(object):
 
 		c.executemany("INSERT INTO date (date, date_id) VALUES (?,?)", dateid.list())
 		c.executemany("INSERT INTO system (system_name, system_id) VALUES (?,?)", systemid.list())
-		c.executemany("INSERT INTO application (application_name, application_id) VALUES (?,?)", appid.list())
 		c.executemany("INSERT INTO department (department_name, department_id) VALUES (?,?)", deptid.list())
 		c.executemany("INSERT INTO report (report_name, report_id) VALUES (?,?)", reportid.list())
 		c.executemany("INSERT INTO databases (database_id, path) VALUES (?,?)", databases)
-		c.executemany("INSERT INTO reports (database_id, report_id, aplicacion_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?,?)", reports_list)
+		c.executemany("INSERT INTO reports (database_id, report_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?)", reports_list)
 
 		conn.commit()
 		conn.close()

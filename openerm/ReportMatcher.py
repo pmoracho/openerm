@@ -39,6 +39,7 @@ except ImportError as err:
 	print(_("No fue posible importar el modulo: %s") % modulename)
 	sys.exit(-1)
 
+
 class ReportMatcher(object):
 	"""Matcher de reportes
 
@@ -128,15 +129,15 @@ class ReportMatcher(object):
 		for reporte, match, box in self.matches:
 
 			if box:
-				for i,l in enumerate(text.split("\n"),1):
+				for i, l in enumerate(text.split("\n"), 1):
 					if i in range(box[0], box[1]+1):
 						# print(l[box[2]-1:box[3]+1])
 						if match in l[box[2]-1:box[3]+1]:
-							return (reporte, "n/a", "n/a", "n/a", None)
+							r = self.reports[reporte]
+							return (reporte, r["system"], r["department"], None)
 
 			else:
 				if match in text:
 					return (reporte, "n/a", "n/a", "n/a", None)
 
-
-		return ("Sin Identificar", "n/a", "n/a", "n/a", None)
+		return (reporte, r["system"], r["department"], None)
