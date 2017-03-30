@@ -48,6 +48,7 @@ try:
 	from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength
 	from openerm.tabulate import tabulate
 	from openerm.Config import LoadConfig
+	from openerm.Utils import generate_filename
 
 except ImportError as err:
 	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
@@ -88,7 +89,7 @@ class LoadProcess(object):
 				paginas		= 0
 
 				# file_name	= "{0}.{1}.oerm".format(self.config.output_path, slugify("{0}.{1}".format(compress[1], encriptado[1]), "_"))
-				file_name	= os.path.join(self.config.output_path, self.config.file_mask + ".oerm")
+				file_name	= os.path.join(self.config.output_path, generate_filename(self.config.file_mask) + ".oerm")
 
 				db	= Database(	file=file_name,
 								mode=mode,

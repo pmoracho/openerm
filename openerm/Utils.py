@@ -28,7 +28,10 @@ proyecto **OpenErm**
 
 import re
 import os
+import time
 import fnmatch
+import getpass
+import platform
 
 from unicodedata import normalize
 
@@ -137,6 +140,24 @@ def str_to_list(str_value, maxvalue):
 
 	return sorted(lista)
 
+def generate_filename(mask):
+	"""Genera un nombre de archivo en función a una máscara
+
+	Args:
+		mask (string): Mascara usada
+	"""
+	tmp = mask
+	p = re.compile('\[(.*?)\:(.*?)\]')
+	for v,f in p.findall(mask):
+		keyword = '[{0}:{1}]'.format(v,f)
+		if v.lower() =="now":
+			tmp = tmp.replace(keyword, time.strftime(f))
+		if v.lower() =="user":
+			tmp = tmp.replace(keyword, getpass.getuser())
+		if v.lower() =="host":
+			tmp = tmp.replace(keyword, platform.node())
+
+	return tmp
 
 def filesInPath(path, pattern='*.*'):
 	"""Retorna de forma recursiva los archivos que respetan un patrón
