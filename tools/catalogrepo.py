@@ -115,7 +115,7 @@ def procces_tree(path, update=False):
 	conn = sqlite3.connect(dbname)
 	# conn.text_factory = lambda x: repr(x)
 	c = conn.cursor()
-	c.execute("CREATE TABLE databases (database_id int, path text)")
+	c.execute("CREATE TABLE databases (database_id int, path text, size int)")
 
 	c.execute("CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)")
 	c.execute("CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)")
@@ -134,8 +134,9 @@ def procces_tree(path, update=False):
 	deptid		= AutoNum()
 
 	for i, f in enumerate(filesInPath(path, "*.oerm"), 1):
-		databases.append((i, f))
-		d = Database(os.path.join(path, f), mode="rb")
+		fname = os.path.join(path, f)
+		databases.append((i, f, os.stat(fname).st_size ))
+		d = Database(fname, mode="rb")
 		for report in d.reports():
 
 			print("{0}: {1}".format(report.nombre, reportid.get(report.nombre)))
@@ -153,7 +154,7 @@ def procces_tree(path, update=False):
 	c.executemany("INSERT INTO system (system_name, system_id) VALUES (?,?)", systemid.list())
 	c.executemany("INSERT INTO department (department_name, department_id) VALUES (?,?)", deptid.list())
 	c.executemany("INSERT INTO report (report_name, report_id) VALUES (?,?)", reportid.list())
-	c.executemany("INSERT INTO databases (database_id, path) VALUES (?,?)", databases)
+	c.executemany("INSERT INTO databases (database_id, path, size) VALUES (?,?,?)", databases)
 	c.executemany("INSERT INTO reports (database_id, report_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?)", reports_list)
 
 	conn.commit()
