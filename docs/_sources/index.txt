@@ -43,6 +43,52 @@ tipo de herramientas: aún hoy existen empresas que apoyan la gestión
 de su negocio en grande computadores o "Mainframes" y siguen generando
 enormes cantidades de listados. 
 
+Estatus del proyecto a diciembre del 2016
+=========================================
+
+Esta es la situación actual del proyecto. 
+
+    Definiciones:
+
+    * Estructura fisica dónde salvar los reportes
+    
+    Funcionalidad:
+
+    * Varios algoritmos de compresión, ver: :class:`openerm.Compressor`
+    * Cifrado (Spritz y Fernet), ver: :class:`openerm.Cipher`
+    * Se implementó una clase para el guardado y recuperación de los reportes y sus páginas, ver: :class:`openerm.Database`
+
+    Herramientas:
+
+    * Spl2oerm - Procesador básico de spooles:
+
+      - Procesamiento de spooles ASCII/EBCDIC de registro de longitud fija, ver: :class:`openerm.SpoolFixedRecordLength`
+      - Procesamiento de spooles ASCII/EBCDIC de registro de longitud variable con info de canal, ver: :class:`openerm.SpoolHostReprint`
+      - Identificación de páginas, por texto de salto de página o info de canal
+      - Identificación simple de reportes por texto encontrado en página
+      - Configuración completa del proceso definido en archivo de configuración yaml
+      - Salvado de los reportes en el Database final
+
+    * readoermdb - Lectura de un database OERM:
+
+      * Lectura de un Database
+      * Recuperación de reportes
+      * Lectura de cualquier reporte
+      * Extracción de páginas
+      
+    To do:
+    
+    * Mejorar la identificación de reportes
+    * Mas opciones, multiples textos a ubicar
+    * Configurar ventanas de búsquedas (cabeceras/footers)
+    * Optimizar identificación mediante algún algoritmo mejorado
+    * Paralelizar el proceso del spool, separando la lectura de páginas de la identificación de archivos y el salvado final
+    * Captura de datos (fecha, sistema, aplicación, etc) desde el mismo reporte
+    * Definir mejor los datos adicionales de los reportes. Hoy el único dato real que identifica un reporte el el nombre del mismo
+
+
+
+
 
 Estructura de un database OpenErm
 =================================

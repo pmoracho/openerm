@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -27,6 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
     <link rel="next" title="catalogrepo" href="catalogrepo.html" />
     <link rel="prev" title="Reports" href="openerm.Reports.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -61,7 +61,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/spl2oerm.rst.txt"
+      <li><a href="_sources/spl2oerm.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -160,12 +160,14 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </pre></div>
 </div>
 <blockquote>
-<div><ul class="simple">
-<li>Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</li>
-<li>La primer sección <cite>load</cite> define completamente el proceso de carga</li>
+<div><ul>
+<li><p class="first">Toda línea o texto que comienza con el caracter <cite>#</cite> es considerada un comentario</p>
+</li>
+<li><p class="first">La primer sección <cite>load</cite> define completamente el proceso de carga</p>
+</li>
 <li><dl class="first docutils">
 <dt>En <cite>file</cite> se configuran los parámetros para la interpretación básica del archivo</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><cite>encoding</cite> define la codificación del archivo, ver <a class="reference external" href="https://docs.python.org/3/library/codecs.html#standard-encodings">aqui</a> la lista de psoibles codecs</li>
 <li><cite>record-lenght</cite>, para los tipos de archivo de registros de longitud fija, el tamaño de los mismos</li>
 <li><cite>file-type</cite> tipo de archivo, actualmente hay dos implementaciones <cite>fixed</cite> y <cite>fcfc</cite></li>
@@ -176,7 +178,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </li>
 <li><dl class="first docutils">
 <dt>En <cite>process</cite> se configuran los parámetros inherentes al proceso lógico del spool</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><cite>EOP</cite> define el caracter o cadena que determina el cambio de página dentro del reporte.</li>
 <li><cite>report-cfg</cite> define el archivo de configuración de los reportes</li>
 </ul>
@@ -185,7 +187,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
 </li>
 <li><dl class="first docutils">
 <dt>En <cite>output</cite> se configuran los parámetros que definen el database físico a generar</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><cite>output-path</cite> define el archivo de configuración de los reportes</li>
 <li><cite>compress-type</cite> define el tipo de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
 <li><cite>compress-level</cite> define el nivel de compresión a usar. Ver más documentación en <a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal"><span class="pre">openerm.Compressor</span></code></a></li>
@@ -243,7 +245,7 @@ archivo de texto escrito en formato <a class="reference external" href="http://y
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

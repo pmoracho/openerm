@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +25,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="../index.html" />
+    <link rel="up" title="Código de módulo" href="index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -294,6 +295,20 @@
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
 
 	<span class="k">else</span><span class="p">:</span>
+		<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"> _______  _______  ___      _______  _______  _______  ______    __   __</span>
+<span class="s2">|       ||       ||   |    |       ||       ||       ||    _ |  |  |_|  |</span>
+<span class="s2">|  _____||    _  ||   |    |____   ||   _   ||    ___||   | ||  |       |</span>
+<span class="s2">| |_____ |   |_| ||   |     ____|  ||  | |  ||   |___ |   |_||_ |       |</span>
+<span class="s2">|_____  ||    ___||   |___ | ______||  |_|  ||    ___||    __  ||       |</span>
+<span class="s2"> _____| ||   |    |       || |_____ |       ||   |___ |   |  | || ||_|| |</span>
+<span class="s2">|_______||___|    |_______||_______||_______||_______||___|  |_||_|   |_|</span>
+
+<span class="si">{0}</span><span class="s2"> (v.</span><span class="si">{1}</span><span class="s2">)</span>
+<span class="si">{2}</span><span class="s2"></span>
+<span class="s2">		&quot;&quot;&quot;</span>
+
+		<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">__appdesc__</span><span class="p">,</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__author__</span><span class="p">))</span>
 		<span class="n">status</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -325,7 +340,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

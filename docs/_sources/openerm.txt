@@ -13,7 +13,7 @@ Clases de uso público
    openerm.OermClient
    openerm.Database
    openerm.SpoolHostReprint
-   openerm.SpoolFixedRecordLenght
+   openerm.SpoolFixedRecordLength
    openerm.ReportMatcher
    openerm.Utils
    openerm.Config

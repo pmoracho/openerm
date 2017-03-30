@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,7 +25,9 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
+    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -104,7 +105,6 @@
 
 	<span class="kn">import</span> <span class="nn">sys</span>
 	<span class="kn">import</span> <span class="nn">json</span>
-	<span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
 	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -116,33 +116,20 @@
 	<span class="sd">&quot;&quot;&quot;Contenedeor de los &quot;metadatos&quot; del reporte</span>
 
 <span class="sd">	Args:</span>
-<span class="sd">		report (string): Nombre del reporte</span>
-<span class="sd">		sistema (string): Sistema que generó el reporte</span>
-<span class="sd">		aplicacion (string): Aplicación o módulo que generó el reporte</span>
-<span class="sd">		departamento (string): Departamento al que aplica el reporte</span>
-<span class="sd">		fecha (datetime): Fecha de emisión y/o creación del reporte</span>
+<span class="sd">		metadata (dict): Diccionario de los datos fundamentales de un reporte</span>
 
 
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">sistema</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">aplicacion</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">departamento</span><span class="o">=</span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-		<span class="c1">#: Diccionario de metadatos del contenedor</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>	<span class="o">=</span> <span class="p">{</span>
-							<span class="s2">&quot;reporte&quot;</span><span class="p">:</span> <span class="n">reporte</span><span class="p">,</span>
-							<span class="s2">&quot;sistema&quot;</span><span class="p">:</span> <span class="n">sistema</span><span class="p">,</span>
-							<span class="s2">&quot;aplicacion&quot;</span><span class="p">:</span> <span class="n">aplicacion</span><span class="p">,</span>
-							<span class="s2">&quot;departamento&quot;</span><span class="p">:</span> <span class="n">departamento</span><span class="p">,</span>
-							<span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="n">fecha</span>
-						<span class="p">}</span>
-
-		<span class="bp">self</span><span class="o">.</span><span class="n">tipo_bloque</span>	<span class="o">=</span> <span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>    <span class="o">=</span> <span class="n">metadata</span> <span class="k">if</span> <span class="n">metadata</span> <span class="k">else</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tipo_bloque</span> <span class="o">=</span> <span class="mi">1</span>
 
 	<span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
 		<span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MetadataContainer.add"><a class="viewcode-back" href="../../openerm.MetadataContainer.html#openerm.MetadataContainer.MetadataContainer.add">[documentos]</a>	<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extradata</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;Agrega un diccionario de datos al contenedor</span>
+		<span class="sd">&quot;&quot;&quot;Agrega un diccionario de datos extra al contenedor</span>
 
 <span class="sd">		Args:</span>
 <span class="sd">			extradata (dict): Datos adicionales</span>
@@ -230,7 +217,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

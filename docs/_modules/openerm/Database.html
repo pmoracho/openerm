@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,7 +25,9 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="../../index.html" />
+    <link rel="up" title="Código de módulo" href="../index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -229,7 +230,17 @@
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasflush</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-		<span class="n">data</span>	<span class="o">=</span> <span class="n">MetadataContainer</span><span class="p">(</span><span class="n">reporte</span><span class="p">,</span> <span class="n">sistema</span><span class="p">,</span> <span class="n">aplicacion</span><span class="p">,</span> <span class="n">departamento</span><span class="p">,</span> <span class="n">fecha</span><span class="p">)</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+
+		<span class="c1">#: Diccionario de metadatos del contenedor</span>
+		<span class="n">metadata</span>	<span class="o">=</span> <span class="p">{</span>
+							<span class="s2">&quot;reporte&quot;</span><span class="p">:</span> <span class="n">reporte</span><span class="p">,</span>
+							<span class="s2">&quot;sistema&quot;</span><span class="p">:</span> <span class="n">sistema</span><span class="p">,</span>
+							<span class="s2">&quot;aplicacion&quot;</span><span class="p">:</span> <span class="n">aplicacion</span><span class="p">,</span>
+							<span class="s2">&quot;departamento&quot;</span><span class="p">:</span> <span class="n">departamento</span><span class="p">,</span>
+							<span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="n">fecha</span>
+						<span class="p">}</span>
+
+		<span class="n">data</span>	<span class="o">=</span> <span class="n">MetadataContainer</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
 		<span class="n">cblock</span>	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">current_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Index</span><span class="o">.</span><span class="n">add_report</span><span class="p">(</span><span class="n">reporte</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pages_in_container</span><span class="p">)</span>
@@ -365,7 +376,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

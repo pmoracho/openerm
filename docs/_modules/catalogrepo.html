@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +25,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../search.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="../index.html" />
+    <link rel="up" title="Código de módulo" href="index.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="../_static/solarized-dark.css" rel="stylesheet">
   </head>
   <body role="document">
@@ -181,15 +182,14 @@
 	<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
 	<span class="c1"># conn.text_factory = lambda x: repr(x)</span>
 	<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE databases (database_id int, path text)&quot;</span><span class="p">)</span>
+	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE databases (database_id int, path text, size int)&quot;</span><span class="p">)</span>
 
 	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)&quot;</span><span class="p">)</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)&quot;</span><span class="p">)</span>
-	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE application (application_id INTEGER PRIMARY KEY ASC, application_name text)&quot;</span><span class="p">)</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE department	(department_id INTEGER PRIMARY KEY ASC, department_name text)&quot;</span><span class="p">)</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE report		(report_id INTEGER PRIMARY KEY ASC, report_name text)&quot;</span><span class="p">)</span>
 
-	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE reports	(database_id int, report_id int, aplicacion_id int, date_id int, system_id, department_id int, pages int)&quot;</span><span class="p">)</span>
+	<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE reports	(database_id int, report_id int, date_id int, system_id, department_id int, pages int)&quot;</span><span class="p">)</span>
 	<span class="c1"># c.execute(&quot;CREATE TABLE reports (database_id int, report_id text, report_name text, aplicacion text, fecha text, sistema text, departamento text, pages int)&quot;)</span>
 
 	<span class="n">databases</span>		<span class="o">=</span> <span class="p">[]</span>
@@ -198,19 +198,18 @@
 	<span class="n">reportid</span> 	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
 	<span class="n">dateid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
 	<span class="n">systemid</span>	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
-	<span class="n">appid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
 	<span class="n">deptid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
 
 	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filesInPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;*.oerm&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
-		<span class="n">databases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
-		<span class="n">d</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-		<span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">Reports</span><span class="p">():</span>
+		<span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+		<span class="n">databases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="p">))</span>
+		<span class="n">d</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">reports</span><span class="p">():</span>
 
 			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="n">reportid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">nombre</span><span class="p">)))</span>
 
 			<span class="n">elemento</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span>
 						<span class="n">reportid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">nombre</span><span class="p">),</span>
-						<span class="n">appid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">aplicacion</span><span class="p">),</span>
 						<span class="n">dateid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">fecha</span><span class="p">),</span>
 						<span class="n">systemid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">sistema</span><span class="p">),</span>
 						<span class="n">deptid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">departamento</span><span class="p">),</span>
@@ -220,11 +219,10 @@
 
 	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO date (date, date_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">dateid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO system (system_name, system_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">systemid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
-	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO application (application_name, application_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">appid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO department (department_name, department_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">deptid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO report (report_name, report_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">reportid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
-	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO databases (database_id, path) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">databases</span><span class="p">)</span>
-	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO reports (database_id, report_id, aplicacion_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?,?)&quot;</span><span class="p">,</span> <span class="n">reports_list</span><span class="p">)</span>
+	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO databases (database_id, path, size) VALUES (?,?,?)&quot;</span><span class="p">,</span> <span class="n">databases</span><span class="p">)</span>
+	<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO reports (database_id, report_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?)&quot;</span><span class="p">,</span> <span class="n">reports_list</span><span class="p">)</span>
 
 	<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 	<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
@@ -262,7 +260,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>

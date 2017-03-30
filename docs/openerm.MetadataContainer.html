@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -27,6 +26,8 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="top" title="documentación de Openerm - 0.1" href="index.html" />
+    <link rel="up" title="Openerm - API" href="openerm.html" />
     <link rel="next" title="PageContainer" href="openerm.PageContainer.html" />
     <link rel="prev" title="Config" href="openerm.Config.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link href="_static/solarized-dark.css" rel="stylesheet">
@@ -62,7 +63,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/openerm.MetadataContainer.rst.txt"
+      <li><a href="_sources/openerm.MetadataContainer.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -98,28 +99,21 @@ de atributos y es posible agregar los que deseemos.</p>
 </div>
 <dl class="class">
 <dt id="openerm.MetadataContainer.MetadataContainer">
-<em class="property">class </em><code class="descclassname">openerm.MetadataContainer.</code><code class="descname">MetadataContainer</code><span class="sig-paren">(</span><em>reporte='n/a'</em>, <em>sistema='n/a'</em>, <em>aplicacion='n/a'</em>, <em>departamento='n/a'</em>, <em>fecha='20161216'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/MetadataContainer.html#MetadataContainer"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.MetadataContainer.MetadataContainer" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">openerm.MetadataContainer.</code><code class="descname">MetadataContainer</code><span class="sig-paren">(</span><em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/MetadataContainer.html#MetadataContainer"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.MetadataContainer.MetadataContainer" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clases base: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Contenedeor de los &#8220;metadatos&#8221; del reporte</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
-<li><strong>report</strong> (<em>string</em>) &#8211; Nombre del reporte</li>
-<li><strong>sistema</strong> (<em>string</em>) &#8211; Sistema que generó el reporte</li>
-<li><strong>aplicacion</strong> (<em>string</em>) &#8211; Aplicación o módulo que generó el reporte</li>
-<li><strong>departamento</strong> (<em>string</em>) &#8211; Departamento al que aplica el reporte</li>
-<li><strong>fecha</strong> (<em>datetime</em>) &#8211; Fecha de emisión y/o creación del reporte</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>metadata</strong> (<em>dict</em>) &#8211; Diccionario de los datos fundamentales de un reporte</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="openerm.MetadataContainer.MetadataContainer.add">
 <code class="descname">add</code><span class="sig-paren">(</span><em>extradata</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/MetadataContainer.html#MetadataContainer.add"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.MetadataContainer.MetadataContainer.add" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Agrega un diccionario de datos al contenedor</p>
+<dd><p>Agrega un diccionario de datos extra al contenedor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -205,12 +199,6 @@ pueden ser variables.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="openerm.MetadataContainer.MetadataContainer.metadata">
-<code class="descname">metadata</code><em class="property"> = None</em><a class="headerlink" href="#openerm.MetadataContainer.MetadataContainer.metadata" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Diccionario de metadatos del contenedor</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -242,7 +230,7 @@ pueden ser variables.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2016, Patricio Moracho.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.4.8.Theme by <a href="http://github.com/vkvn">vkvn</a>
     </div>
   </body>
 </html>
