@@ -21,7 +21,7 @@
 """
 **ReportMatcher** es el objeto que identifica los reportes de una
 determinada cola de impresión. Lo hace mediante una serie de reglas que se
-definene en una arcchivo de configuración en formato YAML
+definene en una archivo de configuración en formato YAML
 """
 
 
@@ -56,10 +56,6 @@ class ReportMatcher(object):
 		>>> from openerm.ReportMatcher import ReportMatcher
 		>>> r = ReportMatcher("../var/reports.yaml")
 		>>> print(r.match("R8101611"))
-
-	TODO:
-	* orden de matching
-	* multiples matches x reporte
 	"""
 	def __init__(self, configfile="openerm.cfg", configbuffer=None):
 
@@ -107,11 +103,9 @@ class ReportMatcher(object):
 			========= ================================================
 			string	  Id del reporte
 			string	  Sistema
-			string	  Aplicacion
 			string	  Departamento
 			string	  Fecha
 			========= ================================================
-
 
 		Example:
 			>>> from openerm.ReportMatcher import ReportMatcher
@@ -131,7 +125,6 @@ class ReportMatcher(object):
 			if box:
 				for i, l in enumerate(text.split("\n"), 1):
 					if i in range(box[0], box[1]+1):
-						# print(l[box[2]-1:box[3]+1])
 						if match in l[box[2]-1:box[3]+1]:
 							r = self.reports[reporte]
 							return (reporte, r["system"], r["department"], None)
