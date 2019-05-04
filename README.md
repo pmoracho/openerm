@@ -4,153 +4,145 @@
 * [Proyecto en github](https://github.com/pmoracho/openerm.git)
 
 
-"OpenERM" es la primera especificación "abierta" para el almacenamiento de
-reportes electrónicos. Las siglas OERM hacen referencia a "Open electronic
-report management" una forma más moderna de llamar lo que hace algunos años se
-conocía como **COLD**, "Computer output to laser disk". Asimismo es la primer
+**`OpenERM`** es la primera especificación "abierta" para el almacenamiento de
+reportes electrónicos. Las siglas `OERM` hacen referencia a _Open electronic
+report management_ una forma moderna de llamar lo que hace algunos años se
+conocía como **`COLD`**, _Computer output to laser disk_. Asimismo es la primer
 implementación oficial de dicha especificación. 
 
 * [Requisitos iniciales](#markdown-header-requisitos-iniciales)
+    * [Instalación de python](#instalacion_de_python)
+    * [Descarga e instalación del repositorio del proyecto](#descarga_e_instalacion_del_repositorio_del_proyecto)
 	* [Preparación del entorno virtual local](#markdown-header-preparacion-del-entorno-virtual)
 	* [Otras consideraciones](#markdown-header-otras-consideraciones)
 
 
-Requisitos iniciales
-====================
+## Requisitos iniciales
 
-Antes que nada, necesitaremos:
+Para poder empezar a usar este proyecto, tanto para desarrollo como para
+ejecutar las herramientas, el primer paso es "clonar" este repositorio en
+nuestro sistema. Para esto, necesitaremos **[Git](https://git-scm.com/)** y una
+consola de sistema:
 
 En Windows:
 
 * [Git for Windows](https://git-scm.com/download/win) instalado y funcionando
-* Una terminal de Windows, puede ser `cmd.exe`
+* Una terminal de Windows, puede ser el clásico `cmd.exe`.
 
 En Linux
 
-* Git instalado y funcionando
-* Una consola tipo `bash`
+* Git instalado y funcionando, hoy en día es raro que no venga instalado por
+  defecto. Si fuera el caso consultar la documentación del SO para ver como
+  instalarlo.
+* Una consola tipo `bash`.
 
-Con **Git** instalado, desde la línea de comando y con una carpeta dónde
-alojaremos este proyecto, por ejemplo `c:\proyectos` o `~/proyectos`, simplemente:
+Para verificar la instalación, simplemente, desde la consola, podremos hacer: 
 
-``` 
-c:\> c: 
-c:\> cd \proyectos 
-c:\> git clone <url del repositorio>
-c:\> cd <carpeta del repositorio>
-``` 
+```sh
+# > git -- version
+# > git version 2.7.4
+```
 
-|                       |                                           |
-| --------------------- |-------------------------------------------|
-| Repositorio           | https://github.com/pmoracho/openerm.git   |
-| Carpeta del proyecto  | .                                         |
-
-## Instalación de **Python**
+### Instalación de **Python**
 
 Para desarrollo de la herramienta es necesario, en primer término, descargar un
 interprete Python. **openerm** ha sido desarrollado inicialmnete con la versión 3.4,
-debiera funcionar perfectamente bien con cualquier versión de la rama 3x.
+pero debiera funcionar perfectamente bien con cualquier versión de la rama `3x`.
 
-**Importante:** Si bien solo detallamos el procedimiento para entornos
-**Windows**, el proyecto es totalmente compatible con **Linux**
+**En Windows**
 
 * [Python 3.6.6 (32 bits)](https://www.python.org/ftp/python/3.6.6/python-3.6.6.exe)
 * [Python 3.6.6 (64 bits)](https://www.python.org/ftp/python/3.6.6/python-3.6.6-amd64.exe)
 
-Se descarga y se instala en el sistema el interprete **Python** deseado. A
-partir de ahora trabajaremos en una terminal de Windows (`cmd.exe`). Para
-verificar la correcta instalación, en particular que el interprete este en el `PATH`
-del sistemas, simplemente corremos `python --version`, la salida deberá
-coincidir con la versión instalada 
+1.  Se descarga y se instala en el sistema el interprete **Python** deseado. A
+    partir de ahora trabajaremos en una terminal de Windows (`cmd.exe`). Para
+    verificar la correcta instalación, en particular que el interprete este en
+    el `PATH` del sistemas, simplemente corremos `python --version`, la salida
+    deberá coincidir con la versión instalada.
 
-Es conveniente pero no mandatorio hacer upgrade de la herramienta pip: `python
--m pip install --upgrade pip`
+2.  Es conveniente pero no mandatorio hacer upgrade de la herramienta pip:
+    `python -m pip install --upgrade pip`
 
-## Instalación de `Virtualenv`
+**En Linux**
+
+Consultar la documentación de su SO. 
+
+
+### Descarga e instalación del repositorio del proyecto
+
+Teniendo una carpeta base o "root" para el proyecto, digamos por ejemplo:
+`c:\proyectos` o `~/proyectos`, simplemente haremos:
+
+```sh
+# > cd proyectos 
+# > git clone https://github.com/pmoracho/openerm.git openerm.git
+# > cd openerm.git
+```
+
+(*) por las dudas, respetar el nombre del proyecto `openerm.git` para la
+carpeta destino.
+
+### Instalación de `Virtualenv`
+
+Para poder ejecutar cualquiera de las herramientas del proyecto, ya vimos que
+necesitamos un interprete de **`Python`**, sin embargo es una mala práctica
+depender directamente de la instalación inicial. Es más óptimo generar un
+entorno de **`Python`**, exclusivo para este proyecto. De esta forma logramos
+una estabilidad en el interprete y sobre todo en los paquetes adicionales o
+dependencias del proyecto.
 
 [Virutalenv](https://virtualenv.pypa.io/en/stable/). Es la herramienta estándar
-para crear entornos "aislados" de **Python**. En nuestro ejemplo **xls2table**,
-requiere de Python 3x y de varios "paquetes" adicionales de versiones
-específicas. Para no tener conflictos de desarrollo lo que haremos mediante
-esta herramienta es crear un "entorno virtual" en una carpeta del proyecto (que
-llamaremos `venv`), dónde una vez "activado" dicho entorno podremos instalarle
-los paquetes que requiere el proyecto. Este "entorno virtual" contendrá una
-copia completa de **Python** y los paquetes mencionados, al activarlo se
-modifica el `PATH` al `python.exe` que ahora apuntará a nuestra carpeta del
-entorno y nuestras propias librerías, evitando cualquier tipo de conflicto con un
-entorno **Python** ya existente. La instalación de `virtualenv` se hará
-mediante:
+para crear entornos "aislados" de **Python**. Este proyecto, requiere de Python
+3x y de varios "paquetes" adicionales de versiones específicas. Para no tener
+conflictos de desarrollo lo que haremos mediante esta herramienta es crear un
+"entorno virtual" en una carpeta del proyecto (que llamaremos `venv`), dónde
+una vez "activado" dicho entorno podremos instalarle los paquetes que requiere
+el proyecto. Este "entorno virtual" contendrá una copia completa de
+**`Pytho`n** y los paquetes mencionados, al activarlo se modifica el `PATH` al
+interprete `python.exe` de modo que apunte a nuestra carpeta del entorno y
+nuestras propias librerías, evitando cualquier tipo de conflicto con un entorno
+**`Python`** ya existente o futuro, así como cualquier eventual cambio a
+niveSO. La instalación de `virtualenv` se hará mediante:
 
 ```
-c:\..\> pip install virtualenv
+# > pip install virtualenv
 ```
 
-## Creación y activación del entorno virtual
+### Creación y activación del entorno virtual
 
-La creación de nuestro entorno virtual se realizará mediante el comando:
+Una vez instalado [Virutalenv](https://virtualenv.pypa.io/en/stable/),
+deberemos crear nuestro entorno virtual dentro de la carpeta del proyecto, que
+es lo más recomendable, aunque podría ser cualquier otra carpeta. La creación
+se realizará mediante el comando:
 
-```
-C:\..\>  virtualenv venv --clear --prompt=[autoxls] --no-wheel
+```sh
+# > virtualenv -p python3 venv --clear --prompt=[openerm]
 ```
 
 Para "activar" el entorno simplemente hay que correr el script de activación
 que se encontrará en la carpeta `.\venv\Scripts` (en linux sería `./venv/bin`)
 
-```
+Por ejemplo:
+
+```sh
 C:\..\>  .\venv\Scripts\activate.bat
-[autoxls] C:\..\> 
+[openerm] C:\..\> 
 ```
 
 Como se puede notar se ha cambiado el `prompt` con la indicación del entorno
 virtual activo, esto es importante para no confundir entornos si trabajamos con
-múltiples proyecto **Python** al mismo tiempo.
+múltiples proyecto **`Python`** al mismo tiempo. El `prompt` puede variar de
+sistema a sistema, pero es útil verificar que el `PATH` a el interprete, esté
+apuntando a la carpeta del proyecto.
 
-## Instalación de requerimientos
+
+### Instalación de requerimientos
 
 Mencionábamos que este proyecto requiere varios paquetes adicionales, la lista
 completa está definida en el archivo `requirements.txt` para instalarlos en
 nuestro entorno virtual, simplemente:
 
 ```
-[autoxls] C:\..\> pip install -r requirements.txt
+[openerm] C:\..\> pip install -r requirements.txt
 ```
-
-El proyecto **Openerm** esta construido usando el lenguaje **python** y varios
-"packages" o librerías adicionales para dicho lenguaje. Para poder construir
-las herramientas del proyecto es necesario preparar antes que nada, un entorno
-de desarrollo. A continuación expondremos en detalle cuales son los pasos para
-tener preparado el entorno de desarrollo. Este detalle esta orientado a la
-implementación sobre Windows 32 bits, los pasos para versiones de 64 bits son
-sustancialmente distintos, en particular por algunos de los "paquetes" que se
-construyen a partir de módulos en C o C++, de igual forma la instalación sobre
-Linux tiene sus grandes diferencias. Eventualmente profundizaremos sobre estos
-entornos, pero en principo volvemos a señalar que el siguiente detalle aplica a
-los ambientes Windows de 32 bits:
-
-
-Notas:
-======
-
-* Hay dependecias que son fácilmente instalables mediante el comando `pip` y
-  otras que no se instalan de la misma forma tan fácilmente. Estás últimas son
-  librerías o proyectos en C o C++ que requieren de la compilación de distintos
-  módulos, estos "paquetes", para poder instalarse mediante `pip` requieren que
-  dispongamos de un compilador C/C++, algo que no siempre ocurre e incluso para
-  ser más exactos, deberíamos contar con la misma versión del compilador que
-  usa nuestra distribución python. Por esto hemos optado por incluir los
-  paquetes ya compilados en su distribución binaria. Los requerimientos de este
-  tipo podrán ser encontrados en la carpeta wheels.
-
-* Es recomendable y cómodo, pero entiendo que no es mandatorio, contar con un
-  entorno estilo "Linux", por ejemplo [MinGW](http://www.mingw.org/), tal como
-  dice la página del proyecto: "MinGW provides a complete Open Source
-  programming tool set which is suitable for the development of native
-  MS-Windows applications, and which do not depend on any 3rd-party C-Runtime
-  DLLs. (It does depend on a number of DLLs provided by Microsoft themselves,
-  as components of the operating system; most notable among these is
-  MSVCRT.DLL, the Microsoft C runtime library. Additionally, threaded
-  applications must ship with a freely distributable thread support DLL,
-  provided as part of MinGW itself)." De este entorno requerimos algunas
-  herramientas de desarrollo: Bash para la línea de comandos y Make para la
-  automatización de varias tareas del proyecto. 
 
