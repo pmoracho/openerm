@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reports &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="splprocessor" href="splprocessor.html" />
+    <link rel="prev" title="Report" href="openerm.Report.html" />
+  
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-openerm.Reports"></span><div class="section" id="reports">
+<h1>Reports<a class="headerlink" href="#reports" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Clase base para manejar una colección de reportes correspondientes a
+un Database OERM.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Report</span></code></a></p></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<ul class="simple">
+<li><p>Esta clase no debiera usarse directamente</p></li>
+<li><p>En un futuro modificar la inicialización, para que reciba el archivo.oerm y los archivos de los</p></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="openerm.Reports.Reports">
+<em class="property">class </em><code class="descclassname">openerm.Reports.</code><code class="descname">Reports</code><span class="sig-paren">(</span><em>database</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase base para manejar una colección de reportes correspondientes a
+un Database OERM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>database</strong> (<a class="reference internal" href="openerm.Database.html#module-openerm.Database" title="openerm.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Database</span></code></a>) – Objeto Database</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>Iterador por la lista de Reportes</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>iterable</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/zstd-level-3-1-22.test.oerm&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+<span class="go">Report: Reporte 1</span>
+<span class="go">Report: Reporte 2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openerm.Reports.Reports.find_text">
+<code class="descname">find_text</code><span class="sig-paren">(</span><em>text</em>, <em>search_in_reports=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.find_text"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.find_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Búsqueda de un texto dentro de uno o más reportes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – Patrón de texto a buscar</p></li>
+<li><p><strong>search_in_reports</strong> (<em>list</em>) – Lista de id´s de reportes dónde buscar o None en todos</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/.sin_compression_sin_encriptacion.oerm&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span> <span class="o">=</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span><span class="o">.</span><span class="n">find_text</span><span class="p">(</span><span class="s2">&quot;IWY3&quot;</span><span class="p">)</span>
+<span class="go">[(2, 10, 991, &#39;AGH8B2NULTCTJ0L-[IWY3]-4K6D8RRBYCRQCH&#39;)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Lista de reportes y páginas</dt><dd><ul class="simple">
+<li><p>Reporte id</p></li>
+<li><p>Página</p></li>
+<li><p>Posición en la página</p></li>
+<li><p>Extracto de la ocurrencia a modo de ejemplo</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Reports.Reports.get_report">
+<code class="descname">get_report</code><span class="sig-paren">(</span><em>rptid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Reports.html#Reports.get_report"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Reports.Reports.get_report" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna un objeto de la clase <a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Report</span></code></a> según el <strong>id</strong> del mismo</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – Número de reporte de la base Oerm</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Reports</span> <span class="k">import</span> <span class="n">Reports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;out/zstd-level-3-1-22.test.oerm&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span> <span class="o">=</span> <span class="n">Reports</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reports</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">Report: Reporte 1</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>Reporte solicitado</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p><a class="reference internal" href="openerm.Report.html#module-openerm.Report" title="openerm.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Report</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="openerm.html">Openerm - API</a><ul>
+      <li>Previous: <a href="openerm.Report.html" title="capítulo anterior">Report</a></li>
+      <li>Next: <a href="splprocessor.html" title="próximo capítulo">splprocessor</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.Reports.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+      |
+      <a href="_sources/openerm.Reports.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

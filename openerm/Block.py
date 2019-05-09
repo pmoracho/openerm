@@ -22,10 +22,11 @@
 Block
 =====
 
-Un "bloque" de datos. Un Block es la únidad miníma de un Database OERM. Hay dos
+Un "bloque" de datos. Un Block es la unidad miníma de un Database OERM. Hay dos
 tipos de bloque básico:
 
-	* :class:`openerm.MetadataContainer` para guardar los atributos de un determinado reporte.
+	* :class:`openerm.MetadataContainer` para guardar los atributos de un
+		determinado reporte.  
 	* :class:`openerm.PageContainer` para guardar conjuntos de páginas
 
 .. seealso::
@@ -54,14 +55,14 @@ except ImportError as err:
 
 
 class Block(object):
-	"""Manejo de bloques de un archivo OpenERM. El bloque es la únidad mínima de
+	"""Bloque de un archivo OpenERM. El bloque es la unidad mínima de
 	información. Existen en está versión dos tipo de bloques básicos:
 
 		- Contenedores de metadatos
 		- Contenedores de páginas
 
-	Cada bloque puede o no ser comprimido y encriptado con algún algoritmo que dependerá de la
-	implememntación OpenERM particular.
+	Cada bloque puede o no ser comprimido y encriptado con algún algoritmo que
+	dependerá de la implememntación OpenERM particular.
 
 	Args:
 		default_compress_method (int): Compresión por defecto del bloque (default = 1 - Gzip)

@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>make &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+  
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para make</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+<span class="sd">#</span>
+<span class="sd"># make.py</span>
+<span class="sd">#</span>
+<span class="sd"># This program is free software; you can redistribute it and/or</span>
+<span class="sd"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="sd"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="sd"># be included in the file GPL-3.</span>
+<span class="sd">#</span>
+<span class="sd"># This program is distributed in the hope that it will be useful,</span>
+<span class="sd"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="sd"># GNU Library General Public License for more details.</span>
+<span class="sd">#</span>
+<span class="sd"># You should have received a copy of the GNU General Public License</span>
+<span class="sd"># along with this program; if not, write to the Free Software</span>
+<span class="sd"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span>		<span class="o">=</span> <span class="s2">&quot;Patricio Moracho &lt;pmoracho@gmail.com&gt;&quot;</span>
+<span class="n">__appname__</span>		<span class="o">=</span> <span class="s2">&quot;make.py&quot;</span>
+<span class="n">__appdesc__</span>		<span class="o">=</span> <span class="s2">&quot;Automatización de tareas para el proyecto Openerm&quot;</span>
+<span class="n">__license__</span>		<span class="o">=</span> <span class="s1">&#39;GPL v3&#39;</span>
+<span class="n">__copyright__</span>	<span class="o">=</span> <span class="s2">&quot;(c) 2016, </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__author__</span><span class="p">)</span>
+<span class="n">__version__</span>		<span class="o">=</span> <span class="s2">&quot;0.9&quot;</span>
+<span class="n">__date__</span>		<span class="o">=</span> <span class="s2">&quot;2016/07/14&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">gettext</span>
+	<span class="kn">from</span> <span class="nn">gettext</span> <span class="k">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+	<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">&#39;openerm&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="my_gettext"><a class="viewcode-back" href="../make.html#make.my_gettext">[documentos]</a>	<span class="k">def</span> <span class="nf">my_gettext</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;my_gettext: Traducir algunas cadenas de argparse.&quot;&quot;&quot;</span>
+		<span class="n">current_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;usage: &#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;optional arguments&#39;</span><span class="p">:</span> <span class="s1">&#39;argumentos opcionales&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;show this help message and exit&#39;</span><span class="p">:</span> <span class="s1">&#39;mostrar esta ayuda y salir&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;positional arguments&#39;</span><span class="p">:</span> <span class="s1">&#39;argumentos posicionales&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;the following arguments are required: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;los siguientes argumentos son requeridos: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">}</span>
+
+		<span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">current_dict</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">current_dict</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">s</span></div>
+
+	<span class="n">gettext</span><span class="o">.</span><span class="n">gettext</span> <span class="o">=</span> <span class="n">my_gettext</span>
+
+	<span class="kn">import</span> <span class="nn">sys</span>
+	<span class="kn">import</span> <span class="nn">subprocess</span>
+	<span class="kn">import</span> <span class="nn">re</span>
+	<span class="kn">import</span> <span class="nn">argparse</span>
+	<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;No fue posible importar el modulo: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">modulename</span><span class="p">)</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">root_dir</span> <span class="o">=</span> <span class="s2">&quot;openerm.git&quot;</span>
+<span class="n">packages</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="s2">&quot;blosc&quot;</span><span class="p">:</span>			<span class="p">(</span><span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>	<span class="s2">&quot;blosc-1.3.3-cp34-cp34m-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;brotlipy&quot;</span><span class="p">:</span>			<span class="p">(</span><span class="s2">&quot;0.5.1&quot;</span><span class="p">,</span>	<span class="kc">None</span><span class="p">),</span>
+				<span class="s2">&quot;cryptography&quot;</span><span class="p">:</span>		<span class="p">(</span><span class="s2">&quot;1.4&quot;</span><span class="p">,</span>		<span class="kc">None</span><span class="p">),</span>
+				<span class="s2">&quot;lz4&quot;</span><span class="p">:</span>				<span class="p">(</span><span class="s2">&quot;0.8.2&quot;</span><span class="p">,</span>	<span class="s2">&quot;lz4-0.8.2-cp34-cp34m-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;pylzma&quot;</span><span class="p">:</span>			<span class="p">(</span><span class="s2">&quot;0.4.8&quot;</span><span class="p">,</span>	<span class="s2">&quot;pylzma-0.4.8-cp34-none-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;python-lzo&quot;</span><span class="p">:</span>		<span class="p">(</span><span class="s2">&quot;1.11&quot;</span><span class="p">,</span>	<span class="s2">&quot;python_lzo-1.11-cp34-none-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;python-snappy&quot;</span><span class="p">:</span>	<span class="p">(</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span>		<span class="s2">&quot;python_snappy-0.5-cp34-none-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;PyYAML&quot;</span><span class="p">:</span>			<span class="p">(</span><span class="s2">&quot;3.11&quot;</span><span class="p">,</span>	<span class="s2">&quot;PyYAML-3.11-cp34-none-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;zstd&quot;</span><span class="p">:</span>				<span class="p">(</span><span class="s2">&quot;0.7.5.1&quot;</span><span class="p">,</span> <span class="s2">&quot;zstd-0.7.5.1-cp34-none-win32.whl&quot;</span><span class="p">),</span>
+				<span class="s2">&quot;percentage2&quot;</span><span class="p">:</span>		<span class="p">(</span><span class="s2">&quot;3.11.0&quot;</span><span class="p">,</span>	<span class="kc">None</span><span class="p">),</span>
+				<span class="s2">&quot;Cerberus&quot;</span><span class="p">:</span>			<span class="p">(</span><span class="s2">&quot;1.0.1&quot;</span><span class="p">,</span>	<span class="kc">None</span><span class="p">),</span>
+				<span class="s2">&quot;PyInstaller&quot;</span><span class="p">:</span>	<span class="p">(</span>	<span class="s2">&quot;3.1.1&quot;</span><span class="p">,</span>	<span class="kc">None</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">manualtasks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;No olvidar de corregir venv\Lib\site-packages\cryptography\hazmat</span><span class="se">\b</span><span class="s2">ackends\__init__.py para hacer funcionar Criptography cuando se distribuyen en forma binaria las herramientas&quot;</span><span class="p">]</span>
+
+
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span>
+			<span class="s2">&quot;tools</span><span class="se">\\</span><span class="s2">oerm_hostreprint_processor.py&quot;</span><span class="p">,</span>
+			<span class="s2">&quot;tools</span><span class="se">\\</span><span class="s2">checkoermdb.py&quot;</span><span class="p">,</span>
+			<span class="s2">&quot;tools</span><span class="se">\\</span><span class="s2">readoermdb.py&quot;</span>
+		<span class="p">]</span>
+
+
+<div class="viewcode-block" id="subprocess_cmd"><a class="viewcode-back" href="../make.html#make.subprocess_cmd">[documentos]</a><span class="k">def</span> <span class="nf">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+	<span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+	<span class="n">stdout_value</span><span class="p">,</span> <span class="n">stderr_value</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+	<span class="k">if</span> <span class="n">stderr_value</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">stderr_value</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;Latin1&quot;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">stdout_value</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">stdout_value</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;Latin1&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MyMake"><a class="viewcode-back" href="../make.html#make.MyMake">[documentos]</a><span class="k">class</span> <span class="nc">MyMake</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+			<span class="n">prog</span><span class="o">=</span><span class="n">__appname__</span><span class="p">,</span>
+			<span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+			<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+			<span class="c1"># add_help=False,</span>
+			<span class="n">formatter_class</span><span class="o">=</span><span class="k">lambda</span> <span class="n">prog</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">HelpFormatter</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span> <span class="n">max_help_position</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+			<span class="n">usage</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s1"></span>
+<span class="s1">Uso: make &lt;command&gt; [&lt;args&gt;]</span>
+
+<span class="s1">Los comandos más usados:</span>
+
+<span class="s1">  devcheck	 Hace una verificación del entorno de desarrollo</span>
+<span class="s1">  devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos</span>
+<span class="s1">  docinstall Intalación de Sphinx</span>
+<span class="s1">  clear	  Elimina archivos innecesarios</span>
+<span class="s1">  test		  Ejecuta todos los tests definidos del proyecto</span>
+<span class="s1">  tools	  Construye la distribución binaria de las herramientas del proyecto</span>
+
+<span class="s1">&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__appdesc__</span><span class="p">,</span> <span class="n">__copyright__</span><span class="p">)</span>
+		<span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;command&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Comando a ejecutar&#39;</span><span class="p">)</span>
+		<span class="c1"># parse_args defaults to [1:] for args, but you need to</span>
+		<span class="c1"># exclude the rest of the args too, or validation will fail</span>
+		<span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">print_error</span><span class="p">()</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">venv</span>	<span class="o">=</span> <span class="s2">&quot;venv</span><span class="se">\\</span><span class="s2">Scripts</span><span class="se">\\</span><span class="s2">activate.bat&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">venv</span>	<span class="o">=</span> <span class="s2">&quot;. venv/bin/activate&quot;</span>
+
+		<span class="c1"># use dispatch pattern to invoke method with same name</span>
+		<span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span><span class="p">)()</span>
+
+<div class="viewcode-block" id="MyMake.test"><a class="viewcode-back" href="../make.html#make.MyMake.test">[documentos]</a>	<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Ejecuta todos los tests del proyecto&#39;</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running make tests&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">run_tests</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MyMake.tools"><a class="viewcode-back" href="../make.html#make.MyMake.tools">[documentos]</a>	<span class="k">def</span> <span class="nf">tools</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Ejecuta todos los tests del proyecto&#39;</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running make tools&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyMake.devinstall"><a class="viewcode-back" href="../make.html#make.MyMake.devinstall">[documentos]</a>	<span class="k">def</span> <span class="nf">devinstall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos&#39;</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running make devinstall&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">dev_install</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">run_devcheck</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MyMake.docinstall"><a class="viewcode-back" href="../make.html#make.MyMake.docinstall">[documentos]</a>	<span class="k">def</span> <span class="nf">docinstall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Realiza la instalación de Sphinx el documentador&#39;</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running make docinstall&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">doc_install</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MyMake.devcheck"><a class="viewcode-back" href="../make.html#make.MyMake.devcheck">[documentos]</a>	<span class="k">def</span> <span class="nf">devcheck</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Hace una verificación del entorno de desarrollo&#39;</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running make devcheck&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">run_devcheck</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MyMake.print_error"><a class="viewcode-back" href="../make.html#make.MyMake.print_error">[documentos]</a>	<span class="k">def</span> <span class="nf">print_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Error: Comando desconocido</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyMake.run_tests"><a class="viewcode-back" href="../make.html#make.MyMake.run_tests">[documentos]</a>	<span class="k">def</span> <span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running tests..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp; python tests/runtests.py&quot;</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyMake.doc_install"><a class="viewcode-back" href="../make.html#make.MyMake.doc_install">[documentos]</a>	<span class="k">def</span> <span class="nf">doc_install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Instalación del entorno de documetación Sphinx</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			msg (bool)		: Muestra los mensajes</span>
+<span class="sd">			debug: (bool)	: Muestra info adicional de la ejecución</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Instalando Sphinx..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp;&quot;</span> <span class="o">+</span> <span class="s2">&quot;pip install sphinx &amp; pip install solar-theme&quot;</span>
+		<span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyMake.dev_install"><a class="viewcode-back" href="../make.html#make.MyMake.dev_install">[documentos]</a>	<span class="k">def</span> <span class="nf">dev_install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Instalación del entorno de desarrollo en el proyecto</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			msg (bool)		: Muestra los mensajes</span>
+<span class="sd">			debug: (bool)	: Muestra info adicional de la ejecución</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creando el entorno virtual para desarrollo..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+
+		<span class="c1"># =================================</span>
+		<span class="c1"># Instalación del entorno Virtual</span>
+		<span class="c1"># =================================</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_virtualenv</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creando entorno virtual con virtualenv...&quot;</span><span class="p">)</span>
+
+			<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;virtualenv venv&quot;</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_virtualenv</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+				<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+					<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: No se ha podido instalar y activar el entorno virtual!!!&quot;</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+					<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El entorno virtual se instaló correctamente...&quot;</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El entorno virtual ya existe y está operativo...&quot;</span><span class="p">)</span>
+
+		<span class="n">status</span>	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_packages</span><span class="p">(</span><span class="n">packages</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+		<span class="c1"># Primero los paquetes que se pueden instalar via pip</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">status</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+			<span class="n">command</span> <span class="o">=</span> <span class="n">command</span> <span class="o">+</span> <span class="s1">&#39; &amp; pip install </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="s2">&quot;-U&quot;</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;upgrade&quot;</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+		<span class="c1"># Luego paquetes que se instaland del wheel que ya está en proyecto</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">status</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+			<span class="n">command</span> <span class="o">=</span> <span class="n">command</span> <span class="o">+</span> <span class="s1">&#39; &amp; pip install wheels</span><span class="se">\\</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Instalando requerimientos...&quot;</span><span class="p">)</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp;&quot;</span> <span class="o">+</span> <span class="s2">&quot;python -m pip install --upgrade pip&quot;</span> <span class="o">+</span> <span class="n">command</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">manualtasks</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Atención, No olvidar las siguientes tareas manuales:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+				<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">manualtasks</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+					<span class="nb">print</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">. </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="mi">60</span><span class="p">))</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyMake.check_virtualenv"><a class="viewcode-back" href="../make.html#make.MyMake.check_virtualenv">[documentos]</a>	<span class="k">def</span> <span class="nf">check_virtualenv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Verifica la activación del entorno virtual del proyecto, ejecutando el activate.bat</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			msg (bool)		: Muestra los mensajes</span>
+<span class="sd">			debug: (bool)	: Muestra info adicional de la ejecución</span>
+
+<span class="sd">		Return:</span>
+
+<span class="sd">			(bool) True si el entorno ha podido ser activado</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp; python -c &quot;&quot;&quot;&quot;&quot;import sys;print(sys.prefix)&quot;&quot;&quot;&quot;&quot;</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">root_dir</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">venv&quot;</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Activación de virtualenv Ok..&quot;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: imposible activar entorno virtual!!&quot;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="MyMake.check_packages"><a class="viewcode-back" href="../make.html#make.MyMake.check_packages">[documentos]</a>	<span class="k">def</span> <span class="nf">check_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packages</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="n">packages_status</span> <span class="o">=</span> <span class="p">[]</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp;pip freeze&quot;</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+		<span class="n">found</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ret</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+			<span class="k">if</span> <span class="s2">&quot;==&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+				<span class="n">p</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;==&quot;</span><span class="p">)</span>
+				<span class="n">found</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">packages</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">ver</span> <span class="o">=</span> <span class="n">found</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">ver</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+					<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> Not found!!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+				<span class="n">packages_status</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;install&quot;</span><span class="p">))</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">ver</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+						<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> found invalid version!! (actual: </span><span class="si">{1}</span><span class="s2"> requiered </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+					<span class="n">packages_status</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;upgrade&quot;</span><span class="p">))</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+						<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> Ok..&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">ver</span><span class="p">))</span>
+					<span class="n">packages_status</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;ok&quot;</span><span class="p">))</span>
+
+		<span class="k">return</span> <span class="n">packages_status</span></div>
+
+<div class="viewcode-block" id="MyMake.check_tool"><a class="viewcode-back" href="../make.html#make.MyMake.check_tool">[documentos]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">check_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">find</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">find</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> Ok..&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tool</span><span class="p">))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> Not found!!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tool</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MyMake.clean"><a class="viewcode-back" href="../make.html#make.MyMake.clean">[documentos]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="kn">import</span> <span class="nn">os</span>
+		<span class="kn">import</span> <span class="nn">os.path</span>
+		<span class="n">mypath</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+		<span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">mypath</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">files</span><span class="p">):</span>
+				<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MyMake.build"><a class="viewcode-back" href="../make.html#make.MyMake.build">[documentos]</a>	<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Building tools..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+
+		<span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+
+			<span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">venv</span> <span class="o">+</span> <span class="s2">&quot; &amp; pyinstaller </span><span class="si">{0}</span><span class="s2"> --onefile	-p venv/Lib/site-packages/ --hidden-import=_cffi_backend --hidden-import=pylzma&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">subprocess_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+			<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="n">msg</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ret: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+			<span class="k">if</span> <span class="s2">&quot;.exe&quot;</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+					<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Build </span><span class="si">{0}</span><span class="s2"> Ok..&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tool</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MyMake.run_devcheck"><a class="viewcode-back" href="../make.html#make.MyMake.run_devcheck">[documentos]</a>	<span class="k">def</span> <span class="nf">run_devcheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+		<span class="c1">#########################################################################################</span>
+		<span class="c1"># Verificar de las herramientas requeridas</span>
+		<span class="c1">#########################################################################################</span>
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Check for required tools..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">check_tool</span><span class="p">(</span><span class="s2">&quot;Make 3.81&quot;</span><span class="p">,</span> <span class="s2">&quot;make --version&quot;</span><span class="p">,</span> <span class="s2">&quot;GNU Make 3.81&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">check_tool</span><span class="p">(</span><span class="s2">&quot;Python 3.4&quot;</span><span class="p">,</span> <span class="s2">&quot;python --version&quot;</span><span class="p">,</span> <span class="s2">&quot;Python 3.4&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">check_tool</span><span class="p">(</span><span class="s2">&quot;Virtualenv&quot;</span><span class="p">,</span> <span class="s2">&quot;pip freeze&quot;</span><span class="p">,</span> <span class="s2">&quot;virtualenv&quot;</span><span class="p">)</span>
+
+		<span class="c1">#########################################################################################</span>
+		<span class="c1"># Verificar packages dentro del entorno virtual</span>
+		<span class="c1">#########################################################################################</span>
+		<span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Check for required packages in Virtualenv..&quot;</span><span class="p">)</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------------------&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_virtualenv</span><span class="p">():</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">check_packages</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">MyMake</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

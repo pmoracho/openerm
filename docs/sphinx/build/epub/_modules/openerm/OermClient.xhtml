@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <title>openerm.OermClient</title>
+    <link rel="stylesheet" href="../../_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <h1>Código fuente para openerm.OermClient</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># OermClient.py</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software; you can redistribute it and/or</span>
+<span class="c1"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="c1"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="c1"># be included in the file GPL-3.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="c1"># GNU Library General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program; if not, write to the Free Software</span>
+<span class="c1"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">OermClient</span>
+<span class="sd">==========</span>
+
+<span class="sd">Un **OermClient** es el objeto que permite conectarse a uno o más repositorios</span>
+<span class="sd">de reportes. Es la clase &quot;oficial&quot; para acceder a los reportes, conceptualmente</span>
+<span class="sd">un **OermClient** ofrece uno o más catálogos, los catálogos son organizaciones</span>
+<span class="sd">lógicas de los reportes físicos</span>
+
+
+<span class="sd">.. seealso::</span>
+<span class="sd">	* :class:`openerm.MetadataContainer`</span>
+<span class="sd">	* :class:`openerm.PageContainer`</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+
+	<span class="kn">import</span> <span class="nn">sys</span>
+	<span class="kn">import</span> <span class="nn">gettext</span>
+	<span class="kn">from</span> <span class="nn">gettext</span> <span class="k">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+	<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">&#39;openerm&#39;</span><span class="p">)</span>
+
+	<span class="kn">import</span> <span class="nn">yaml</span>
+	<span class="kn">import</span> <span class="nn">os</span>
+	<span class="kn">import</span> <span class="nn">sqlite3</span>
+	<span class="c1"># from openerm.Utils import *</span>
+	<span class="kn">from</span> <span class="nn">openerm.tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
+	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="n">file_accessible</span><span class="p">,</span> <span class="n">AutoNum</span><span class="p">,</span> <span class="n">filesInPath</span>
+	<span class="kn">from</span> <span class="nn">openerm.Database</span> <span class="k">import</span> <span class="n">Database</span>
+
+
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;No fue posible importar el modulo: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">modulename</span><span class="p">)</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="OermClient"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient">[documentos]</a><span class="k">class</span> <span class="nc">OermClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Clase Cliente para acceso a reportes Oerm. Los reportes OERM</span>
+<span class="sd">	se clasifican en: Catalogos y Repositorios. Un catalogo en</span>
+<span class="sd">	realidad representa un conjunto lógico de repositorios, los</span>
+<span class="sd">	repositorios representan carpetas físicas.</span>
+
+<span class="sd">	Args:</span>
+
+<span class="sd">		configfile (string): Nombre del archivo de configuración (Formato YAML)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configfile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span>			<span class="o">=</span> <span class="p">[]</span>			<span class="c1">#: Lista de catalogos disponibles</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_repos</span>				<span class="o">=</span> <span class="p">{}</span>			<span class="c1">#: Catalogs de cada repositorio</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span>	<span class="o">=</span> <span class="p">{}</span>			<span class="c1">#: Catalogo activo</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">config</span>				<span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">configfile</span>			<span class="o">=</span> <span class="n">configfile</span>
+		<span class="k">if</span> <span class="n">configfile</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_load_configfile</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yamltext</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">yamltext</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;catalogs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+	<span class="k">def</span> <span class="nf">_load_configfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Carga la configuración en el diccionario interno de la clase&quot;&quot;&quot;</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configfile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+			<span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;catalogs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+<div class="viewcode-block" id="OermClient.open_catalog"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.open_catalog">[documentos]</a>	<span class="k">def</span> <span class="nf">open_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalogid</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Apertura de un catalogo</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			catalogid (string): Id del catalogo que se desea abrir</span>
+
+<span class="sd">		Tipos de catalogos:</span>
+
+<span class="sd">			- Lista de paths + repo.db</span>
+<span class="sd">			- Centralizado en Servidor SQL (TO DO)</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">[</span><span class="n">catalogid</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_repos</span>	<span class="o">=</span> <span class="p">{}</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;urls&quot;</span><span class="p">,</span> <span class="p">[]),</span><span class="mi">1</span><span class="p">):</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_repos</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">n</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;repo.db&quot;</span><span class="p">)})</span></div>
+
+<div class="viewcode-block" id="OermClient.close_catalog"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.close_catalog">[documentos]</a>	<span class="k">def</span> <span class="nf">close_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Cierra el catalgo activo	&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_repos</span>	<span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="OermClient.catalogs"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.catalogs">[documentos]</a>	<span class="k">def</span> <span class="nf">catalogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Lista los catalogos disponibles</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			enabled (bool): (Opcional) 	**True**: Solo los habilitados,</span>
+<span class="sd">										**False**: Los deshabilitados,</span>
+<span class="sd">										**None**: Todos</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			List: Lista de catalogos</span>
+
+<span class="sd">		Example:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.catalogs(enabled=None)</span>
+<span class="sd">			&gt;&gt;&gt; print(&quot;Catalogos disponibles: {0}&quot;.format(c.catalogs(enabled=None)))</span>
+<span class="sd">			Catalogos disponibles: {&#39;sql-test&#39;: {&#39;enabled&#39;: False, &#39;name&#39;: &#39;Ejemplo catalogo SQL&#39;, &#39;type&#39;: &#39;sql&#39;}, &#39;</span>
+<span class="sd">			local-test&#39;: {&#39;enabled&#39;: True, &#39;name&#39;: &#39;Ejemplo catalogo local&#39;, &#39;type&#39;: &#39;path&#39;, &#39;urls&#39;:</span>
+<span class="sd">			[&#39;D:\\pm\\data\\git.repo\\openerm\\samples\\repo&#39;,</span>
+<span class="sd">			&#39;D:\\pm\\data\\git.repo\\openerm\\samples\\otro&#39;}]}</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">enabled</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">enabled</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="OermClient.current_catalog"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.current_catalog">[documentos]</a>	<span class="k">def</span> <span class="nf">current_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Retorna el catalogo activo</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_catalog</span></div>
+
+<div class="viewcode-block" id="OermClient.repos"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.repos">[documentos]</a>	<span class="k">def</span> <span class="nf">repos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Lista los repositorios disponibles del catalgo activo</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			List: Lista de repositorios</span>
+
+<span class="sd">		Example:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_catalog(&quot;local-test&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; print(&quot;Repositorios disponibles: {0}&quot;.format(c.repos()))</span>
+<span class="sd">			Repositorios disponibles: {&#39;Prueba2&#39;: &#39;D:\\pm\\data\\git.repo\\openerm\\samples\\otro\\repo.db&#39;,</span>
+<span class="sd">			&#39;Prueba1&#39;: &#39;D:\\pm\\data\\git.repo\\openerm\\samples\\repo\\repo.db&#39;}</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repos</span></div>
+
+<div class="viewcode-block" id="OermClient.open_repo"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.open_repo">[documentos]</a>	<span class="k">def</span> <span class="nf">open_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reponum</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Abre un repositorio</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			repo (int): Número del repositorio a abrir</span>
+
+<span class="sd">		Raise:</span>
+<span class="sd">			ValueError: Si el repositorio no existe en el catalgo abierto</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">reponum</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repos</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;El repositorio </span><span class="si">{0}</span><span class="s2"> no existe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reponum</span><span class="p">))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_current_repo</span> <span class="o">=</span> <span class="p">{</span><span class="n">reponum</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repos</span><span class="p">[</span><span class="n">reponum</span><span class="p">]}</span></div>
+
+<div class="viewcode-block" id="OermClient.reports"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.reports">[documentos]</a>	<span class="k">def</span> <span class="nf">reports</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Retorna la lista completa de reportes del repositorio activo</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_catalog(&quot;local-test&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_repo(&quot;Prueba1&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; print(c.reports())</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">dbname</span><span class="p">,</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_repo</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+		<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT report_id, report_name FROM report&quot;</span><span class="p">)</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="OermClient.systems"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.systems">[documentos]</a>	<span class="k">def</span> <span class="nf">systems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Retorna la lista completa de sistemas del repositorio activo</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_catalog(&quot;local-test&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_repo(&quot;Prueba1&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; print(c.systems())</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">dbname</span><span class="p">,</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_repo</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+		<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT system_id, system_name FROM system&quot;</span><span class="p">)</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="OermClient.query_reports"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.query_reports">[documentos]</a>	<span class="k">def</span> <span class="nf">query_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reporte</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sistema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aplicacion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">departamento</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">returntype</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Consulta básica para buscar un reporte en los repositorios del catalogo.</span>
+<span class="sd">		La busqueda se hace por cualquier de los atributos básicos de un reporte, y</span>
+<span class="sd">		se puede hacer búsquedas parciales tipo LIKE en sql</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			report (string): Nombre del reporte</span>
+<span class="sd">			sistema (string): Nombre del sistema</span>
+<span class="sd">			aplicacion (string): Nombre de la aplicación</span>
+<span class="sd">			departamento (string): Nombre del departamento</span>
+<span class="sd">			fecha (string): Fecha de emsión del reporte</span>
+<span class="sd">			limit (int): cantidad máxima de resultados</span>
+<span class="sd">			returntype (string): Tipo de retorno</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list/string</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_catalog(&quot;local-test&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.open_repo(&quot;Prueba1&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; resultados = c.query_reports(reporte=&quot;Carta&quot;, returntype=&quot;tablestr&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; print(resultados)</span>
+<span class="sd">			+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+</span>
+<span class="sd">			| Nombre                                             |    Fecha | Departamento   | Sistema   | Aplicación   |   Páginas | Path                |</span>
+<span class="sd">			|----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------|</span>
+<span class="sd">			| R8101614 - Cartas fianza activas por moneda y clas | 20160923 | n/a            | n/a       | n/a          |         1 | test1\database.oerm |</span>
+<span class="sd">			| R8101614 - Cartas fianza activas por moneda y clas | 20160923 | n/a            | n/a       | n/a          |        20 | test1\database.oerm |</span>
+<span class="sd">			| R8101611 - Cartas fianza requeridas por funcionari | 20160923 | n/a            | n/a       | n/a          |         1 | test1\database.oerm |</span>
+<span class="sd">			+----------------------------------------------------+----------+----------------+-----------+--------------+-----------+---------------------+</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">SQL</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">		Select	distinct</span>
+<span class="s2">				report.report_name,</span>
+<span class="s2">				date.date,</span>
+<span class="s2">				department.department_name,</span>
+<span class="s2">				system.system_name,</span>
+<span class="s2">				reports.pages,</span>
+<span class="s2">				databases.path</span>
+<span class="s2">		From</span>
+<span class="s2">				reports Inner Join</span>
+<span class="s2">				department On reports.department_id = department.department_id Inner Join</span>
+<span class="s2">				date On reports.date_id = date.date_id Inner Join</span>
+<span class="s2">				report On reports.report_id = report.report_id Inner Join</span>
+<span class="s2">				system On reports.system_id = system.system_id Inner Join</span>
+<span class="s2">				databases On reports.database_id = databases.database_id</span>
+<span class="s2">		where	1 = 1</span>
+<span class="s2">				and report.report_name like ?</span>
+<span class="s2">				and date.date like ?</span>
+<span class="s2">		&quot;&quot;&quot;</span>
+
+		<span class="n">reporte</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span> <span class="k">if</span> <span class="n">reporte</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;%&#39;</span> <span class="o">+</span> <span class="n">reporte</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+		<span class="n">sistema</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span> <span class="k">if</span> <span class="n">sistema</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;%&#39;</span> <span class="o">+</span> <span class="n">sistema</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+		<span class="n">departamento</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span> <span class="k">if</span> <span class="n">departamento</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;%&#39;</span> <span class="o">+</span> <span class="n">departamento</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+		<span class="n">fecha</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span> <span class="k">if</span> <span class="n">fecha</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;%&#39;</span> <span class="o">+</span> <span class="n">fecha</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+		<span class="k">for</span> <span class="n">dbname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_repo</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+			<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+			<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">SQL</span><span class="p">,</span> <span class="p">(</span><span class="n">reporte</span><span class="p">,</span> <span class="n">fecha</span><span class="p">,</span> <span class="p">))</span>
+			<span class="n">lista</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">())</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">returntype</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">lista</span>
+
+		<span class="k">if</span> <span class="n">returntype</span> <span class="o">==</span> <span class="s2">&quot;tablestr&quot;</span><span class="p">:</span>
+			<span class="n">tablestr</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span>
+							<span class="n">tabular_data</span>		<span class="o">=</span> <span class="n">lista</span><span class="p">,</span>
+							<span class="n">headers</span>				<span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Nombre&quot;</span><span class="p">,</span> <span class="s2">&quot;Fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;Departamento&quot;</span><span class="p">,</span> <span class="s2">&quot;Sistema&quot;</span><span class="p">,</span> <span class="s2">&quot;Aplicación&quot;</span><span class="p">,</span> <span class="s2">&quot;Páginas&quot;</span><span class="p">,</span> <span class="s2">&quot;Path&quot;</span> <span class="p">],</span>
+							<span class="n">floatfmt</span>			<span class="o">=</span> <span class="s2">&quot;8.2f&quot;</span><span class="p">,</span>
+							<span class="n">tablefmt</span>			<span class="o">=</span> <span class="s2">&quot;psql&quot;</span><span class="p">,</span>
+							<span class="n">numalign</span>			<span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+							<span class="n">stralign</span>			<span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+							<span class="n">override_cols_fmt</span>	<span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;,.0f&quot;</span><span class="p">,</span> <span class="kc">None</span> <span class="p">]</span>
+			<span class="p">)</span>
+			<span class="k">return</span> <span class="n">tablestr</span>
+
+		<span class="k">return</span> <span class="n">lista</span></div>
+
+<div class="viewcode-block" id="OermClient.catalog_create"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.catalog_create">[documentos]</a>	<span class="k">def</span> <span class="nf">catalog_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalogdict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Crear un catálogo (lógico) de repositorios Oerm.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			catalogdict (dict): Configuración del catálogo</span>
+
+<span class="sd">		Raise:</span>
+<span class="sd">			ValueError si el catalogo &lt;id&gt; ya existe</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; catalog_config = {&quot;catalogo1&quot;: { &quot;name&quot;: &quot;Ejemplo catalogo local&quot;, &quot;type&quot;: &quot;path&quot;, &quot;enabled&quot;: True, &quot;url&quot;: &quot;c:/oerm/&quot;}}</span>
+<span class="sd">			&gt;&gt;&gt; c.catalog_create(catalog_config)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;El catalogo </span><span class="si">{0}</span><span class="s2"> ya está definido en la instancia actual del cliente Oerm&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;catalogs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">catalogdict</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span></div>
+
+	<span class="k">def</span> <span class="nf">_flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Escribe los cambios en los archivos físicos&quot;&quot;&quot;</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+			<span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OermClient.add_repo"><a class="viewcode-back" href="../../openerm.OermClient.xhtml#openerm.OermClient.OermClient.add_repo">[documentos]</a>	<span class="k">def</span> <span class="nf">add_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog_id</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Procesa el path de un repositorio de datbases Oerm y genera el</span>
+<span class="sd">		repo.db (sqlite). Basicamente cataloga cada database y genera una</span>
+<span class="sd">		base sqlite (repo.db) en el directorio root del repositorio.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			catalog_id (string): Id del catálogo al cual se le agregará este repositorio</span>
+<span class="sd">			path (string): Carpeta principal del repositorio</span>
+<span class="sd">			update (bool): (Opcional) Se actualiza o regenera completamente el catalogo</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.OermClient import OermClient</span>
+<span class="sd">			&gt;&gt;&gt; c = OermClient(&quot;samples/openermcfg.yaml&quot;)</span>
+<span class="sd">			&gt;&gt;&gt; c.add_repo(&quot;catalogo1&quot;, &quot;/var/repo1&quot;)</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">dbname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;repo.db&#39;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">file_accessible</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">):</span>
+			<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+
+		<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+		<span class="c1"># conn.text_factory = lambda x: repr(x)</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE databases (database_id int, path text)&quot;</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE date		(date_id INTEGER PRIMARY KEY ASC, date text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE system		(system_id INTEGER PRIMARY KEY ASC, system_name text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE department	(department_id INTEGER PRIMARY KEY ASC, department_name text)&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE report		(report_id INTEGER PRIMARY KEY ASC, report_name text)&quot;</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE reports	(database_id int, report_id int, date_id int, system_id, department_id int, pages int)&quot;</span><span class="p">)</span>
+		<span class="c1"># c.execute(&quot;CREATE TABLE reports (database_id int, report_id text, report_name text, aplicacion text, fecha text, sistema text, departamento text, pages int)&quot;)</span>
+
+		<span class="n">databases</span>		<span class="o">=</span> <span class="p">[]</span>
+		<span class="n">reports_list</span>	<span class="o">=</span> <span class="p">[]</span>
+
+		<span class="n">reportid</span> 	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">dateid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">systemid</span>	<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+		<span class="n">deptid</span>		<span class="o">=</span> <span class="n">AutoNum</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filesInPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;*.oerm&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+			<span class="n">databases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+			<span class="n">d</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">reports</span><span class="p">():</span>
+
+				<span class="c1"># print(&quot;{0}: {1}&quot;.format(report.nombre, reportid.get(report.nombre)))</span>
+
+				<span class="n">elemento</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span>
+							<span class="n">reportid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">nombre</span><span class="p">),</span>
+							<span class="n">dateid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">fecha</span><span class="p">),</span>
+							<span class="n">systemid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">sistema</span><span class="p">),</span>
+							<span class="n">deptid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">departamento</span><span class="p">),</span>
+							<span class="n">report</span><span class="o">.</span><span class="n">total_pages</span>
+						<span class="p">)</span>
+				<span class="n">reports_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elemento</span><span class="p">)</span>
+
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO date (date, date_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">dateid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO system (system_name, system_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">systemid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO department (department_name, department_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">deptid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO report (report_name, report_id) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">reportid</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO databases (database_id, path) VALUES (?,?)&quot;</span><span class="p">,</span> <span class="n">databases</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO reports (database_id, report_id, date_id, system_id, department_id, pages) VALUES (?,?,?,?,?,?)&quot;</span><span class="p">,</span> <span class="n">reports_list</span><span class="p">)</span>
+
+		<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+		<span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;catalogs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">catalog_id</span><span class="p">)</span>
+		<span class="k">if</span> <span class="s2">&quot;urls&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+			<span class="n">d</span><span class="p">[</span><span class="s2">&quot;urls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">d</span><span class="p">[</span><span class="s2">&quot;urls&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

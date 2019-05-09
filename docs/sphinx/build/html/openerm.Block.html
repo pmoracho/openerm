@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Block &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Cipher" href="openerm.Cipher.html" />
+    <link rel="prev" title="PageContainer" href="openerm.PageContainer.html" />
+  
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-openerm.Block"><span id="block"></span></span><div class="section" id="id1">
+<h1>Block<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Un «bloque» de datos. Un Block es la unidad miníma de un Database OERM. Hay dos
+tipos de bloque básico:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference internal" href="openerm.MetadataContainer.html#module-openerm.MetadataContainer" title="openerm.MetadataContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.MetadataContainer</span></code></a> para guardar los atributos de un</dt><dd><p>determinado reporte.</p>
+</dd>
+</dl>
+</li>
+<li><p><a class="reference internal" href="openerm.PageContainer.html#module-openerm.PageContainer" title="openerm.PageContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.PageContainer</span></code></a> para guardar conjuntos de páginas</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="openerm.Database.html#module-openerm.Database" title="openerm.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Database</span></code></a></p></li>
+<li><p><a class="reference internal" href="openerm.Compressor.html#module-openerm.Compressor" title="openerm.Compressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Compressor</span></code></a></p></li>
+<li><p><a class="reference internal" href="openerm.Cipher.html#module-openerm.Cipher" title="openerm.Cipher"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Cipher</span></code></a></p></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="openerm.Block.Block">
+<em class="property">class </em><code class="descclassname">openerm.Block.</code><code class="descname">Block</code><span class="sig-paren">(</span><em>default_compress_method=1</em>, <em>default_compress_level=1</em>, <em>default_encription_method=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Block.html#Block"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Block.Block" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Bloque de un archivo OpenERM. El bloque es la unidad mínima de
+información. Existen en está versión dos tipo de bloques básicos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Contenedores de metadatos</p></li>
+<li><p>Contenedores de páginas</p></li>
+</ul>
+</div></blockquote>
+<p>Cada bloque puede o no ser comprimido y encriptado con algún algoritmo que
+dependerá de la implememntación OpenERM particular.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_compress_method</strong> (<em>int</em>) – Compresión por defecto del bloque (default = 1 - Gzip)</p></li>
+<li><p><strong>default_compress_level</strong> (<em>int</em>) – Nivel de compresión por defecto del bloque (default = 1 Medium)</p></li>
+<li><p><strong>default_encription_method</strong> (<em>int</em>) – Algoritmo de cifrado (0 = Ninguno)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="openerm.Block.Block.block_types">
+<code class="descname">block_types</code><em class="property"> = None</em><a class="headerlink" href="#openerm.Block.Block.block_types" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Tipos de bloque
+1 - Report metadata
+2 - Pages container</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Block.Block.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>tipo_bloque</em>, <em>data</em>, <em>variable_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Block.html#Block.dump"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Block.Block.dump" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Convierte los datos en un bloque OpenErm que puede ser «salvable» en un archivo</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tipo_bloque</strong> (<em>int</em>) – Tipo de bloqe (1: metadatos, 2: páginas)</p></li>
+<li><p><strong>data</strong> (<em>bytes</em>) – Bytes de los datos a salvar</p></li>
+<li><p><strong>variable_data</strong> (<em>bytes</em>) – (opcional) Datos adicionales, es información que se salva en el bloque pero no se comprime</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Block</span> <span class="k">import</span> <span class="n">Block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">default_compress_method</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_compress_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_encription_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tipo_bloque</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;Esto hace las veces de una pagina de reporte&quot;</span><span class="p">,</span><span class="n">variable_data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">b&#39;   &lt;    1xs-.ÉWÈHLNUÈI,V(KMN-VHIU(ÍKT(HLÏR@^QjA~QI* ]Ê&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El método <em>dump</em> entrega una estructura como el siguiente ejemplo:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">+=======================+</span>
+<span class="o">|</span> <span class="n">Long</span><span class="o">.</span><span class="n">Total</span> <span class="k">del</span> <span class="n">Bloque</span> <span class="o">|</span>   <span class="o">--&gt;</span> <span class="nb">long</span> <span class="p">(</span><span class="mi">4</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="o">+=======================+</span>
+<span class="o">|</span> <span class="n">Tipo</span> <span class="n">de</span> <span class="n">Bloque</span>  <span class="o">|</span>         <span class="o">--&gt;</span> <span class="nb">int</span> <span class="p">(</span><span class="mi">1</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="o">+=================+</span>
+<span class="o">|</span> <span class="n">Alg</span><span class="o">.</span> <span class="n">Compresión</span> <span class="o">|</span>         <span class="o">--&gt;</span> <span class="nb">int</span> <span class="p">(</span><span class="mi">1</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="o">+=================+</span>
+<span class="o">|</span> <span class="n">Alg</span><span class="o">.</span> <span class="n">Cifrado</span>    <span class="o">|</span>         <span class="o">--&gt;</span> <span class="nb">int</span> <span class="p">(</span><span class="mi">1</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="o">+=======================+</span>
+<span class="o">|</span> <span class="n">Long</span><span class="o">.</span> <span class="n">de</span> <span class="n">los</span> <span class="n">Datos</span>    <span class="o">|</span>   <span class="o">--&gt;</span> <span class="nb">long</span> <span class="p">(</span><span class="mi">4</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="o">+=======================+</span>
+<span class="o">|</span>                       <span class="o">|</span>
+<span class="o">|</span>        <span class="n">Datos</span>          <span class="o">|</span>   <span class="o">--&gt;</span> <span class="n">Longitud</span> <span class="n">variable</span> <span class="p">(</span><span class="n">datos</span> <span class="n">comprimibles</span><span class="p">)</span>
+<span class="o">|</span>                       <span class="o">|</span>
+<span class="o">+=======================+</span>
+<span class="o">|</span>                       <span class="o">|</span>
+<span class="o">|</span>    <span class="n">Datos</span> <span class="n">variables</span>    <span class="o">|</span>   <span class="o">--&gt;</span> <span class="p">(</span><span class="n">Opcional</span><span class="p">)</span> <span class="n">Longitud</span> <span class="n">variable</span> <span class="p">(</span><span class="n">datos</span> <span class="n">NO</span> <span class="n">comprimibles</span><span class="p">)</span>
+<span class="o">|</span>                       <span class="o">|</span>
+<span class="o">+=======================+</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Block.Block.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Block.html#Block.load"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Block.Block.load" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Convierte un bloque OpenErm en datos lógicos</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>bytes</em>) – Bytes del bloque completo</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+<p>Se devuelve una «tupla» de 7 elementos:</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Tipo</p></th>
+<th class="head"><p>Detalle</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>long</p></td>
+<td><p>Longitud total del bloque incluído este dato</p></td>
+</tr>
+<tr class="row-odd"><td><p>int</p></td>
+<td><p>Tipo de bloque</p></td>
+</tr>
+<tr class="row-even"><td><p>int</p></td>
+<td><p>Tipo de compresión</p></td>
+</tr>
+<tr class="row-odd"><td><p>int</p></td>
+<td><p>Tipo de encriptado</p></td>
+</tr>
+<tr class="row-even"><td><p>long</p></td>
+<td><p>longitud de los datos comprimidos</p></td>
+</tr>
+<tr class="row-odd"><td><p>bytes</p></td>
+<td><p>Datos</p></td>
+</tr>
+<tr class="row-even"><td><p>bytes</p></td>
+<td><p>Datos adicionales</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Block</span> <span class="k">import</span> <span class="n">Block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">default_compress_method</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_compress_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_encription_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tipo_bloque</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;Esto hace las veces de una pagina de reporte&quot;</span><span class="p">,</span><span class="n">variable_data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">b&#39;   &lt;    1xs-.ÉWÈHLNUÈI,V(KMN-VHIU(ÍKT(HLÏR@^QjA~QI* ]Ê&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="go">(60, 2, 1, 0, 49, b&#39;Esto hace las veces de una pagina de reporte&#39;, None)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="openerm.html">Openerm - API</a><ul>
+      <li>Previous: <a href="openerm.PageContainer.html" title="capítulo anterior">PageContainer</a></li>
+      <li>Next: <a href="openerm.Cipher.html" title="próximo capítulo">Cipher</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.Block.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+      |
+      <a href="_sources/openerm.Block.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <title>openerm.SpoolHostReprint</title>
+    <link rel="stylesheet" href="../../_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <h1>Código fuente para openerm.SpoolHostReprint</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+
+<span class="c1"># SpoolHostReprint.py</span>
+
+<span class="c1"># This program is free software; you can redistribute it and/or</span>
+<span class="c1"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="c1"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="c1"># be included in the file GPL-3.</span>
+
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="c1"># GNU Library General Public License for more details.</span>
+
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program; if not, write to the Free Software</span>
+<span class="c1"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Un **SpoolHostReprint** es el objeto que permite la lectura de las salidas de</span>
+<span class="sd">impresión del tipo FCFC que son aquellos en los que la primer columna</span>
+<span class="sd">representa un &quot;canal&quot; de control para la impresora. Esta clase considera esta</span>
+<span class="sd">columna  y particularmente el codigo &quot;1&quot; que representa el salto de pagina.</span>
+<span class="sd">Esta columna podra ser quitada o no segun se requiera.</span>
+
+<span class="sd">.. seealso::</span>
+<span class="sd">	* :class:`openerm.SpoolFixedRecordLength`</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SpoolHostReprint"><a class="viewcode-back" href="../../openerm.SpoolHostReprint.xhtml#openerm.SpoolHostReprint.SpoolHostReprint">[documentos]</a><span class="k">class</span> <span class="nc">SpoolHostReprint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Clase base para lectura de archivos tipo &quot;host reprint&quot;.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		inputfile (string): Path y nombre del archivo a leer</span>
+<span class="sd">		buffer_size (int): 	Opcional, tamaño del buffer de lectura.</span>
+<span class="sd">							Por defecto 102400 bytes.</span>
+<span class="sd">		encoding (string): 	Opcional, Codificación de lectura. Por defecto `Latin1`</span>
+
+<span class="sd">	Return:</span>
+<span class="sd">		None</span>
+
+<span class="sd">	:Example:</span>
+<span class="sd">		&gt;&gt;&gt; from openerm.SpoolHostReprint import SpoolHostReprint</span>
+<span class="sd">		&gt;&gt;&gt; with SpoolHostReprint(test_file, 102400) as s:</span>
+<span class="sd">		&gt;&gt;&gt;		for page in s:</span>
+<span class="sd">		&gt;&gt;&gt;			print(page)</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">,</span> <span class="n">buffer_size</span><span class="o">=</span><span class="mi">102400</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;Latin1&quot;</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">filename</span>		<span class="o">=</span> <span class="n">inputfile</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span>	<span class="o">=</span> <span class="n">buffer_size</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">encoding</span>		<span class="o">=</span> <span class="n">encoding</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span>	<span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>	<span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_last_chunk</span>	<span class="o">=</span> <span class="kc">False</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_lines</span>			<span class="o">=</span> <span class="p">[]</span>
+
+	<span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="s2">&quot;Apertura del archivo del spool a procesar&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">open_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rt&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+		<span class="s2">&quot;Cierre automatico del spool&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">return</span> <span class="kc">True</span>
+
+	<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Devuelve la siguiente página leída</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			string: Texto completo de la página</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lines</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">)</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lines</span><span class="p">:</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+					<span class="k">raise</span> <span class="ne">StopIteration</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+					<span class="k">return</span> <span class="n">page</span>
+
+			<span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span> <span class="o">=</span> <span class="mi">0</span>
+
+		<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lines</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span><span class="p">:]:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+				<span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>
+				<span class="c1">#s elf._current_page =  line[1:] # &lt;- Se quita la pimer columna de comandos</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">=</span> <span class="n">line</span>
+				<span class="k">return</span> <span class="n">page</span>
+
+			<span class="c1"># self._current_page = self._current_page + line[1:] # &lt;- Se quita la pimer columna de comandos</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">+=</span> <span class="n">line</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

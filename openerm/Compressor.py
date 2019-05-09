@@ -74,7 +74,7 @@ try:
 	import lzma
 	import snappy
 	import blosc
-	import lz4
+	import lz4.frame
 	import pylzma
 	import brotli
 	import zstd
@@ -126,7 +126,7 @@ class Compressor(object):
 						1: (self._zlib_compress,				zlib.decompress,					_("GZIP level={0} (1-9)").format(self._levels[1][level])),
 						2: (self._bz2_compress,					bz2.decompress,						_("BZIP level={0} (1-9)").format(self._levels[2][level])),
 						3: (self._lzma_compress,				lzma.decompress,					_("LZMA preset={0} (0-9) ").format(self._levels[3][level])),
-						4: (self._lz4_compress, 				lz4.decompress,						_("LZ4 nivel estándar")),
+						4: (self._lz4_compress, 				lz4.frame.decompress,				_("LZ4 nivel estándar")),
 						5: (self._pylzma_compress,				pylzma.decompress,					_("pyLZMA quality={0} (0-2)").format(self._levels[5][level])),
 						6: (self._blosc_compress,				blosc.decompress,					_("BLOSC blosclz clevel={0} (1-9)").format(self._levels[6][level])),
 						7: (snappy.compress,					snappy.decompress,					_("Snappy")),
@@ -339,7 +339,7 @@ class Compressor(object):
 		Returns:
 			str: Compressed data
 		"""
-		return lz4.compress(data)
+		return lz4.frame.compress(data)
 
 	def _lzma_compress(self, data):
 		"""Compresión lzma

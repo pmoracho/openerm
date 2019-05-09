@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <title>Requisitos iniciales</title>
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="requisitos-iniciales">
+<h1>Requisitos iniciales</h1>
+<p>El proyecto <strong>Openerm</strong> esta construido usando el lenguaje <strong>python</strong> y varios «packages» o librerías adicionales para
+dicho lenguaje. Para poder construir las herramientas del proyecto es necesario preparar antes que nada, un entorno
+de desarrollo. A continuación expondremos en detalle cuales son los pasos para tener preparado el entorno de desarrollo.
+Este detalle esta orientado a la implementación sobre Windows 32 bits, los pasos para versiones de 64 bits son
+sustancialmente distintos, en particular por algunos de los «paquetes» que se construyen a partir de módulos en C o C++,
+de igual forma la instalación sobre Linux tiene sus grandes diferencias. Eventualmente profundizaremos sobre estos
+entornos, pero en principo volvemos a señalar que el siguiente detalle aplica a los ambientes Windows de 32 bits</p>
+<ul>
+<li><p>Obviamente en primer lugar necesitaremos <a class="reference external" href="https://www.python.org/ftp/python/3.4.0/python-3.4.0.msi">Python</a><span class="link-target"> [https://www.python.org/ftp/python/3.4.0/python-3.4.0.msi]</span>,
+por ahora únicamente la versión 3.4. La correcta instalación se debe verificar desde la línea de comandos:
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code>. Si todo se instaló correctamente se debe ver algo como esto <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.4.0</span></code>, sino verificar
+que Python.exe se encuentre correctamente apuntado en el PATH.</p></li>
+<li><p>Es conveniente pero no mandatorio hacer upgrade de la herramienta pip: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pip</span></code></p></li>
+<li><p><a class="reference external" href="https://virtualenv.pypa.io/en/stable/">Virutalenv:</a><span class="link-target"> [https://virtualenv.pypa.io/en/stable/]</span>. Es la herramienta estándar para crear entornos «aislados»
+de python. En nuestro ejemplo <strong>Openerm</strong>, requiere de Ptython 3.4 y de varios «paquetes» adcionales de
+versiones especifícas. Para no tener conflictos de desarrollo lo que haremos mediante esta herramienta es
+crear un «entorno virtual» de python en una carpeta del projecto (venv), dónde una vez «activado» dicho
+entorno podremos instalarle los paquetes que requiere el proyecto. Este «entorno virtual» contendrá una
+copia completa de Python y los paquetes mencionados, al activarlo se modifica el PATH al python.exe que
+apuntará ahora a nuestra carpeta del entorno y nuestras propias librerías, evitando cualquier tipo de
+conflicto con un entorno Python ya existente. La instalación de virtualenv se hara mediante <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenv</span></code></p></li>
+<li><p>Descargar el proyecto desde <a class="reference external" href="https://bitbucket.org/pmoracho/openerm">Bitbucket</a><span class="link-target"> [https://bitbucket.org/pmoracho/openerm]</span>, se puede descargar
+desde la página el proyecto como un archivo Zip, o si contamos con <a class="reference external" href="https://git-for-windows.github.io/">Git</a><span class="link-target"> [https://git-for-windows.github.io/]</span>
+sencillamente haremos un <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://pmoracho&#64;bitbucket.org/pmoracho/openerm.git</span></code>.</p></li>
+<li><p>El proyecto una vez descomprimido o luego del clonado del repositorio tendrá una estructura de directorios
+similar a la siguiente::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openerm</span>
+<span class="o">|-</span><span class="n">build</span>
+<span class="o">|-</span><span class="n">dist</span>
+<span class="o">|-</span><span class="n">doc</span>
+<span class="o">|-</span><span class="n">openerm</span>
+<span class="o">|-</span><span class="n">tests</span>
+<span class="o">|-</span><span class="n">tools</span>
+<span class="o">|-</span><span class="n">var</span>
+<span class="o">|-</span><span class="n">wheels</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="preparacion-del-entorno-virtual-local">
+<h1>Preparación del entorno virtual local</h1>
+<p>Para poder ejecutar, o crear la distribución de la herramientas, lo primero que deberemos hacer es armar un entorno
+python «virtual» que alojaremos en una subcarpeta del directorio principal que llamarems «venv». En el proyecto incorporamos
+una herramienta de automatización de algunas tareas básicas. Se trata de <code class="docutils literal notranslate"><span class="pre">make.py</span></code>, la forma de ejecutarlo es la siguiente:
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools\make.py</span></code> la ejecución si parámetros arrojará una salida como lo que sigue::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Automatización</span> <span class="n">de</span> <span class="n">tareas</span> <span class="n">para</span> <span class="n">el</span> <span class="n">proyecto</span> <span class="n">Openerm</span>
+<span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2016</span><span class="p">,</span> <span class="n">Patricio</span> <span class="n">Moracho</span> <span class="o">&lt;</span><span class="n">pmoracho</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+
+<span class="n">Uso</span><span class="p">:</span> <span class="n">make</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span><span class="p">]</span>
+
+<span class="n">Los</span> <span class="n">comandos</span> <span class="n">más</span> <span class="n">usados</span><span class="p">:</span>
+<span class="n">devcheck</span>   <span class="n">Hace</span> <span class="n">una</span> <span class="n">verificación</span> <span class="k">del</span> <span class="n">entorno</span> <span class="n">de</span> <span class="n">desarrollo</span>
+<span class="n">devinstall</span> <span class="n">Realiza</span> <span class="n">la</span> <span class="n">instalación</span> <span class="k">del</span> <span class="n">entorno</span> <span class="n">de</span> <span class="n">desarrollo</span> <span class="n">virtual</span> <span class="n">e</span> <span class="n">instala</span> <span class="n">los</span> <span class="n">requerimientos</span>
+<span class="n">clear</span>      <span class="n">Elimina</span> <span class="n">archivos</span> <span class="n">innecesarios</span>
+<span class="n">test</span>       <span class="n">Ejecuta</span> <span class="n">todos</span> <span class="n">los</span> <span class="n">tests</span> <span class="n">definidos</span> <span class="k">del</span> <span class="n">proyecto</span>
+<span class="n">tools</span>      <span class="n">Construye</span> <span class="n">la</span> <span class="n">distribución</span> <span class="n">binaria</span> <span class="n">de</span> <span class="n">las</span> <span class="n">herramientas</span> <span class="k">del</span> <span class="n">proyecto</span>
+
+<span class="n">make</span><span class="o">.</span><span class="n">py</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="n">los</span> <span class="n">siguientes</span> <span class="n">argumentos</span> <span class="n">son</span> <span class="n">requeridos</span><span class="p">:</span> <span class="n">command</span>
+</pre></div>
+</div>
+<p>Para preparar el entorno virtual simplemente haremos <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools\make.py</span> <span class="pre">devinstall</span></code>, este proceso si resulta exitoso deberá
+haber realizado las siguientes tareas:</p>
+<ul class="simple">
+<li><p>Creación de un entorno pyhton virtual en la carpeta «venv», invocable mediante <code class="docutils literal notranslate"><span class="pre">venv\Scripts\activate.bat</span></code> en Windows
+o <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">venv/Scripts/activate</span></code> en entornos Linux o Cygwin/Mingw (en Windows)</p></li>
+<li><p>Instalado todas las dependencias necesarias</p></li>
+</ul>
+</div>
+<div class="section" id="notas">
+<h1>Notas:</h1>
+<ul class="simple">
+<li><p>Hay dependecias que son fácilmente instalables mediante el comando <code class="docutils literal notranslate"><span class="pre">pip</span></code> y otras que no se instalan de la misma forma
+tan fácilmente. Estás últimas son librerías o proyectos en C o C++ que requieren de la compilación de distintos módulos,
+estos «paquetes», para poder instalarse mediante <code class="docutils literal notranslate"><span class="pre">pip</span></code> requieren que dispongamos de un compilador C/C++, algo que no
+siempre ocurre e incluso para ser más exactos, deberíamos contar con la misma versión del compilador que usa nuestra
+distribución python. Por esto hemos optado por incluir los paquetes ya compilados en su distribución binaria. Los
+requerimientos de este tipo podrán ser encontrados en la carpeta wheels.</p></li>
+<li><p>Es recomendable y cómodo, pero entiendo que no es mandatorio, contar con un entorno estilo «Linux»,
+por ejemplo <a class="reference external" href="http://www.mingw.org/">MinGW</a><span class="link-target"> [http://www.mingw.org/]</span>, tal como dice la página del proyecto: «MinGW provides a complete Open Source
+programming tool set which is suitable for the development of native MS-Windows applications, and which do not depend on
+any 3rd-party C-Runtime DLLs. (It does depend on a number of DLLs provided by Microsoft themselves, as components of the
+operating system; most notable among these is MSVCRT.DLL, the Microsoft C runtime library. Additionally, threaded
+applications must ship with a freely distributable thread support DLL, provided as part of MinGW itself).» De este
+entorno requerimos algunas herramientas de desarrollo: Bash para la línea de comandos y Make para la automatización de
+varias tareas del proyecto.</p></li>
+</ul>
+</div>
+<div class="section" id="otras-consideraciones">
+<h1>Otras consideraciones</h1>
+<ul class="simple">
+<li><p>Usar «soft tabs»: Con cualquier editor que usemos configurar el uso del &lt;tab&gt; en vez de los espacios, yo prefiero el &lt;tab&gt;
+puro al espacio, entiendo que es válido el otro criterio pero ya los fuentes están con esta configuración, por lo que para
+evitar problemas al compilar los .py recomiendo seguir usando este criterio. Asimismo configurar en 4 posiciones estos &lt;tab&gt;.</p></li>
+</ul>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>ReportMatcher &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Utils" href="openerm.Utils.html" />
+    <link rel="prev" title="SpoolFixedRecordLength" href="openerm.SpoolFixedRecordLength.html" />
+  
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openerm.ReportMatcher">
+<span id="reportmatcher"></span><h1>ReportMatcher<a class="headerlink" href="#module-openerm.ReportMatcher" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><strong>ReportMatcher</strong> es el objeto que identifica los reportes de una
+determinada cola de impresión. Lo hace mediante una serie de reglas que se
+definene en una archivo de configuración en formato YAML</p>
+<dl class="class">
+<dt id="openerm.ReportMatcher.ReportMatcher">
+<em class="property">class </em><code class="descclassname">openerm.ReportMatcher.</code><code class="descname">ReportMatcher</code><span class="sig-paren">(</span><em>configfile='openerm.cfg'</em>, <em>configbuffer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#ReportMatcher"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.ReportMatcher" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Matcher de reportes</p>
+<p>El matcher de reportes se configura mediante un archivo yaml. Ver ejemplos
+en la carpeta <cite>tools</cite>, aunque tambien puede configurarase mediante un «buffer»
+o string yaml ya definido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configfile</strong> (<em>string</em>) – Path absoluto al archivo de configuración de la clase</p></li>
+<li><p><strong>configbuffer</strong> (<em>string</em>) – Buffer con la configuración YAML de la clase.</p></li>
+<li><p><strong>parámatro tiene prioridad en caso de ingresar tambien configfile</strong> (<em>Este</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.ReportMatcher</span> <span class="k">import</span> <span class="n">ReportMatcher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">ReportMatcher</span><span class="p">(</span><span class="s2">&quot;../var/reports.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;R8101611&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openerm.ReportMatcher.ReportMatcher.match">
+<code class="descname">match</code><span class="sig-paren">(</span><em>page</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/ReportMatcher.html#ReportMatcher.match"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.ReportMatcher.ReportMatcher.match" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Trata de determinar el reporte en función de los datos de una página</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>page</strong> (<em>string</em>) – Texto de la página completa a identificar</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>Datos del reporte</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<dl>
+<dt><strong>Datos de retorno</strong>:</dt><dd><table class="docutils align-center">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Tipo</p></th>
+<th class="head"><p>Detalle</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>string</p></td>
+<td><p>Id del reporte</p></td>
+</tr>
+<tr class="row-odd"><td><p>string</p></td>
+<td><p>Sistema</p></td>
+</tr>
+<tr class="row-even"><td><p>string</p></td>
+<td><p>Departamento</p></td>
+</tr>
+<tr class="row-odd"><td><p>string</p></td>
+<td><p>Fecha</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.ReportMatcher</span> <span class="k">import</span> <span class="n">ReportMatcher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">ReportMatcher</span><span class="p">(</span><span class="s2">&quot;../var/reports.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;R8101611&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="openerm.html">Openerm - API</a><ul>
+      <li>Previous: <a href="openerm.SpoolFixedRecordLength.html" title="capítulo anterior">SpoolFixedRecordLength</a></li>
+      <li>Next: <a href="openerm.Utils.html" title="próximo capítulo">Utils</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.ReportMatcher.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+      |
+      <a href="_sources/openerm.ReportMatcher.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

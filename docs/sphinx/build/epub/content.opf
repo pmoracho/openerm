@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="es"
+ unique-identifier="unknown"
+ prefix="ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/">
+  <metadata xmlns:opf="http://www.idpf.org/2007/opf"
+        xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:language>es</dc:language>
+    <dc:title>openerm</dc:title>
+    <dc:description>unknown</dc:description>
+    <dc:creator>Patricio Moracho</dc:creator>
+    <dc:contributor>unknown</dc:contributor>
+    <dc:publisher>Patricio Moracho</dc:publisher>
+    <dc:rights>2019, Patricio Moracho</dc:rights>
+    <dc:identifier id="unknown">unknown</dc:identifier>
+    <dc:date>2019-05-04T21:48:34Z</dc:date>
+    <meta property="dcterms:modified">2019-05-04T21:48:34Z</meta>
+    <meta property="ibooks:version"></meta>
+    <meta property="ibooks:specified-fonts">true</meta>
+    <meta property="ibooks:binding">true</meta>
+    <meta property="ibooks:scroll-axis">vertical</meta>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+    <item id="epub-0" href="catalogrepo.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-1" href="checkoermdb.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-2" href="desarrollo.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-3" href="genindex.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-4" href="index.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-5" href="make.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-6" href="oerm_hostreprint_processor.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-7" href="openerm.Block.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-8" href="openerm.Cipher.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-9" href="openerm.Compressor.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-10" href="openerm.Config.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-11" href="openerm.Database.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-12" href="openerm.Index.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-13" href="openerm.MetadataContainer.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-14" href="openerm.OermClient.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-15" href="openerm.PageContainer.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-16" href="openerm.Pages.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-17" href="openerm.Report.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-18" href="openerm.ReportMatcher.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-19" href="openerm.Reports.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-20" href="openerm.SpoolFixedRecordLength.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-21" href="openerm.SpoolHostReprint.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-22" href="openerm.Utils.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-23" href="openerm.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-24" href="py-modindex.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-25" href="readoermdb.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-26" href="spl2oerm.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-27" href="_modules/catalogrepo.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-28" href="_modules/checkoermdb.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-29" href="_modules/index.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-30" href="_modules/make.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-31" href="_modules/oerm_hostreprint_processor.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-32" href="_modules/readoermdb.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-33" href="_modules/spl2oerm.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-34" href="_modules/openerm/Block.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-35" href="_modules/openerm/Cipher.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-36" href="_modules/openerm/Compressor.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-37" href="_modules/openerm/Config.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-38" href="_modules/openerm/Database.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-39" href="_modules/openerm/Index.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-40" href="_modules/openerm/MetadataContainer.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-41" href="_modules/openerm/OermClient.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-42" href="_modules/openerm/PageContainer.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-43" href="_modules/openerm/Pages.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-44" href="_modules/openerm/Report.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-45" href="_modules/openerm/ReportMatcher.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-46" href="_modules/openerm/Reports.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-47" href="_modules/openerm/SpoolFixedRecordLength.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-48" href="_modules/openerm/SpoolHostReprint.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-49" href="_modules/openerm/Utils.xhtml" media-type="application/xhtml+xml" />
+    <item id="epub-50" href="_static/basic.css" media-type="text/css" />
+    <item id="epub-51" href="_static/epub.css" media-type="text/css" />
+    <item id="epub-52" href="_static/file.png" media-type="image/png" />
+    <item id="epub-53" href="_static/minus.png" media-type="image/png" />
+    <item id="epub-54" href="_static/plus.png" media-type="image/png" />
+    <item id="epub-55" href="_static/pygments.css" media-type="text/css" />
+  </manifest>
+  <spine toc="ncx" page-progression-direction="ltr">
+    <itemref idref="epub-4" />
+    <itemref idref="epub-2" />
+    <itemref idref="epub-23" />
+    <itemref idref="epub-14" />
+    <itemref idref="epub-11" />
+    <itemref idref="epub-21" />
+    <itemref idref="epub-20" />
+    <itemref idref="epub-18" />
+    <itemref idref="epub-22" />
+    <itemref idref="epub-10" />
+    <itemref idref="epub-13" />
+    <itemref idref="epub-15" />
+    <itemref idref="epub-7" />
+    <itemref idref="epub-8" />
+    <itemref idref="epub-9" />
+    <itemref idref="epub-12" />
+    <itemref idref="epub-16" />
+    <itemref idref="epub-17" />
+    <itemref idref="epub-19" />
+    <itemref idref="epub-26" />
+    <itemref idref="epub-0" />
+    <itemref idref="epub-1" />
+    <itemref idref="epub-5" />
+    <itemref idref="epub-6" />
+    <itemref idref="epub-25" />
+    <itemref idref="epub-24" />
+    <itemref idref="epub-3" />
+    <itemref idref="epub-27" linear="no" />
+    <itemref idref="epub-28" linear="no" />
+    <itemref idref="epub-29" linear="no" />
+    <itemref idref="epub-30" linear="no" />
+    <itemref idref="epub-31" linear="no" />
+    <itemref idref="epub-32" linear="no" />
+    <itemref idref="epub-33" linear="no" />
+    <itemref idref="epub-34" linear="no" />
+    <itemref idref="epub-35" linear="no" />
+    <itemref idref="epub-36" linear="no" />
+    <itemref idref="epub-37" linear="no" />
+    <itemref idref="epub-38" linear="no" />
+    <itemref idref="epub-39" linear="no" />
+    <itemref idref="epub-40" linear="no" />
+    <itemref idref="epub-41" linear="no" />
+    <itemref idref="epub-42" linear="no" />
+    <itemref idref="epub-43" linear="no" />
+    <itemref idref="epub-44" linear="no" />
+    <itemref idref="epub-45" linear="no" />
+    <itemref idref="epub-46" linear="no" />
+    <itemref idref="epub-47" linear="no" />
+    <itemref idref="epub-48" linear="no" />
+    <itemref idref="epub-49" linear="no" />
+  </spine>
+  <guide>
+    <reference type="toc" title="Table of Contents" href="index.xhtml" />
+  </guide>
+</package>

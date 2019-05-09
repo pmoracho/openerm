@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>splprocessor &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+  
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para splprocessor</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+
+<span class="c1"># splprocessor.py</span>
+
+<span class="c1"># This program is free software; you can redistribute it and/or</span>
+<span class="c1"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="c1"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="c1"># be included in the file GPL-3.</span>
+
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="c1"># GNU Library General Public License for more details.</span>
+
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program; if not, write to the Free Software</span>
+<span class="c1"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">splprocessor</span>
+<span class="sd">============</span>
+
+<span class="sd">**splprocessor**, es el monitor y procesador de archivos de colas de impresión</span>
+<span class="sd">(spool) del proyecto OpenErm. Su trabajo constiste en:</span>
+
+<span class="sd">	* Monitorear una o más carpetas</span>
+<span class="sd">	* Detectar nuevos archivos en estas</span>
+<span class="sd">	* Detectar por patrones regulares nombres de archivo a procesar</span>
+<span class="sd">	* Verificar capacidad de bloqueo del archivo (el mismo está listo para ser procesado)</span>
+<span class="sd">	* Establecer los parámetros de procesamiento en función de:</span>
+<span class="sd">		- patrones regulares en el nombre</span>
+<span class="sd">		- patrones regulares dentro del contenido (limite de x bytes)</span>
+<span class="sd">	* Renombrado de los archivos a punto de procesar en .processing</span>
+<span class="sd">	* Lectura de los archivos, proceso de las paginas y generación de los reportes oerm</span>
+<span class="sd">	* Generación de log de proceso. Eventual compresión final del log.</span>
+<span class="sd">	* Proceso final del Spool. Alguna de estas opciones:</span>
+<span class="sd">		- Borrado</span>
+<span class="sd">		- Copiado a otra carpeta</span>
+<span class="sd">		- Renombrado</span>
+<span class="sd">		- Compresión en otra carpeta</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span>		<span class="o">=</span> <span class="s2">&quot;Patricio Moracho &lt;pmoracho@gmail.com&gt;&quot;</span>
+<span class="n">__appname__</span>		<span class="o">=</span> <span class="s2">&quot;splprocessor&quot;</span>
+<span class="n">__appdesc__</span>		<span class="o">=</span> <span class="s2">&quot;Procesador de archivo de spool a Oerm&quot;</span>
+<span class="n">__license__</span>		<span class="o">=</span> <span class="s1">&#39;GPL v3&#39;</span>
+<span class="n">__copyright__</span>	<span class="o">=</span> <span class="s2">&quot;(c) 2019, </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__author__</span><span class="p">)</span>
+<span class="n">__version__</span>		<span class="o">=</span> <span class="s2">&quot;0.9&quot;</span>
+<span class="n">__date__</span>		<span class="o">=</span> <span class="s2">&quot;2019/05/07&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">gettext</span>
+	<span class="kn">from</span> <span class="nn">gettext</span> <span class="k">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+	<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">&#39;openerm&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="my_gettext"><a class="viewcode-back" href="../splprocessor.html#splprocessor.my_gettext">[documentos]</a>	<span class="k">def</span> <span class="nf">my_gettext</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;my_gettext: Traducir algunas cadenas de argparse.&quot;&quot;&quot;</span>
+		<span class="n">current_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;usage: &#39;</span><span class="p">:</span> <span class="s1">&#39;uso: &#39;</span><span class="p">,</span>
+						<span class="s1">&#39;optional arguments&#39;</span><span class="p">:</span> <span class="s1">&#39;argumentos opcionales&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;show this help message and exit&#39;</span><span class="p">:</span> <span class="s1">&#39;mostrar esta ayuda y salir&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;positional arguments&#39;</span><span class="p">:</span> <span class="s1">&#39;argumentos posicionales&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;the following arguments are required: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;los siguientes argumentos son requeridos: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">}</span>
+
+		<span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">current_dict</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">current_dict</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">s</span></div>
+
+	<span class="n">gettext</span><span class="o">.</span><span class="n">gettext</span> <span class="o">=</span> <span class="n">my_gettext</span>
+
+	<span class="kn">import</span> <span class="nn">argparse</span>
+	<span class="c1"># from argparse import RawTextHelpFormatter</span>
+	<span class="kn">import</span> <span class="nn">sys</span>
+
+	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+
+	<span class="kn">from</span> <span class="nn">openerm.Config</span> <span class="k">import</span> <span class="n">ProcessorConfig</span>
+	<span class="kn">from</span> <span class="nn">openerm.Config</span> <span class="k">import</span> <span class="n">ConfigLoadingException</span>
+	<span class="kn">from</span> <span class="nn">openerm.Utils</span> <span class="k">import</span> <span class="n">file_accessible</span>
+
+
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+	<span class="n">modulename</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;No fue posible importar el modulo: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">modulename</span><span class="p">)</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="init_argparse"><a class="viewcode-back" href="../splprocessor.html#splprocessor.init_argparse">[documentos]</a><span class="k">def</span> <span class="nf">init_argparse</span><span class="p">():</span>
+	<span class="sd">&quot;&quot;&quot;init_argparse: Inicializar parametros del programa.&quot;&quot;&quot;</span>
+	<span class="n">cmdparser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">__appname__</span><span class="p">,</span>
+										<span class="n">description</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__appdesc__</span><span class="p">,</span> <span class="n">__copyright__</span><span class="p">),</span>
+										<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+										<span class="n">add_help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+										<span class="n">formatter_class</span><span class="o">=</span><span class="k">lambda</span> <span class="n">prog</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">HelpFormatter</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span> <span class="n">max_help_position</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+	<span class="p">)</span>
+
+	<span class="n">opciones</span> <span class="o">=</span> <span class="p">{</span>	<span class="s2">&quot;--config-file -f&quot;</span><span class="p">:</span> <span class="p">{</span>
+								<span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+								<span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;store&quot;</span><span class="p">,</span>
+								<span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;configfile&quot;</span><span class="p">,</span>
+								<span class="s2">&quot;default&quot;</span><span class="p">:</span>	<span class="s1">&#39;splprocessor.cfg&#39;</span><span class="p">,</span>
+								<span class="s2">&quot;help&quot;</span><span class="p">:</span>		<span class="n">_</span><span class="p">(</span><span class="s2">&quot;Archivo de configuración del proceso.&quot;</span><span class="p">)</span>
+					<span class="p">}</span>
+			<span class="p">}</span>
+
+	<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">opciones</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+		<span class="n">args</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+		<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+		<span class="n">cmdparser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">cmdparser</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+	<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">           _</span>
+<span class="s2"> ___ _ __ | |_ __  _ __ ___   ___ ___  ___ ___  ___  _ __ </span>
+<span class="s2">/ __| &#39;_ \| | &#39;_ \| &#39;__/ _ \ / __/ _ \/ __/ __|/ _ \| &#39;__|</span>
+<span class="s2">\__ \ |_) | | |_) | | | (_) | (_|  __/\__ \__ \ (_) | |   </span>
+<span class="s2">|___/ .__/|_| .__/|_|  \___/ \___\___||___/___/\___/|_|   </span>
+<span class="s2">    |_|     |_|                                           </span>
+
+<span class="si">{0}</span><span class="s2"> (v.</span><span class="si">{1}</span><span class="s2">)</span>
+<span class="si">{2}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+	<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">__appdesc__</span><span class="p">,</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__author__</span><span class="p">))</span>
+
+	<span class="n">cmdparser</span> <span class="o">=</span> <span class="n">init_argparse</span><span class="p">()</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">args</span> <span class="o">=</span> <span class="n">cmdparser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+	<span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+		<span class="n">args</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+
+	<span class="c1"># if not args.configfile:</span>
+	<span class="c1"># 	print(_(&quot;Error: Debe definir el archivo de configuración del proceso&quot;).format(args.configfile))</span>
+	<span class="c1"># 	sys.exit(-1)</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">file_accessible</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">configfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Error: El archivo de configuración del proceso [</span><span class="si">{0}</span><span class="s2">] no se ha encontrado o no es accesible para su lectura&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">configfile</span><span class="p">))</span>
+		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">cfg</span> <span class="o">=</span> <span class="n">ProcessorConfig</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">configfile</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+
+	<span class="k">except</span> <span class="n">ConfigLoadingException</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
+
+	<span class="k">else</span><span class="p">:</span>
+
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

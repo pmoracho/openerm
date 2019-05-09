@@ -1,0 +1,139 @@
+\indexentry{openerm.OermClient (m\IeC {\'o}dulo)@\spxentry{openerm.OermClient}\spxextra{m\IeC {\'o}dulo}|hyperpage}{9}
+\indexentry{OermClient (clase en openerm.OermClient)@\spxentry{OermClient}\spxextra{clase en openerm.OermClient}|hyperpage}{9}
+\indexentry{add\_repo() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{add\_repo()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{9}
+\indexentry{catalog\_create() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{catalog\_create()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{9}
+\indexentry{catalogs() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{catalogs()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{10}
+\indexentry{close\_catalog() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{close\_catalog()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{10}
+\indexentry{current\_catalog() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{current\_catalog()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{10}
+\indexentry{open\_catalog() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{open\_catalog()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{10}
+\indexentry{open\_repo() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{open\_repo()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{10}
+\indexentry{query\_reports() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{query\_reports()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{11}
+\indexentry{reports() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{reports()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{12}
+\indexentry{repos() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{repos()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{12}
+\indexentry{systems() (m\IeC {\'e}todo de openerm.OermClient.OermClient)@\spxentry{systems()}\spxextra{m\IeC {\'e}todo de openerm.OermClient.OermClient}|hyperpage}{12}
+\indexentry{openerm.Database (m\IeC {\'o}dulo)@\spxentry{openerm.Database}\spxextra{m\IeC {\'o}dulo}|hyperpage}{12}
+\indexentry{Database (clase en openerm.Database)@\spxentry{Database}\spxextra{clase en openerm.Database}|hyperpage}{13}
+\indexentry{add\_page() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{add\_page()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{13}
+\indexentry{add\_report() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{add\_report()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{close() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{close()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{find\_text() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{find\_text()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{flush() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{flush()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{get\_report() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{get\_report()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{reports() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{reports()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{14}
+\indexentry{set\_report() (m\IeC {\'e}todo de openerm.Database.Database)@\spxentry{set\_report()}\spxextra{m\IeC {\'e}todo de openerm.Database.Database}|hyperpage}{15}
+\indexentry{openerm.SpoolHostReprint (m\IeC {\'o}dulo)@\spxentry{openerm.SpoolHostReprint}\spxextra{m\IeC {\'o}dulo}|hyperpage}{15}
+\indexentry{SpoolHostReprint (clase en openerm.SpoolHostReprint)@\spxentry{SpoolHostReprint}\spxextra{clase en openerm.SpoolHostReprint}|hyperpage}{15}
+\indexentry{openerm.SpoolFixedRecordLength (m\IeC {\'o}dulo)@\spxentry{openerm.SpoolFixedRecordLength}\spxextra{m\IeC {\'o}dulo}|hyperpage}{16}
+\indexentry{SpoolFixedRecordLength (clase en openerm.SpoolFixedRecordLength)@\spxentry{SpoolFixedRecordLength}\spxextra{clase en openerm.SpoolFixedRecordLength}|hyperpage}{16}
+\indexentry{openerm.ReportMatcher (m\IeC {\'o}dulo)@\spxentry{openerm.ReportMatcher}\spxextra{m\IeC {\'o}dulo}|hyperpage}{17}
+\indexentry{ReportMatcher (clase en openerm.ReportMatcher)@\spxentry{ReportMatcher}\spxextra{clase en openerm.ReportMatcher}|hyperpage}{17}
+\indexentry{match() (m\IeC {\'e}todo de openerm.ReportMatcher.ReportMatcher)@\spxentry{match()}\spxextra{m\IeC {\'e}todo de openerm.ReportMatcher.ReportMatcher}|hyperpage}{17}
+\indexentry{openerm.Utils (m\IeC {\'o}dulo)@\spxentry{openerm.Utils}\spxextra{m\IeC {\'o}dulo}|hyperpage}{18}
+\indexentry{AutoNum (clase en openerm.Utils)@\spxentry{AutoNum}\spxextra{clase en openerm.Utils}|hyperpage}{18}
+\indexentry{get() (m\IeC {\'e}todo de openerm.Utils.AutoNum)@\spxentry{get()}\spxextra{m\IeC {\'e}todo de openerm.Utils.AutoNum}|hyperpage}{18}
+\indexentry{list() (m\IeC {\'e}todo de openerm.Utils.AutoNum)@\spxentry{list()}\spxextra{m\IeC {\'e}todo de openerm.Utils.AutoNum}|hyperpage}{18}
+\indexentry{file\_accessible() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{file\_accessible()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{filesInPath() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{filesInPath()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{generate\_filename() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{generate\_filename()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{get\_values\_from\_byte() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{get\_values\_from\_byte()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{set\_byte\_from\_values() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{set\_byte\_from\_values()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{slugify() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{slugify()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{19}
+\indexentry{str\_to\_list() (en el m\IeC {\'o}dulo openerm.Utils)@\spxentry{str\_to\_list()}\spxextra{en el m\IeC {\'o}dulo openerm.Utils}|hyperpage}{20}
+\indexentry{openerm.Config (m\IeC {\'o}dulo)@\spxentry{openerm.Config}\spxextra{m\IeC {\'o}dulo}|hyperpage}{20}
+\indexentry{Config (clase en openerm.Config)@\spxentry{Config}\spxextra{clase en openerm.Config}|hyperpage}{20}
+\indexentry{ConfigLoadingException@\spxentry{ConfigLoadingException}|hyperpage}{20}
+\indexentry{LoadConfig (clase en openerm.Config)@\spxentry{LoadConfig}\spxextra{clase en openerm.Config}|hyperpage}{21}
+\indexentry{ProcessorConfig (clase en openerm.Config)@\spxentry{ProcessorConfig}\spxextra{clase en openerm.Config}|hyperpage}{21}
+\indexentry{openerm.MetadataContainer (m\IeC {\'o}dulo)@\spxentry{openerm.MetadataContainer}\spxextra{m\IeC {\'o}dulo}|hyperpage}{21}
+\indexentry{MetadataContainer (clase en openerm.MetadataContainer)@\spxentry{MetadataContainer}\spxextra{clase en openerm.MetadataContainer}|hyperpage}{21}
+\indexentry{add() (m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer)@\spxentry{add()}\spxextra{m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer}|hyperpage}{21}
+\indexentry{dump() (m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer)@\spxentry{dump()}\spxextra{m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer}|hyperpage}{21}
+\indexentry{load() (m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer)@\spxentry{load()}\spxextra{m\IeC {\'e}todo de openerm.MetadataContainer.MetadataContainer}|hyperpage}{22}
+\indexentry{openerm.PageContainer (m\IeC {\'o}dulo)@\spxentry{openerm.PageContainer}\spxextra{m\IeC {\'o}dulo}|hyperpage}{22}
+\indexentry{PageContainer (clase en openerm.PageContainer)@\spxentry{PageContainer}\spxextra{clase en openerm.PageContainer}|hyperpage}{23}
+\indexentry{add() (m\IeC {\'e}todo de openerm.PageContainer.PageContainer)@\spxentry{add()}\spxextra{m\IeC {\'e}todo de openerm.PageContainer.PageContainer}|hyperpage}{23}
+\indexentry{clear() (m\IeC {\'e}todo de openerm.PageContainer.PageContainer)@\spxentry{clear()}\spxextra{m\IeC {\'e}todo de openerm.PageContainer.PageContainer}|hyperpage}{23}
+\indexentry{dump() (m\IeC {\'e}todo de openerm.PageContainer.PageContainer)@\spxentry{dump()}\spxextra{m\IeC {\'e}todo de openerm.PageContainer.PageContainer}|hyperpage}{24}
+\indexentry{get\_page() (m\IeC {\'e}todo de openerm.PageContainer.PageContainer)@\spxentry{get\_page()}\spxextra{m\IeC {\'e}todo de openerm.PageContainer.PageContainer}|hyperpage}{25}
+\indexentry{load() (m\IeC {\'e}todo de openerm.PageContainer.PageContainer)@\spxentry{load()}\spxextra{m\IeC {\'e}todo de openerm.PageContainer.PageContainer}|hyperpage}{25}
+\indexentry{openerm.Block (m\IeC {\'o}dulo)@\spxentry{openerm.Block}\spxextra{m\IeC {\'o}dulo}|hyperpage}{26}
+\indexentry{Block (clase en openerm.Block)@\spxentry{Block}\spxextra{clase en openerm.Block}|hyperpage}{26}
+\indexentry{block\_types (atributo de openerm.Block.Block)@\spxentry{block\_types}\spxextra{atributo de openerm.Block.Block}|hyperpage}{26}
+\indexentry{dump() (m\IeC {\'e}todo de openerm.Block.Block)@\spxentry{dump()}\spxextra{m\IeC {\'e}todo de openerm.Block.Block}|hyperpage}{26}
+\indexentry{load() (m\IeC {\'e}todo de openerm.Block.Block)@\spxentry{load()}\spxextra{m\IeC {\'e}todo de openerm.Block.Block}|hyperpage}{27}
+\indexentry{openerm.Cipher (m\IeC {\'o}dulo)@\spxentry{openerm.Cipher}\spxextra{m\IeC {\'o}dulo}|hyperpage}{28}
+\indexentry{Cipher (clase en openerm.Cipher)@\spxentry{Cipher}\spxextra{clase en openerm.Cipher}|hyperpage}{28}
+\indexentry{available\_types (atributo de openerm.Cipher.Cipher)@\spxentry{available\_types}\spxextra{atributo de openerm.Cipher.Cipher}|hyperpage}{28}
+\indexentry{decode() (m\IeC {\'e}todo de openerm.Cipher.Cipher)@\spxentry{decode()}\spxextra{m\IeC {\'e}todo de openerm.Cipher.Cipher}|hyperpage}{29}
+\indexentry{encode() (m\IeC {\'e}todo de openerm.Cipher.Cipher)@\spxentry{encode()}\spxextra{m\IeC {\'e}todo de openerm.Cipher.Cipher}|hyperpage}{29}
+\indexentry{type (atributo de openerm.Cipher.Cipher)@\spxentry{type}\spxextra{atributo de openerm.Cipher.Cipher}|hyperpage}{29}
+\indexentry{type\_info() (m\IeC {\'e}todo de openerm.Cipher.Cipher)@\spxentry{type\_info()}\spxextra{m\IeC {\'e}todo de openerm.Cipher.Cipher}|hyperpage}{30}
+\indexentry{openerm.Compressor (m\IeC {\'o}dulo)@\spxentry{openerm.Compressor}\spxextra{m\IeC {\'o}dulo}|hyperpage}{30}
+\indexentry{Compressor (clase en openerm.Compressor)@\spxentry{Compressor}\spxextra{clase en openerm.Compressor}|hyperpage}{31}
+\indexentry{available\_types (atributo de openerm.Compressor.Compressor)@\spxentry{available\_types}\spxextra{atributo de openerm.Compressor.Compressor}|hyperpage}{32}
+\indexentry{compress() (m\IeC {\'e}todo de openerm.Compressor.Compressor)@\spxentry{compress()}\spxextra{m\IeC {\'e}todo de openerm.Compressor.Compressor}|hyperpage}{32}
+\indexentry{compression\_type\_info() (m\IeC {\'e}todo de openerm.Compressor.Compressor)@\spxentry{compression\_type\_info()}\spxextra{m\IeC {\'e}todo de openerm.Compressor.Compressor}|hyperpage}{33}
+\indexentry{decompress() (m\IeC {\'e}todo de openerm.Compressor.Compressor)@\spxentry{decompress()}\spxextra{m\IeC {\'e}todo de openerm.Compressor.Compressor}|hyperpage}{33}
+\indexentry{level (atributo de openerm.Compressor.Compressor)@\spxentry{level}\spxextra{atributo de openerm.Compressor.Compressor}|hyperpage}{33}
+\indexentry{type (atributo de openerm.Compressor.Compressor)@\spxentry{type}\spxextra{atributo de openerm.Compressor.Compressor}|hyperpage}{34}
+\indexentry{openerm.Index (m\IeC {\'o}dulo)@\spxentry{openerm.Index}\spxextra{m\IeC {\'o}dulo}|hyperpage}{34}
+\indexentry{Index (clase en openerm.Index)@\spxentry{Index}\spxextra{clase en openerm.Index}|hyperpage}{34}
+\indexentry{add\_container() (m\IeC {\'e}todo de openerm.Index.Index)@\spxentry{add\_container()}\spxextra{m\IeC {\'e}todo de openerm.Index.Index}|hyperpage}{34}
+\indexentry{add\_report() (m\IeC {\'e}todo de openerm.Index.Index)@\spxentry{add\_report()}\spxextra{m\IeC {\'e}todo de openerm.Index.Index}|hyperpage}{34}
+\indexentry{get\_report() (m\IeC {\'e}todo de openerm.Index.Index)@\spxentry{get\_report()}\spxextra{m\IeC {\'e}todo de openerm.Index.Index}|hyperpage}{34}
+\indexentry{read() (m\IeC {\'e}todo de openerm.Index.Index)@\spxentry{read()}\spxextra{m\IeC {\'e}todo de openerm.Index.Index}|hyperpage}{34}
+\indexentry{write() (m\IeC {\'e}todo de openerm.Index.Index)@\spxentry{write()}\spxextra{m\IeC {\'e}todo de openerm.Index.Index}|hyperpage}{34}
+\indexentry{openerm.Pages (m\IeC {\'o}dulo)@\spxentry{openerm.Pages}\spxextra{m\IeC {\'o}dulo}|hyperpage}{34}
+\indexentry{Pages (clase en openerm.Pages)@\spxentry{Pages}\spxextra{clase en openerm.Pages}|hyperpage}{35}
+\indexentry{openerm.Report (m\IeC {\'o}dulo)@\spxentry{openerm.Report}\spxextra{m\IeC {\'o}dulo}|hyperpage}{35}
+\indexentry{Report (clase en openerm.Report)@\spxentry{Report}\spxextra{clase en openerm.Report}|hyperpage}{35}
+\indexentry{find\_text() (m\IeC {\'e}todo de openerm.Report.Report)@\spxentry{find\_text()}\spxextra{m\IeC {\'e}todo de openerm.Report.Report}|hyperpage}{36}
+\indexentry{get\_page() (m\IeC {\'e}todo de openerm.Report.Report)@\spxentry{get\_page()}\spxextra{m\IeC {\'e}todo de openerm.Report.Report}|hyperpage}{36}
+\indexentry{id (atributo de openerm.Report.Report)@\spxentry{id}\spxextra{atributo de openerm.Report.Report}|hyperpage}{37}
+\indexentry{metadata (atributo de openerm.Report.Report)@\spxentry{metadata}\spxextra{atributo de openerm.Report.Report}|hyperpage}{37}
+\indexentry{nombre (atributo de openerm.Report.Report)@\spxentry{nombre}\spxextra{atributo de openerm.Report.Report}|hyperpage}{37}
+\indexentry{total\_pages (atributo de openerm.Report.Report)@\spxentry{total\_pages}\spxextra{atributo de openerm.Report.Report}|hyperpage}{37}
+\indexentry{openerm.Reports (m\IeC {\'o}dulo)@\spxentry{openerm.Reports}\spxextra{m\IeC {\'o}dulo}|hyperpage}{37}
+\indexentry{Reports (clase en openerm.Reports)@\spxentry{Reports}\spxextra{clase en openerm.Reports}|hyperpage}{37}
+\indexentry{find\_text() (m\IeC {\'e}todo de openerm.Reports.Reports)@\spxentry{find\_text()}\spxextra{m\IeC {\'e}todo de openerm.Reports.Reports}|hyperpage}{38}
+\indexentry{get\_report() (m\IeC {\'e}todo de openerm.Reports.Reports)@\spxentry{get\_report()}\spxextra{m\IeC {\'e}todo de openerm.Reports.Reports}|hyperpage}{38}
+\indexentry{splprocessor (m\IeC {\'o}dulo)@\spxentry{splprocessor}\spxextra{m\IeC {\'o}dulo}|hyperpage}{41}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo splprocessor)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo splprocessor}|hyperpage}{41}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo splprocessor)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo splprocessor}|hyperpage}{42}
+\indexentry{spl2oerm (m\IeC {\'o}dulo)@\spxentry{spl2oerm}\spxextra{m\IeC {\'o}dulo}|hyperpage}{42}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo spl2oerm)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo spl2oerm}|hyperpage}{44}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo spl2oerm)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo spl2oerm}|hyperpage}{44}
+\indexentry{catalogrepo (m\IeC {\'o}dulo)@\spxentry{catalogrepo}\spxextra{m\IeC {\'o}dulo}|hyperpage}{44}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo catalogrepo)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo catalogrepo}|hyperpage}{44}
+\indexentry{procces\_tree() (en el m\IeC {\'o}dulo catalogrepo)@\spxentry{procces\_tree()}\spxextra{en el m\IeC {\'o}dulo catalogrepo}|hyperpage}{44}
+\indexentry{checkoermdb (m\IeC {\'o}dulo)@\spxentry{checkoermdb}\spxextra{m\IeC {\'o}dulo}|hyperpage}{44}
+\indexentry{OermDataBase (clase en checkoermdb)@\spxentry{OermDataBase}\spxextra{clase en checkoermdb}|hyperpage}{45}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo checkoermdb)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo checkoermdb}|hyperpage}{45}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo checkoermdb)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo checkoermdb}|hyperpage}{45}
+\indexentry{make (m\IeC {\'o}dulo)@\spxentry{make}\spxextra{m\IeC {\'o}dulo}|hyperpage}{45}
+\indexentry{MyMake (clase en make)@\spxentry{MyMake}\spxextra{clase en make}|hyperpage}{45}
+\indexentry{build() (m\IeC {\'e}todo de make.MyMake)@\spxentry{build()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{45}
+\indexentry{check\_packages() (m\IeC {\'e}todo de make.MyMake)@\spxentry{check\_packages()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{45}
+\indexentry{check\_tool() (m\IeC {\'e}todo est\IeC {\'a}tico de make.MyMake)@\spxentry{check\_tool()}\spxextra{m\IeC {\'e}todo est\IeC {\'a}tico de make.MyMake}|hyperpage}{45}
+\indexentry{check\_virtualenv() (m\IeC {\'e}todo de make.MyMake)@\spxentry{check\_virtualenv()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{45}
+\indexentry{clean() (m\IeC {\'e}todo est\IeC {\'a}tico de make.MyMake)@\spxentry{clean()}\spxextra{m\IeC {\'e}todo est\IeC {\'a}tico de make.MyMake}|hyperpage}{45}
+\indexentry{dev\_install() (m\IeC {\'e}todo de make.MyMake)@\spxentry{dev\_install()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{45}
+\indexentry{devcheck() (m\IeC {\'e}todo de make.MyMake)@\spxentry{devcheck()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{devinstall() (m\IeC {\'e}todo de make.MyMake)@\spxentry{devinstall()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{doc\_install() (m\IeC {\'e}todo de make.MyMake)@\spxentry{doc\_install()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{docinstall() (m\IeC {\'e}todo de make.MyMake)@\spxentry{docinstall()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{print\_error() (m\IeC {\'e}todo de make.MyMake)@\spxentry{print\_error()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{run\_devcheck() (m\IeC {\'e}todo de make.MyMake)@\spxentry{run\_devcheck()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{run\_tests() (m\IeC {\'e}todo de make.MyMake)@\spxentry{run\_tests()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{test() (m\IeC {\'e}todo de make.MyMake)@\spxentry{test()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{tools() (m\IeC {\'e}todo de make.MyMake)@\spxentry{tools()}\spxextra{m\IeC {\'e}todo de make.MyMake}|hyperpage}{46}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo make)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo make}|hyperpage}{46}
+\indexentry{subprocess\_cmd() (en el m\IeC {\'o}dulo make)@\spxentry{subprocess\_cmd()}\spxextra{en el m\IeC {\'o}dulo make}|hyperpage}{46}
+\indexentry{oerm\_hostreprint\_processor (m\IeC {\'o}dulo)@\spxentry{oerm\_hostreprint\_processor}\spxextra{m\IeC {\'o}dulo}|hyperpage}{46}
+\indexentry{Main() (en el m\IeC {\'o}dulo oerm\_hostreprint\_processor)@\spxentry{Main()}\spxextra{en el m\IeC {\'o}dulo oerm\_hostreprint\_processor}|hyperpage}{46}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo oerm\_hostreprint\_processor)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo oerm\_hostreprint\_processor}|hyperpage}{46}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo oerm\_hostreprint\_processor)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo oerm\_hostreprint\_processor}|hyperpage}{46}
+\indexentry{process\_file() (en el m\IeC {\'o}dulo oerm\_hostreprint\_processor)@\spxentry{process\_file()}\spxextra{en el m\IeC {\'o}dulo oerm\_hostreprint\_processor}|hyperpage}{46}
+\indexentry{readoermdb (m\IeC {\'o}dulo)@\spxentry{readoermdb}\spxextra{m\IeC {\'o}dulo}|hyperpage}{47}
+\indexentry{init\_argparse() (en el m\IeC {\'o}dulo readoermdb)@\spxentry{init\_argparse()}\spxextra{en el m\IeC {\'o}dulo readoermdb}|hyperpage}{47}
+\indexentry{my\_gettext() (en el m\IeC {\'o}dulo readoermdb)@\spxentry{my\_gettext()}\spxextra{en el m\IeC {\'o}dulo readoermdb}|hyperpage}{47}

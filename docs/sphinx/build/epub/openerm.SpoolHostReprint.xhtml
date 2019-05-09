@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <title>SpoolHostReprint</title>
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openerm.SpoolHostReprint">
+<span id="spoolhostreprint"></span><h1>SpoolHostReprint</h1>
+<p>Un <strong>SpoolHostReprint</strong> es el objeto que permite la lectura de las salidas de
+impresión del tipo FCFC que son aquellos en los que la primer columna
+representa un «canal» de control para la impresora. Esta clase considera esta
+columna  y particularmente el codigo «1» que representa el salto de pagina.
+Esta columna podra ser quitada o no segun se requiera.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver también</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="openerm.SpoolFixedRecordLength.xhtml#module-openerm.SpoolFixedRecordLength" title="openerm.SpoolFixedRecordLength"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.SpoolFixedRecordLength</span></code></a></p></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="openerm.SpoolHostReprint.SpoolHostReprint">
+<em class="property">class </em><code class="descclassname">openerm.SpoolHostReprint.</code><code class="descname">SpoolHostReprint</code><span class="sig-paren">(</span><em>inputfile</em>, <em>buffer_size=102400</em>, <em>encoding='Latin1'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/SpoolHostReprint.xhtml#SpoolHostReprint"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase base para lectura de archivos tipo «host reprint».</p>
+<dl class="field-list">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputfile</strong> (<em>string</em>) – Path y nombre del archivo a leer</p></li>
+<li><p><strong>buffer_size</strong> (<em>int</em>) – Opcional, tamaño del buffer de lectura.
+Por defecto 102400 bytes.</p></li>
+<li><p><strong>encoding</strong> (<em>string</em>) – Opcional, Codificación de lectura. Por defecto <cite>Latin1</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.SpoolHostReprint</span> <span class="k">import</span> <span class="n">SpoolHostReprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">SpoolHostReprint</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="mi">102400</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

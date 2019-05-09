@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Compressor &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Index" href="openerm.Index.html" />
+    <link rel="prev" title="Cipher" href="openerm.Cipher.html" />
+  
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-openerm.Compressor"><span id="compressor"></span></span><div class="section" id="id1">
+<h1>Compressor<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Esta clase gestiona los algoritmos de compresión que se pueden utilizarse en un
+<a class="reference internal" href="openerm.Database.html#module-openerm.Database" title="openerm.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">openerm.Database</span></code></a> OERM. Este objeto ofrece dos rutinas básicas:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">compress()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">decompress()</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>y dos posibles formas de configurar estos metódos en la inicialización del
+objeto:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>type</strong>: Tipo de compresión</p></li>
+<li><p><strong>level</strong>: Nivel de compresión  0=mínimo/rápido, 1=normal/estándar,2=máximo/lento</p></li>
+</ul>
+</div></blockquote>
+<p>## Tipos/Algoritmos de compresión</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 99%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Tipo</p></th>
+<th class="head"><p>Detalle</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Sin compresión</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><strong>Gzip</strong> es una abreviatura de GNU ZIP, un software libre GNU que reemplaza al programa compress de UNIX. gzip fue creado por Jean-loup Gailly y Mark Adler. Apareció el 31 de octubre de 1992 (versión 0.1). La versión 1.0 apareció en febrero de 1993. Gzip se basa en el algoritmo Deflate, que es una combinación del LZ77 y la codificación Huffman. Deflate se desarrolló como respuesta a las patentes que cubrieron LZW y otros algoritmos de compresión y limitaba el uso del compress.</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><strong>Bzip2</strong> es un programa libre desarrollado bajo licencia BSD que comprime y descomprime ficheros usando los algoritmos de compresión de Burrows-Wheeler y de codificación de Huffman. El porcentaje de compresión alcanzado depende del contenido del fichero a comprimir, pero por lo general es bastante mejor al de los compresores basados en el algoritmo LZ77/LZ78 (gzip, compress, WinZip, pkzip,…). Como contrapartida, bzip2 emplea más memoria y más tiempo en su ejecución.</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><strong>LZMA</strong> El Algoritmo de cadena de Lempel-Ziv-Markov o LZMA es un algoritmo de compresión de datos en desarrollo desde 1998. Se utiliza un esquema de compresión diccionario algo similar a LZ77, cuenta con una alta relación de compresión y una compresión de tamaño variable diccionario (de hasta 4 GB). Se utiliza en el formato 7z del archivador 7-Zip.</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><strong>LZ4</strong> is lossless compression algorithm, providing compression speed at 400 MB/s per core (0.16 Bytes/cycle). It features an extremely fast decoder, with speed in multiple GB/s per core (0.71 Bytes/cycle). A high compression derivative, called LZ4_HC, is available, trading customizable CPU time for compression ratio. LZ4 library is provided as open source software using a BSD license.</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p><strong>pyLZMA</strong>, otra implementación de <strong>LZMA</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p><strong>BLOSC</strong> an extremely fast, multi-threaded, meta-compressor library</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p><strong>Snappy</strong> (previously known as Zippy) is a fast data compression and decompression library written in C++ by Google based on ideas from LZ77 and open-sourced in 2011. It does not aim for maximum compression, or compatibility with any other compression library; instead, it aims for very high speeds and reasonable compression</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p><strong>Lzo</strong> or Lempel–Ziv–Oberhumer is a lossless data compression algorithm that is focused on decompression speed</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p><strong>Brotli</strong> es una librería de compresión de datos de código abierto desarrollada por Jyrki Alakuijala y Zoltán Szabadka.1 2 Brotli está basado en una variante moderna del algoritmo LZ77, codificación Huffman y modelado de contexto de segundo orden.</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p><strong>Zstandard</strong>, or zstd as short version, is a fast lossless compression algorithm, targeting real-time compression scenarios at zlib-level and better compression ratios.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="openerm.Compressor.Compressor">
+<em class="property">class </em><code class="descclassname">openerm.Compressor.</code><code class="descname">Compressor</code><span class="sig-paren">(</span><em>compress_type=1</em>, <em>level=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Compressor.html#Compressor"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Compressor.Compressor" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase base para el manejo de compresión/descompresión de «bytes».</p>
+<p>Esta es una clase base para poder configurar distintos algoritmos de
+compresión, pero que a la vez ofrezca una interfaz común para comprimir
+y descomprimir.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compress_type</strong> (<em>int</em>) – Tipo de compresión</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – Nivel de compresión 0=mínimo, 1=normal, 2=máximo</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">(</span><span class="n">compress_type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Esta es una prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;x^s-.ITH-V(ÍKT((*MMJ &lt;}&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="openerm.Compressor.Compressor.available_types">
+<code class="descname">available_types</code><a class="headerlink" href="#openerm.Compressor.Compressor.available_types" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna los tipos de compresión disponibles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>Lista de algoritmos disponibles.</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">available_types</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">(0, &#39;Sin compression&#39;)</span>
+<span class="go">(1, &#39;GZIP level=6 (1-9)&#39;)</span>
+<span class="go">(2, &#39;BZIP level=6 (1-9)&#39;)</span>
+<span class="go">(3, &#39;LZMA preset=6 (0-9) &#39;)</span>
+<span class="go">(4, &#39;LZ4 nivel estándar&#39;)</span>
+<span class="go">(5, &#39;pyLZMA quality=1 (0-2)&#39;)</span>
+<span class="go">(6, &#39;BLOSC blosclz clevel=6 (1-9)&#39;)</span>
+<span class="go">(7, &#39;Snappy&#39;)</span>
+<span class="go">(8, &#39;Lzo level=2 (1-9)&#39;)</span>
+<span class="go">(9, &#39;Brotli quality=2 (1-11)&#39;)</span>
+<span class="go">(10, &#39;zstd level=3 (1-22)&#39;)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Compressor.Compressor.compress">
+<code class="descname">compress</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Compressor.html#Compressor.compress"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Compressor.Compressor.compress" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Comprime un conjunto de bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>data</strong> – (bytes) conjunto de bytes a comprimir</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>bytes comprimidos.</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">(</span><span class="n">compress_type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Esta es una prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;x^s-.ITH-V(ÍKT((*MMJ &lt;}&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Compressor.Compressor.compression_type_info">
+<code class="descname">compression_type_info</code><span class="sig-paren">(</span><em>compress_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Compressor.html#Compressor.compression_type_info"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Compressor.Compressor.compression_type_info" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna la información de un determinado
+algoritmo de compressión disponible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>compress_type</strong> (<em>int</em>) – Id del algoritmo de compresión</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>Información del algoritmo de compresión</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">compression_type_info</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">zstd level=3 (1-22)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Compressor.Compressor.decompress">
+<code class="descname">decompress</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Compressor.html#Compressor.decompress"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#openerm.Compressor.Compressor.decompress" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Descomprime un conjunto de bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>data</strong> – (bytes) conjunto de bytes comprimidos</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>bytes descomprimidos.</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">(</span><span class="n">compress_type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Esta es una prueba&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;x^s-.ITH-V(ÍKT((*MMJ &lt;}&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
+<span class="go">b&#39;Esta es una prueba&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openerm.Compressor.Compressor.level">
+<code class="descname">level</code><a class="headerlink" href="#openerm.Compressor.Compressor.level" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Nivel de compresión a utilizar</p>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openerm.Compressor.Compressor.type">
+<code class="descname">type</code><a class="headerlink" href="#openerm.Compressor.Compressor.type" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Tipo de compresión (algorimo) a utilizar.</p>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Compressor</span> <span class="k">import</span> <span class="n">Compressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Compressor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="openerm.html">Openerm - API</a><ul>
+      <li>Previous: <a href="openerm.Cipher.html" title="capítulo anterior">Cipher</a></li>
+      <li>Next: <a href="openerm.Index.html" title="próximo capítulo">Index</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openerm.Compressor.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+      |
+      <a href="_sources/openerm.Compressor.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

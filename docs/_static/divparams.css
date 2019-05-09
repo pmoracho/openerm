@@ -1,7 +1,0 @@
-/* This file is a part of 'sphinxcontrib.divparams' package.
-   Its purpose is to add default styling to new <div> blocks, created as
-   a result of HTML code transformation. */
-
-.divparams-name {
-    font-weight: bold;
-}

@@ -200,7 +200,7 @@ def init_argparse():
 	return cmdparser
 
 
-def Main():
+if __name__ == "__main__":
 
 	cmdparser = init_argparse()
 	try:
@@ -247,7 +247,4 @@ def Main():
 		print("")
 		print(status)
 		print("")
-
-if __name__ == "__main__":
-
-	Main()
+		sys.exit(-1)

@@ -1,0 +1,42 @@
+\select@language {spanish}
+\contentsline {chapter}{\numberline {1}Un poco de historia}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}Estatus del proyecto a abril 2019}{5}{chapter.2}
+\contentsline {chapter}{\numberline {3}Openerm - API}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}OERM - Especificaci\IeC {\'o}n v1}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Estructura de un database OpenErm}{7}{section.3.2}
+\contentsline {section}{\numberline {3.3}Openerm - API}{8}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Clases de uso p\IeC {\'u}blico}{9}{subsection.3.3.1}
+\contentsline {subsubsection}{OermClient}{9}{subsubsection*.6}
+\contentsline {subsubsection}{Database}{13}{subsubsection*.22}
+\contentsline {subsubsection}{SpoolHostReprint}{15}{subsubsection*.32}
+\contentsline {subsubsection}{SpoolFixedRecordLength}{16}{subsubsection*.34}
+\contentsline {subsubsection}{ReportMatcher}{17}{subsubsection*.36}
+\contentsline {subsubsection}{Utils}{18}{subsubsection*.42}
+\contentsline {subsubsection}{Config}{20}{subsubsection*.56}
+\contentsline {subsection}{\numberline {3.3.2}Internas - Contenedores}{21}{subsection.3.3.2}
+\contentsline {subsubsection}{MetadataContainer}{21}{subsubsection*.64}
+\contentsline {subsubsection}{PageContainer}{23}{subsubsection*.72}
+\contentsline {subsection}{\numberline {3.3.3}Internas - Core}{26}{subsection.3.3.3}
+\contentsline {subsubsection}{Block}{26}{subsubsection*.82}
+\contentsline {subsubsection}{Cipher}{28}{subsubsection*.87}
+\contentsline {subsubsection}{Compressor}{30}{subsubsection*.97}
+\contentsline {subsubsection}{Index}{34}{subsubsection*.105}
+\contentsline {subsubsection}{Pages}{35}{subsubsection*.115}
+\contentsline {subsubsection}{Report}{35}{subsubsection*.120}
+\contentsline {subsubsection}{Reports}{37}{subsubsection*.129}
+\contentsline {chapter}{\numberline {4}Herramientas}{41}{chapter.4}
+\contentsline {section}{\numberline {4.1}splprocessor}{41}{section.4.1}
+\contentsline {section}{\numberline {4.2}spl2oerm}{42}{section.4.2}
+\contentsline {section}{\numberline {4.3}catalogrepo}{44}{section.4.3}
+\contentsline {section}{\numberline {4.4}checkoermdb}{45}{section.4.4}
+\contentsline {section}{\numberline {4.5}make module}{45}{section.4.5}
+\contentsline {section}{\numberline {4.6}oerm\_hostreprint\_processor module}{46}{section.4.6}
+\contentsline {section}{\numberline {4.7}Readoermdb}{47}{section.4.7}
+\contentsline {chapter}{\numberline {5}Desarrollo}{49}{chapter.5}
+\contentsline {section}{\numberline {5.1}Requisitos iniciales}{49}{section.5.1}
+\contentsline {section}{\numberline {5.2}Preparaci\IeC {\'o}n del entorno virtual local}{50}{section.5.2}
+\contentsline {section}{\numberline {5.3}Notas:}{51}{section.5.3}
+\contentsline {section}{\numberline {5.4}Otras consideraciones}{51}{section.5.4}
+\contentsline {chapter}{\numberline {6}Indices y tablas}{53}{chapter.6}
+\contentsline {chapter}{\IeC {\'I}ndice de M\IeC {\'o}dulos Python}{55}{section*.181}
+\contentsline {chapter}{\IeC {\'I}ndice}{57}{section*.182}

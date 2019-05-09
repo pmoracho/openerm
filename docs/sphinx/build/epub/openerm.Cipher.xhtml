@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cipher</title>
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openerm.Cipher">
+<span id="cipher"></span><h1>Cipher</h1>
+<dl class="class">
+<dt id="openerm.Cipher.Cipher">
+<em class="property">class </em><code class="descclassname">openerm.Cipher.</code><code class="descname">Cipher</code><span class="sig-paren">(</span><em>cipher_type=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.xhtml#Cipher"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase base para el manejo de cifrado de «bytes».</p>
+<p>Esta es una clase base para poder configurar distintos algoritmos de
+cifrado, pero que a la vez ofrezca una interfaz común para cifrar
+y descifrar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>cipher_type</strong> (<em>int</em>) – Opcional, Tipo de cifrado por defecto (default=0-Ninguno)</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="openerm.Cipher.Cipher.available_types">
+<code class="descname">available_types</code></dt>
+<dd><p>Retorna los tipos de cifrados disponibles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>Lista de algoritmos cifrados.</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">available_types</span>
+<span class="go">[(0, &#39;Sin encriptación&#39;), (1, &#39;Spritz&#39;), (2, &#39;Fernet&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.decode">
+<code class="descname">decode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.xhtml#Cipher.decode"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Descifra un conjunto de bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>bytes</em>) – conjunto de bytes cifrados</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>datos descifrados.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
+<span class="go">b&#39;esto es una prueba&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.encode">
+<code class="descname">encode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.xhtml#Cipher.encode"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Cifra conjunto de bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>bytes</em>) – conjunto de bytes a cifrar</p>
+</dd>
+<dt class="field-even">Devuelve</dt>
+<dd class="field-even"><p>datos cifrados.</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+<p class="rubric">Ejemplo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">openerm.Cipher</span> <span class="k">import</span> <span class="n">Cipher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;esto es una prueba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="go">b&#39;gAAAAABX2dYtQhe7Th3sA24606o_747bts4n11Jm37gHW5SIRanP105loH4jPBJzEPrlBmhb9ai5FcXIBhTtUswHA_H6yrzgVK0CPDig0iSKQjyfaWJryJI=&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openerm.Cipher.Cipher.type">
+<code class="descname">type</code></dt>
+<dd><p>Tipo de cifrado.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openerm.Cipher.Cipher.type_info">
+<code class="descname">type_info</code><span class="sig-paren">(</span><em>cipher_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openerm/Cipher.xhtml#Cipher.type_info"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Retorna la información de un determinado algoritmo de cifrado disponible.</p>
+<p>Returns:
+(tupla).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

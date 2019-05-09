@@ -28,6 +28,8 @@ uno y devuelve un diccionario de datos para ser aprovechado luego.
 
 """
 
+SCHEMA_PROCESSOR = None
+
 SCHEMA_LOAD = """
 load:
 	allow_unknown: true
@@ -181,3 +183,19 @@ class LoadConfig(Config):
 
 			self._paths = self.dictionary.get("paths", {})
 			self.output_path = self._paths[self.output_path]
+
+class ProcessorConfig(Config):
+	"""
+	Clase base para el manejo de la configuración del proceso de carga.
+	"""
+	def __init__(self, configfile):
+
+		try:
+			super().__init__(configfile, SCHEMA_PROCESSOR)
+		except ConfigLoadingException:
+			raise
+		else:
+			for d in self.dictionary.get("processor", {}).values():
+				for k, v in d.items():
+					setattr(self, k.replace("-", "_"), v)
+

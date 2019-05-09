@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>openerm.Utils &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+  
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para openerm.Utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># spool_host_reprint.py</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software; you can redistribute it and/or</span>
+<span class="c1"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="c1"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="c1"># be included in the file GPL-3.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="c1"># GNU Library General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program; if not, write to the Free Software</span>
+<span class="c1"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utils</span>
+<span class="sd">=====</span>
+
+<span class="sd">Este módulo contiene todo tipo de funciones de uso general para el</span>
+<span class="sd">proyecto **OpenErm**</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+
+<span class="kn">from</span> <span class="nn">unicodedata</span> <span class="k">import</span> <span class="n">normalize</span>
+
+<span class="n">_punct_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\t !&quot;#$%&amp;</span><span class="se">\&#39;</span><span class="s1">()*\-/&lt;=&gt;?@\[</span><span class="se">\\</span><span class="s1">\]^_`{|},.:]+&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="slugify"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.slugify">[documentos]</a><span class="k">def</span> <span class="nf">slugify</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">delim</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Normaliza una cadena para ser usada como nombre de archivo.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		text (str): String a normalizar</span>
+<span class="sd">		delim (str): Caracter de reemplazo de aquellos no válidos</span>
+
+<span class="sd">	Ejemplo:</span>
+<span class="sd">		&gt;&gt;&gt; from openerm.Utils import *</span>
+<span class="sd">		&gt;&gt;&gt; slugify(&quot;Esto, no es válido como nombre de Archivo!&quot;, &quot;-&quot;)</span>
+<span class="sd">		&#39;esto-no-es-valido-como-nombre-de-archivo&#39;</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">_punct_re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+		<span class="n">word</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+		<span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">word</span><span class="p">:</span>
+			<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">delim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_values_from_byte"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.get_values_from_byte">[documentos]</a><span class="k">def</span> <span class="nf">get_values_from_byte</span><span class="p">(</span><span class="n">byte</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Retorna dos valores de un byte empaquetado</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		byte: Entero que represta un byte</span>
+
+<span class="sd">	Return</span>
+<span class="sd">		(v1, v2) Tupla con los dos valores enteros</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">value1</span> <span class="o">=</span> <span class="n">byte</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+	<span class="n">value2</span> <span class="o">=</span> <span class="p">((</span><span class="n">byte</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">255</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+	<span class="k">return</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span></div>
+
+
+<div class="viewcode-block" id="set_byte_from_values"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.set_byte_from_values">[documentos]</a><span class="k">def</span> <span class="nf">set_byte_from_values</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">):</span>
+
+	<span class="sd">&quot;&quot;&quot;Retorna un byte empaquetado a partir de dos valores</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		value1 (int): Entero 0 a 127</span>
+<span class="sd">		value2 (int): Entero 0 a 127</span>
+
+<span class="sd">	Return:</span>
+<span class="sd">		byte</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="n">value1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span> <span class="o">|</span> <span class="n">value2</span></div>
+
+
+<div class="viewcode-block" id="file_accessible"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.file_accessible">[documentos]</a><span class="k">def</span> <span class="nf">file_accessible</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Verifica la accesibilidad de un archivo en un determinado modo de apertura.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		filepath (string):</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+			<span class="k">pass</span>
+	<span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">False</span>
+
+	<span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="str_to_list"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.str_to_list">[documentos]</a><span class="k">def</span> <span class="nf">str_to_list</span><span class="p">(</span><span class="n">str_value</span><span class="p">,</span> <span class="n">maxvalue</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Devuelve una lista de enteros a partir de un string</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		str_value (string): Cadena de números separados por , o -</span>
+<span class="sd">		maxvalue (int): Máximo valor que puede tener la lista</span>
+
+<span class="sd">	Ejemplo:</span>
+<span class="sd">		&gt;&gt;&gt; from openerm.Utils import *</span>
+<span class="sd">		&gt;&gt;&gt; str_to_list(&quot;1,2,3,4&quot;, 10)</span>
+<span class="sd">		[1, 2, 3, 4]</span>
+<span class="sd">		&gt;&gt;&gt; str_to_list(&quot;1-6,9, 12-14&quot;, 15)</span>
+<span class="sd">		[1, 2, 3, 4, 5, 6, 9, 12, 13, 14]</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">try_int</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Se intenta convertir a un entero sino 0.&quot;&quot;&quot;</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mi">0</span>
+
+	<span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">if</span> <span class="n">str_value</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">str_value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+			<span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+				<span class="n">rango</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+				<span class="k">for</span> <span class="n">valor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">try_int</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">try_int</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+					<span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="n">maxvalue</span><span class="p">:</span>
+						<span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">valor</span> <span class="o">=</span> <span class="n">try_int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+				<span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="n">maxvalue</span><span class="p">:</span>
+					<span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="generate_filename"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.generate_filename">[documentos]</a><span class="k">def</span> <span class="nf">generate_filename</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Genera un nombre de archivo en función a una máscara</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		mask (string): Mascara usada</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">tmp</span> <span class="o">=</span> <span class="n">mask</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\[(.*?)\:(.*?)\]&#39;</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+		<span class="n">keyword</span> <span class="o">=</span> <span class="s1">&#39;[</span><span class="si">{0}</span><span class="s1">:</span><span class="si">{1}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span><span class="s2">&quot;now&quot;</span><span class="p">:</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+		<span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span><span class="s2">&quot;user&quot;</span><span class="p">:</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">())</span>
+		<span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span><span class="s2">&quot;host&quot;</span><span class="p">:</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">platform</span><span class="o">.</span><span class="n">node</span><span class="p">())</span>
+
+	<span class="k">return</span> <span class="n">tmp</span></div>
+
+<div class="viewcode-block" id="filesInPath"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.filesInPath">[documentos]</a><span class="k">def</span> <span class="nf">filesInPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;*.*&#39;</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Retorna de forma recursiva los archivos que respetan un patrón</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		path (string): Path principal</span>
+<span class="sd">		pattern (string): (Opcional) patrón a buscar, por defecto &#39;*.*&#39;</span>
+
+<span class="sd">	Ejemplo:</span>
+<span class="sd">		&gt;&gt;&gt; for f in filesInPath(&quot;c:\&quot;, &quot;*.txt&quot;):</span>
+<span class="sd">		&gt;&gt;&gt; 	print(f)</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+			<span class="n">relative_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+			<span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoNum"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.AutoNum">[documentos]</a><span class="k">class</span> <span class="nc">AutoNum</span><span class="p">():</span>
+	<span class="sd">&quot;&quot;&quot;Clase autonumeradora de valores</span>
+
+<span class="sd">	Ejemplo:</span>
+<span class="sd">		&gt;&gt;&gt; from openerm.Utils import *</span>
+<span class="sd">		&gt;&gt;&gt; my_id = AutoNum()</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
+<span class="sd">		1</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Otra cosa&quot;)</span>
+<span class="sd">		2</span>
+<span class="sd">		&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
+<span class="sd">		1</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">myDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lastid</span> <span class="o">=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="AutoNum.get"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.AutoNum.get">[documentos]</a>	<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Retorna el numerador de un determinado valor</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			value (any): valor a numerar</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			int: Número único del valor</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> 	<span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastid</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">lastid</span>			<span class="o">+=</span> <span class="mi">1</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AutoNum.list"><a class="viewcode-back" href="../../openerm.Utils.html#openerm.Utils.AutoNum.list">[documentos]</a>	<span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Retorna la lista completa de valores, numeradores</span>
+
+<span class="sd">		Ejemplo:</span>
+<span class="sd">			&gt;&gt;&gt; from openerm.Utils import *</span>
+<span class="sd">			&gt;&gt;&gt; my_id = AutoNum()</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
+<span class="sd">			1</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Otra cosa&quot;)</span>
+<span class="sd">			2</span>
+<span class="sd">			&gt;&gt;&gt; my_id.get(&quot;Prueba&quot;)</span>
+<span class="sd">			1</span>
+<span class="sd">			&gt;&gt;&gt; my_id.list()</span>
+<span class="sd">			[(&#39;Otra cosa&#39;, 2), (&#39;Prueba&#39;, 1)]</span>
+
+<span class="sd">		Return:</span>
+<span class="sd">			list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myDict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

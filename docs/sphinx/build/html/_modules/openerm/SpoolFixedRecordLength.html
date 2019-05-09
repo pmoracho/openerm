@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>openerm.SpoolFixedRecordLength &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+  
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para openerm.SpoolFixedRecordLength</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Copyright (c) 2014 Patricio Moracho &lt;pmoracho@gmail.com&gt;</span>
+
+<span class="c1"># SpoolHostReprint.py</span>
+
+<span class="c1"># This program is free software; you can redistribute it and/or</span>
+<span class="c1"># modify it under the terms of version 3 of the GNU General Public License</span>
+<span class="c1"># as published by the Free Software Foundation. A copy of this license should</span>
+<span class="c1"># be included in the file GPL-3.</span>
+
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the</span>
+<span class="c1"># GNU Library General Public License for more details.</span>
+
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program; if not, write to the Free Software</span>
+<span class="c1"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Un **SpoolFixedRecordLength** es el objeto que permite la lectura de las salidas</span>
+<span class="sd">de impresión del tipo Registro de longitud fija. Este formato es típico en</span>
+<span class="sd">plataformas IBM, archivos en EBCDIC con una longitud de registro de 256 bytes</span>
+<span class="sd">son habituales de ver. Cada registro representa una línea, puede eventualmente</span>
+<span class="sd">ser del tipo FCFC, y contar con un canal de control.</span>
+
+
+<span class="sd">.. seealso::</span>
+<span class="sd">	* :class:`openerm.SpoolHostReprint`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SpoolFixedRecordLength"><a class="viewcode-back" href="../../openerm.SpoolFixedRecordLength.html#openerm.SpoolFixedRecordLength.SpoolFixedRecordLength">[documentos]</a><span class="k">class</span> <span class="nc">SpoolFixedRecordLength</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Clase base para lectura de archivos de tamaño de registro fijo.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		inputfile (string): Path y nombre del archivo a leer</span>
+<span class="sd">		buffer_size (int): 	Opcional, tamaño del buffer de lectura.</span>
+<span class="sd">							Por defecto 102400 bytes.</span>
+<span class="sd">		encoding (string): 	Opcional, Codificación de lectura. Por defecto `Latin1`</span>
+<span class="sd">		record_len (int): 	Opcional, Longitud de registro (por defecto 256)</span>
+<span class="sd">		newpage_code (string):</span>
+<span class="sd">							Opcional, Cadena o carácter que determina el salto de página</span>
+
+<span class="sd">	Return:</span>
+<span class="sd">		None</span>
+
+<span class="sd">	:Ejemplo:</span>
+<span class="sd">		&gt;&gt;&gt; from openerm.SpoolFixedRecordLength import SpoolFixedRecordLength</span>
+<span class="sd">		&gt;&gt;&gt; with SpoolFixedRecordLength(test_file, 102400) as s:</span>
+<span class="sd">		&gt;&gt;&gt;		for page in s:</span>
+<span class="sd">		&gt;&gt;&gt;			print(page)</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">,</span> <span class="n">buffer_size</span><span class="o">=</span><span class="mi">102400</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;Latin1&quot;</span><span class="p">,</span> <span class="n">record_len</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">newpage_code</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">filename</span>		<span class="o">=</span> <span class="n">inputfile</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span>	<span class="o">=</span> <span class="n">buffer_size</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">encoding</span>		<span class="o">=</span> <span class="n">encoding</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">record_len</span>		<span class="o">=</span> <span class="n">record_len</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">newpage_code</span>	<span class="o">=</span> <span class="n">newpage_code</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lnewpage_code</span>	<span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newpage_code</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_line</span>	<span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>	<span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_last_chunk</span>	<span class="o">=</span> <span class="kc">False</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_lines</span>			<span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_newpage</span>		<span class="o">=</span> <span class="kc">False</span>
+
+	<span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="s2">&quot;Apertura del archivo del spool a procesar&quot;</span>
+		<span class="c1"># file_size		= os.path.getsize(self.filename)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">open_file</span> 	<span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+		<span class="s2">&quot;Cierre automatico del spool&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">return</span> <span class="kc">True</span>
+
+	<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Devuelve una página del spool&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">StopIteration</span>
+
+		<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">record_len</span><span class="p">)</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+				<span class="c1"># Fin de archivo</span>
+				<span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">=</span> <span class="kc">None</span>
+				<span class="k">return</span> <span class="n">page</span>
+
+			<span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+			<span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">lnewpage_code</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">newpage_code</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+				<span class="c1"># Detectado fin de página</span>
+				<span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">=</span> <span class="n">line</span>
+				<span class="k">return</span> <span class="n">page</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_current_page</span> <span class="o">+=</span> <span class="n">line</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

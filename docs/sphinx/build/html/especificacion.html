@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>OERM - Especificación v1 &#8212; documentación de openerm - 0.0.1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Openerm - API" href="openerm.html" />
+    <link rel="prev" title="Openerm" href="index.html" />
+  
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic" rel="stylesheet" type="text/css">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  </head><body>
+  <div class="git-ribbon">
+    <a href="http://github.com/pmoracho" rel="me">Join us on GitHub</a>
+  </div>
+  
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="oerm-especificacion-v1">
+<h1>OERM - Especificación v1<a class="headerlink" href="#oerm-especificacion-v1" title="Enlazar permanentemente con este título">¶</a></h1>
+</div>
+<div class="section" id="estructura-de-un-database-openerm">
+<h1>Estructura de un database OpenErm<a class="headerlink" href="#estructura-de-un-database-openerm" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Un Database OpenErm es un archivo que almacena reportes electrónicos de forma comprimida y/o
+encriptada. Se representa físicamente por tres archivos básicos:</p>
+<blockquote>
+<div><ul>
+<li><p><strong>&lt;database&gt;</strong>.oerm: (o «DATA») Es el archivo físico principal, es simplemente un contenedor
+de bloques. Los bloques son conjuntos arbitrarios y variables de bytes. Los
+bloques pueden ser de dos tipos</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Contenedor de metadatos</p></li>
+<li><p>Contenedor de páginas</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>&lt;database&gt;</strong>.cidx.oerm: índice de bloques. Básicamente es una lista con los offsets o
+posiciones físicas dónde comienza cada bloque del archivo principal.</p></li>
+<li><p><strong>&lt;database&gt;</strong>.ridx.oerm: índice de reportes. Es la lista de offsets o posiciones
+físicas de los bloques contenedores de metadatos de cada uno de los reportes que se
+almacenan en el archivo princiapl.</p></li>
+</ul>
+</div></blockquote>
+<p>El archivo principal <strong>&lt;database&gt;</strong>.oerm o «DATA» contiene toda la información fundamental,
+tanto el índice de bloques como el de reporte puede ser regenerado en cualquier momento a
+partir de archivo «DATA»</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Estructura de un &lt;database&gt;.oerm
+
++========+
+| &quot;oerm&quot; |              --&gt; &quot;Magic number&quot; (4 bytes)
++===================+
+|     Bloque 1      |   --&gt; Bytes (longitud variable)
++===================+
+|                   |
+|     Bloque 2      |   --&gt; Bytes (longitud variable)
+|                   |
++===================+
+..
++===================+
+|     Bloque  N     |   --&gt; Bytes (longitud variable)
++===================+
+
+
+Estructura de cualquier Bloque
+
++=======================+
+| Long.Total del Bloque |   --&gt; long (4 bytes)
++=======================+
+| Tipo de Bloque  |         --&gt; int (1 bytes)
++=================+
+| Alg. Compresión |         --&gt; int (1 bytes)
++=================+
+| Alg. Cifrado    |         --&gt; int (1 bytes)
++=======================+
+| Long. de los Datos    |   --&gt; long (4 bytes)
++=======================+
+|                       |
+|        Datos          |   --&gt; Longitud variable (datos comprimibles)
+|                       |
++=======================+
+|                       |
+|    Datos variables    |   --&gt; (Opcional) Longitud variable (datos NO comprimibles)
+|                       |
++=======================+
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabla de contenido</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">OERM - Especificación v1</a></li>
+<li><a class="reference internal" href="#estructura-de-un-database-openerm">Estructura de un database OpenErm</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="capítulo anterior">Openerm</a></li>
+      <li>Next: <a href="openerm.html" title="próximo capítulo">Openerm - API</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/especificacion.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Patricio Moracho.
+      
+      |
+      <a href="_sources/especificacion.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
