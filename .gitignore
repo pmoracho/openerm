@@ -8,3 +8,4 @@
 /tests/__pycache__
 /out/*
 !/out/this.is.an.output.folder
+/docs/sphinx/build
