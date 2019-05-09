@@ -23,7 +23,7 @@ splprocessor
 ============
 
 **splprocessor**, es el monitor y procesador de archivos de colas de impresión
-(spool) del proyecto OpenErm. Su trabajo constiste en:
+(spool) del proyecto **OpenErm**. Su trabajo constiste en:
 
 	* Monitorear una o más carpetas
 	* Detectar nuevos archivos en estas
@@ -88,7 +88,7 @@ except ImportError as err:
 
 
 def init_argparse():
-	"""init_argparse: Inicializar parametros del programa."""
+	"""init_argparse: Inicializar parametros del programa. ``:members:``"""
 	cmdparser = argparse.ArgumentParser(prog=__appname__,
 										description="%s\n%s\n" % (__appdesc__, __copyright__),
 										epilog="",
