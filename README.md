@@ -146,3 +146,42 @@ nuestro entorno virtual, simplemente:
 [openerm] C:\..\> pip install -r requirements.txt
 ```
 
+**Importante**:
+
+En este proyecto, los siquientes paquetes están construidos directamente con
+código `C` o `C++`:
+
+* blosc
+* pylzma
+* python-snappy
+* zstd
+
+lo cual, normalmente, suele traernos dolores de cabeza al instalarlos, ya que
+requieren de:
+
+* Un entorno de compilación de `C/C++` (**`gcc`** o **Visual Studio** dependiendo del SO)
+* Código fuente adicional, normalmente los archivos de cabecera (`.h`) de la librería en cuestión
+
+En Linux puede ser algo más sencillo ya que por lo general el compilador
+`C/C++` suele venir incluido en el sistema o eventualmente es un procedimiento
+estándar instalarlo, igual que el código fuente adicional que viene en la forma
+de paquetes para desarrollo. 
+
+En `Windows` es un poco más complicado, ya que además de un compilador `C/C++`,
+normalmente un **Visual Studio**, necesitaremos que sea de una versión
+determinada, consistente con la usada para compilar nuestro interprete
+**Python**. Lo siguiente es conseguir el código de las librerías, instalarlo y
+lograr configurar todo para que el proceso de instalación de dependencias, el
+sencillo comando `pip install -r requirements.txt`, pueda llegar a comilar
+estos paquetes sin problemas. Creanme, no es tarea fácil. Por suerte existe
+esto: [Unofficial Windows Binaries for Python Extension Packages], que es un
+sitio mantenido por Christoph Gohlke, dónde se publican versiones ya
+compiladas, es decir los binarios, de los principales paquetes, y muy
+importante, para las distintas versiones oficiales de **Python**. Se trata de
+paquetes `wheel`, un formato binario, que puede ser instalado en nuestro
+entorno, de manera muy sencilla: `pip install paquete.whl`
+
+
+
+[Unofficial Windows Binaries for Python Extension Packages]:https://www.lfd.uci.edu/~gohlke/pythonlibs/
+
