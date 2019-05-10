@@ -98,7 +98,9 @@ def has_handle(fpath):
 	for proc in psutil.process_iter():
 		try:
 			for item in proc.open_files():
-				if fpath == item.path:
+				ipath = os.path.abspath(item.path)
+				print(proc.pid,proc.name, "\t", fpath, "\t", ipath)
+				if fpath == ipath:
 					return True
 		except Exception:
 			pass
@@ -109,10 +111,12 @@ def has_handle(fpath):
 class NewSpoolHandler(FileSystemEventHandler):
 	
 	def on_created(self, event):
+
+		filepath = os.path.abspath(event.src_path)
 		print("event type: {0} path: {1} {2}".format(	
 													event.event_type,
-													event.src_path,
-													"En uso" if has_handle(event.src_path) else ""))
+													filepath,
+													"En uso" if has_handle(filepath) else ""))
 
 
 def init_argparse():
