@@ -1,5 +1,6 @@
 alabaster==0.7.12
 altgraph==0.16.1
+argh==0.26.2
 asn1crypto==0.24.0
 Babel==2.6.0
 blosc==1.8.1
@@ -8,7 +9,6 @@ Cerberus==1.3
 certifi==2019.3.9
 cffi==1.12.3
 chardet==3.0.4
-colorama==0.4.1
 commonmark==0.9.0
 cryptography==2.6.1
 docutils==0.14
@@ -20,7 +20,11 @@ lz4==2.1.6
 macholib==1.11
 MarkupSafe==1.1.1
 packaging==19.0
+pathtools==0.1.2
 pefile==2019.4.18
+pkg-resources==0.0.0
+progressbar2==3.39.3
+psutil==5.6.2
 purepng==0.2.0
 pycparser==2.19
 Pygments==2.3.1
@@ -29,8 +33,8 @@ pylzma==0.5.0
 pyparsing==2.4.0
 python-lzo==1.12
 python-snappy==0.5.4
+python-utils==2.3.0
 pytz==2019.1
-pywin32-ctypes==0.2.0
 PyYAML==5.1
 recommonmark==0.5.0
 renku-sphinx-theme==0.1.0
@@ -50,4 +54,5 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.2
 sphinxcontrib-serializinghtml==1.1.3
 urllib3==1.24.3
+watchdog==0.9.0
 zstd==1.4.0.0
