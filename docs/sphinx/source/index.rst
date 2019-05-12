@@ -106,7 +106,7 @@ Herramientas
 .. toctree::
    :maxdepth: 2
 
-   splprocessor.rst
+   splwatcher.rst
    spl2oerm.rst
    catalogrepo.rst
    checkoermdb.rst

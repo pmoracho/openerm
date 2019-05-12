@@ -19,10 +19,10 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 """ 
-splprocessor
-============
+splwatcher
+==========
 
-**splprocessor**, es el monitor y procesador de archivos de colas de impresión
+**splwatcher**, es el monitor y procesador de archivos de colas de impresión
 (spool) del proyecto **OpenErm**. Su trabajo constiste en:
 
 	* Monitorear una o más carpetas
@@ -43,12 +43,13 @@ splprocessor
 
 """
 __author__		= "Patricio Moracho <pmoracho@gmail.com>"
-__appname__		= "splprocessor"
-__appdesc__		= "Procesador de archivo de spool a Oerm"
+__appname__		= "splwatcher"
+__appdesc__		= "Monitor de archivo de spool para conversión a Oerm"
 __license__		= 'GPL v3'
 __copyright__	= "(c) 2019, %s" % (__author__)
 __version__		= "0.9"
 __date__		= "2019/05/07"
+__config__		= "splwatcher.cfg"
 
 try:
 	import gettext
@@ -93,14 +94,21 @@ except ImportError as err:
 	sys.exit(-1)
 
 
+def are_same_files(fname1, fname2):
+  stat1 = os.stat(fname1)
+  stat2 = os.stat(fname2)
+
+  return True if stat1.st_ino == stat2.st_ino and stat1.st_dev == stat2.st_dev else False
+
+
 def has_handle(fpath):
 
 	for proc in psutil.process_iter():
 		try:
 			for item in proc.open_files():
 				ipath = os.path.abspath(item.path)
-				print(proc.pid,proc.name, "\t", fpath, "\t", ipath)
-				if fpath == ipath:
+				# print(proc.pid,proc.name, "\t", fpath, "\t", ipath)
+				if are_same_files(fpath,ipath):
 					return True
 		except Exception:
 			pass
@@ -128,17 +136,22 @@ def init_argparse():
 										formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=50)
 	)
 	opciones = {	"path": {
-								"type": str,
+								"type":   str,
 								"action": "store",
-								"help": _("Path a monitorear")
+								"help":   _("Path a monitorear")
 					},
-
 					"--config-file -f": {
-								"type": str,
-								"action": "store",
-								"dest": "configfile",
-								"default":	'splprocessor.cfg',
-								"help":		_("Archivo de configuración del proceso.")
+								"type":    str,
+								"action":  "store",
+								"dest":    "configfile",
+								"default": __config__,
+								"help":    _("Archivo de configuración del proceso. Default: {0}").format(__config__)
+					},
+					"--recursive -r": {
+								"action":	"store_true",
+								"dest":    "recursive",
+								"default": False,
+								"help":    _("Proceso recursivo sobre el path a monitorear")
 					}
 			}
 
@@ -154,12 +167,12 @@ def init_argparse():
 if __name__ == "__main__":
 
 	text = """
-           _
- ___ _ __ | |_ __  _ __ ___   ___ ___  ___ ___  ___  _ __ 
-/ __| '_ \| | '_ \| '__/ _ \ / __/ _ \/ __/ __|/ _ \| '__|
-\__ \ |_) | | |_) | | | (_) | (_|  __/\__ \__ \ (_) | |   
-|___/ .__/|_| .__/|_|  \___/ \___\___||___/___/\___/|_|   
-    |_|     |_|                                           
+           _               _       _               
+ ___ _ __ | |_      ____ _| |_ ___| |__   ___ _ __ 
+/ __| '_ \| \ \ /\ / / _` | __/ __| '_ \ / _ \ '__|
+\__ \ |_) | |\ V  V / (_| | || (__| | | |  __/ |   
+|___/ .__/|_| \_/\_/ \__,_|\__\___|_| |_|\___|_|   
+    |_|                                            
 
 {0} (v.{1})
 {2}
@@ -176,27 +189,29 @@ if __name__ == "__main__":
 	# if not args.configfile:
 	#	print(_("Error: Debe definir el archivo de configuración del proceso").format(args.configfile))
 	#	sys.exit(-1)
-	if not file_accessible(args.configfile, "r"):
-		print(_("Error: El archivo de configuración del proceso [{0}] no se ha encontrado o no es accesible para su lectura").format(args.configfile))
-		sys.exit(-1)
+	# if not file_accessible(args.configfile, "r"):
+	# 	print(_("Error: El archivo de configuración del proceso [{0}] no se ha encontrado o no es accesible para su lectura").format(args.configfile))
+	# 	sys.exit(-1)
 
 	try:
 		cfg = ProcessorConfig(args.configfile)
-		# print(cfg.dictionary)
+
+	except FileNotFoundError as e:
+		print(_("Error: El archivo de configuración {0} no existe").format(args.configfile))
 
 	except ConfigLoadingException as ex:
-		pass
-		# print(ex.args[0])                                                                                                            
-		# print("\n".join([" - " + e for e in ex.args[1]]))
+		print(_("Error: {0} al leer configuración desde {1}").format(ex.args[0], args.configfile))
+		sys.exit(-1)
 
 	else:
 
-		print("Monitoreando {0}".format(args.path))
+		print("Monitoreando {0} {1}".format(args.path, "(Recursivamente)" if args.recursive else ""))
+		print("Para finalizar: <Ctrl-C>")
 				
 		event_handler = NewSpoolHandler()
 
 		observer = Observer()
-		observer.schedule(event_handler, path=args.path, recursive=False)
+		observer.schedule(event_handler, path=args.path, recursive=args.recursive)
 		observer.start()
 
 		try:
@@ -206,7 +221,6 @@ if __name__ == "__main__":
 			observer.stop()
 
 		observer.join()
-
 
 		print("")
 		sys.exit(-1)

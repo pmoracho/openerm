@@ -126,7 +126,6 @@ class ConfigLoadingException(Exception):
 		# *args is used to get a list of the parameters passed in
 		self.args = [a for a in args]
 
-
 class Config(object):
 	"""
 	Clase base para el manejo de configuraciones "jerarquicas".
@@ -153,7 +152,7 @@ class Config(object):
 			try:
 				self.dictionary = yaml.safe_load(stream)
 			except yaml.YAMLError as e:
-				raise ConfigLoadingException(_("Error de parseo YAML"), [str(e).replace('\n', '')])
+				raise ConfigLoadingException(_("Imposible interpretar el archivo (YAML)"), [str(e).replace('\n', '')])
 			else:
 				if self.schema:
 					schema = yaml.safe_load(self.schema.replace("\t", " "))
