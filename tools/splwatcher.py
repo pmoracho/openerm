@@ -11,7 +11,7 @@
 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
 # GNU Library General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
@@ -25,73 +25,73 @@ splwatcher
 **splwatcher**, es el monitor y procesador de archivos de colas de impresión
 (spool) del proyecto **OpenErm**. Su trabajo constiste en:
 
-	* Monitorear una o más carpetas
-	* Detectar nuevos archivos en estas
-	* Detectar por patrones regulares nombres de archivo a procesar
-	* Verificar capacidad de bloqueo del archivo (el mismo está listo para ser procesado)
-	* Establecer los parámetros de procesamiento en función de:
-		- patrones regulares en el nombre
-		- patrones regulares dentro del contenido (limite de x bytes)
-	* Renombrado de los archivos a punto de procesar en .processing
-	* Lectura de los archivos, proceso de las paginas y generación de los reportes oerm
-	* Generación de log de proceso. Eventual compresión final del log.
-	* Proceso final del Spool. Alguna de estas opciones:
-		- Borrado
-		- Copiado a otra carpeta
-		- Renombrado
-		- Compresión en otra carpeta
+    * Monitorear una o más carpetas
+    * Detectar nuevos archivos en estas
+    * Detectar por patrones regulares nombres de archivo a procesar
+    * Verificar capacidad de bloqueo del archivo (el mismo está listo para ser procesado)
+    * Establecer los parámetros de procesamiento en función de:
+        - patrones regulares en el nombre
+        - patrones regulares dentro del contenido (limite de x bytes)
+    * Renombrado de los archivos a punto de procesar en .processing
+    * Lectura de los archivos, proceso de las paginas y generación de los reportes oerm
+    * Generación de log de proceso. Eventual compresión final del log.
+    * Proceso final del Spool. Alguna de estas opciones:
+        - Borrado
+        - Copiado a otra carpeta
+        - Renombrado
+        - Compresión en otra carpeta
 
 """
-__author__		= "Patricio Moracho <pmoracho@gmail.com>"
-__appname__		= "splwatcher"
-__appdesc__		= "Monitor de archivo de spool para conversión a Oerm"
-__license__		= 'GPL v3'
-__copyright__	= "(c) 2019, %s" % (__author__)
-__version__		= "0.9"
-__date__		= "2019/05/07"
-__config__		= "splwatcher.cfg"
+__author__        = "Patricio Moracho <pmoracho@gmail.com>"
+__appname__        = "splwatcher"
+__appdesc__        = "Monitor de archivo de spool para conversión a Oerm"
+__license__        = 'GPL v3'
+__copyright__    = "(c) 2019, %s" % (__author__)
+__version__        = "0.9"
+__date__        = "2019/05/07"
+__config__        = "splwatcher.cfg"
 
 try:
-	import gettext
-	from gettext import gettext as _
-	gettext.textdomain('openerm')
+    import gettext
+    from gettext import gettext as _
+    gettext.textdomain('openerm')
 
-	def my_gettext(s):
-		"""my_gettext: Traducir algunas cadenas de argparse."""
-		current_dict = {'usage: ': 'uso: ',
-						'optional arguments': 'argumentos opcionales',
-						'show this help message and exit': 'mostrar esta ayuda y salir',
-						'positional arguments': 'argumentos posicionales',
-						'the following arguments are required: %s': 'los siguientes argumentos son requeridos: %s'}
+    def my_gettext(s):
+        """my_gettext: Traducir algunas cadenas de argparse."""
+        current_dict = {'usage: ': 'uso: ',
+                        'optional arguments': 'argumentos opcionales',
+                        'show this help message and exit': 'mostrar esta ayuda y salir',
+                        'positional arguments': 'argumentos posicionales',
+                        'the following arguments are required: %s': 'los siguientes argumentos son requeridos: %s'}
 
-		if s in current_dict:
-			return current_dict[s]
-		return s
+        if s in current_dict:
+            return current_dict[s]
+        return s
 
-	gettext.gettext = my_gettext
+    gettext.gettext = my_gettext
 
-	import argparse
-	# from argparse import RawTextHelpFormatter
-	import sys
-	import time
-	import os
+    import argparse
+    # from argparse import RawTextHelpFormatter
+    import sys
+    import time
+    import os
 
-	sys.path.append('.')
-	sys.path.append('..')
+    sys.path.append('.')
+    sys.path.append('..')
 
-	import logging
-	from openerm.Config import ProcessorConfig
-	from openerm.Config import ConfigLoadingException
-	from openerm.Utils import file_accessible
-	from watchdog.observers import Observer
-	from watchdog.events import LoggingEventHandler
-	from watchdog.events import FileSystemEventHandler
-	import psutil
+    import logging
+    from openerm.Config import ProcessorConfig
+    from openerm.Config import ConfigLoadingException
+    from openerm.Utils import file_accessible
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler
+    from watchdog.events import    PatternMatchingEventHandler
+    import psutil
 
 except ImportError as err:
-	modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
-	print(_("No fue posible importar el modulo: %s") % modulename)
-	sys.exit(-1)
+    modulename = err.args[0].partition("'")[-1].rpartition("'")[0]
+    print(_("No fue posible importar el modulo: %s") % modulename)
+    sys.exit(-1)
 
 
 def are_same_files(fname1, fname2):
@@ -103,124 +103,149 @@ def are_same_files(fname1, fname2):
 
 def has_handle(fpath):
 
-	for proc in psutil.process_iter():
-		try:
-			for item in proc.open_files():
-				ipath = os.path.abspath(item.path)
-				# print(proc.pid,proc.name, "\t", fpath, "\t", ipath)
-				if are_same_files(fpath,ipath):
-					return True
-		except Exception:
-			pass
+    for proc in psutil.process_iter():
+        try:
+            for item in proc.open_files():
+                ipath = os.path.abspath(item.path)
+                # print(proc.pid,proc.name, "\t", fpath, "\t", ipath)
+                if are_same_files(fpath,ipath):
+                    return True
+        except Exception:
+            pass
 
-	return False
+    return False
 
 
-class NewSpoolHandler(FileSystemEventHandler):
-	
-	def on_created(self, event):
+class FileReadyChecker():
 
-		filepath = os.path.abspath(event.src_path)
-		print("event type: {0} path: {1} {2}".format(	
-													event.event_type,
-													filepath,
-													"En uso" if has_handle(filepath) else ""))
+    def file(self, filepath):
+        while has_handle(filepath):
+            pass
 
+        print("{0} ready to process".format(filepath))
+
+class Jobs(FileReadyChecker):
+    pass
+
+JOBS = Jobs()
+
+
+class NewSpoolHandler(PatternMatchingEventHandler):
+    
+    def on_created(self, event):
+
+        filepath = os.path.abspath(event.src_path)
+
+        """
+        print("event type: {0} path: {1} {2}".format(    
+                                                    event.event_type,
+                                                    filepath,
+                                                    "En uso" if has_handle(filepath) else ""))
+        """
 
 def init_argparse():
-	"""init_argparse: Inicializar parametros del programa. ``:members:``"""
-	cmdparser = argparse.ArgumentParser(prog=__appname__,
-										description="%s\n%s\n" % (__appdesc__, __copyright__),
-										epilog="",
-										add_help=True,
-										formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=50)
-	)
-	opciones = {	"path": {
-								"type":   str,
-								"action": "store",
-								"help":   _("Path a monitorear")
-					},
-					"--config-file -f": {
-								"type":    str,
-								"action":  "store",
-								"dest":    "configfile",
-								"default": __config__,
-								"help":    _("Archivo de configuración del proceso. Default: {0}").format(__config__)
-					},
-					"--recursive -r": {
-								"action":	"store_true",
-								"dest":    "recursive",
-								"default": False,
-								"help":    _("Proceso recursivo sobre el path a monitorear")
-					}
-			}
+    """init_argparse: Inicializar parametros del programa. ``:members:``"""
+    cmdparser = argparse.ArgumentParser(prog=__appname__,
+                                        description="%s\n%s\n" % (__appdesc__, __copyright__),
+                                        epilog="",
+                                        add_help=True,
+                                        formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=66)
+    )
+    opciones = {    "path": {
+                                "type":   str,
+                                "action": "store",
+                                "help":   _("Path a monitorear")
+                    },
+                    "--config-file -f": {
+                                "type":    str,
+                                "action":  "store",
+                                "dest":    "configfile",
+                                "default": __config__,
+                                "help":    _("Archivo de configuración del proceso. Default: {0}").format(__config__)
+                    },
+                    "--recursive -r": {
+                                "action":    "store_true",
+                                "dest":    "recursive",
+                                "default": False,
+                                "help":    _("Proceso recursivo sobre el path a monitorear")
+                    }
+            }
 
-	for key, val in opciones.items():
-		args = key.split()
-		kwargs = {}
-		kwargs.update(val)
-		cmdparser.add_argument(*args, **kwargs)
+    for key, val in opciones.items():
+        args = key.split()
+        kwargs = {}
+        kwargs.update(val)
+        cmdparser.add_argument(*args, **kwargs)
 
-	return cmdparser
+    return cmdparser
 
 
 if __name__ == "__main__":
 
-	text = """
-           _               _       _               
- ___ _ __ | |_      ____ _| |_ ___| |__   ___ _ __ 
-/ __| '_ \| \ \ /\ / / _` | __/ __| '_ \ / _ \ '__|
-\__ \ |_) | |\ V  V / (_| | || (__| | | |  __/ |   
-|___/ .__/|_| \_/\_/ \__,_|\__\___|_| |_|\___|_|   
-    |_|                                            
+    text = """
+
+
+███████╗██████╗ ██╗     ██╗    ██╗ █████╗ ████████╗ ██████╗██╗  ██╗███████╗██████╗ 
+██╔════╝██╔══██╗██║     ██║    ██║██╔══██╗╚══██╔══╝██╔════╝██║  ██║██╔════╝██╔══██╗
+███████╗██████╔╝██║     ██║ █╗ ██║███████║   ██║   ██║     ███████║█████╗  ██████╔╝
+╚════██║██╔═══╝ ██║     ██║███╗██║██╔══██║   ██║   ██║     ██╔══██║██╔══╝  ██╔══██╗
+███████║██║     ███████╗╚███╔███╔╝██║  ██║   ██║   ╚██████╗██║  ██║███████╗██║  ██║
+╚══════╝╚═╝     ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 
 {0} (v.{1})
 {2}
 """
 
-	print(text.format(__appdesc__, __version__, __author__))
+    print(text.format(__appdesc__, __version__, __author__))
 
-	cmdparser = init_argparse()
-	try:
-		args = cmdparser.parse_args()
-	except IOError as msg:
-		args.error(str(msg))
+    cmdparser = init_argparse()
+    try:
+        args = cmdparser.parse_args()
+    except IOError as msg:
+        args.error(str(msg))
 
-	# if not args.configfile:
-	#	print(_("Error: Debe definir el archivo de configuración del proceso").format(args.configfile))
-	#	sys.exit(-1)
-	# if not file_accessible(args.configfile, "r"):
-	# 	print(_("Error: El archivo de configuración del proceso [{0}] no se ha encontrado o no es accesible para su lectura").format(args.configfile))
-	# 	sys.exit(-1)
+    # if not args.configfile:
+    #    print(_("Error: Debe definir el archivo de configuración del proceso").format(args.configfile))
+    #    sys.exit(-1)
+    # if not file_accessible(args.configfile, "r"):
+    #     print(_("Error: El archivo de configuración del proceso [{0}] no se ha encontrado o no es accesible para su lectura").format(args.configfile))
+    #     sys.exit(-1)
 
-	try:
-		cfg = ProcessorConfig(args.configfile)
+    try:
+        cfg = ProcessorConfig(args.configfile)
 
-	except FileNotFoundError as e:
-		print(_("Error: El archivo de configuración {0} no existe").format(args.configfile))
+    except FileNotFoundError as e:
+        print(_("Error: El archivo de configuración {0} no existe").format(args.configfile))
 
-	except ConfigLoadingException as ex:
-		print(_("Error: {0} al leer configuración desde {1}").format(ex.args[0], args.configfile))
-		sys.exit(-1)
+    except ConfigLoadingException as ex:
+        print(_("Error: {0} al leer configuración desde {1}").format(ex.args[0], args.configfile))
+        sys.exit(-1)
 
-	else:
+    else:
 
-		print("Monitoreando {0} {1}".format(args.path, "(Recursivamente)" if args.recursive else ""))
-		print("Para finalizar: <Ctrl-C>")
-				
-		event_handler = NewSpoolHandler()
+        print("Monitoreando {0} {1}".format(args.path, "(Recursivamente)" if args.recursive else ""))
+        print("Para finalizar: <Ctrl-C>")
 
-		observer = Observer()
-		observer.schedule(event_handler, path=args.path, recursive=args.recursive)
-		observer.start()
+        event_handler = NewSpoolHandler(
+                            patterns=None, 
+                            ignore_patterns=None, 
+                            ignore_directories=True, 
+                            case_sensitive=True
+                            )
 
-		try:
-			while True:
-				time.sleep(1)
-		except KeyboardInterrupt:
-			observer.stop()
 
-		observer.join()
+        observer = Observer()
+        observer.schedule(event_handler, path=args.path, recursive=args.recursive)
+        observer.start()
 
-		print("")
-		sys.exit(-1)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            observer.stop()
+
+        observer.join()
+
+        print("")
+        sys.exit(-1)
+
