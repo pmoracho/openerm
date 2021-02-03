@@ -136,12 +136,10 @@ class NewSpoolHandler(PatternMatchingEventHandler):
 
         filepath = os.path.abspath(event.src_path)
 
-        """
         print("event type: {0} path: {1} {2}".format(    
                                                     event.event_type,
                                                     filepath,
                                                     "En uso" if has_handle(filepath) else ""))
-        """
 
 def init_argparse():
     """init_argparse: Inicializar parametros del programa. ``:members:``"""
