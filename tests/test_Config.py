@@ -63,11 +63,10 @@ class ConfigTest(unittest.TestCase):
 		cfg = Config(self._filename)
 		self.assertEqual(cfg.dictionary, self.data)
 
-		errores_esperados = ["D->C: allowed(['x', 'z']) Valor: c", 'D->E: type(integer) Valor: e']
+		errores_esperados = ["D: schema({'C': {'type': 'string', 'required': True, 'allowed': ['x', 'z']}, 'D': {'type': 'string'}, 'E': {'type': 'integer', 'required': True}}) Valor: {'C': 'c', 'D': 'd', 'E': 'e'}"]
 		try:
 			cfg = Config(self._filename,self.schema)
 		except ConfigLoadingException as ex:
-			# print(ex)
 			lista = [e for e in ex.args[1]]
 			self.assertEqual(lista, errores_esperados)
 

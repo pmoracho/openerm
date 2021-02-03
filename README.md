@@ -84,6 +84,12 @@ carpeta destino.
 
 ### Instalación de `Virtualenv`
 
+(*) **Importante**: Python a partir de la versión 3x incorpora scripts para
+generarar los entornos virtuales, por lo que eventualmente no es necesario
+instalar ´virtualvenv´, de todas formas dejó documentado aquí este metódo. Si
+queremos minimizar la instalación de herramientas innecesarias, podemos ir
+directamente a  **Creación y activación del entorno virtual (con `python`)**
+
 Para poder ejecutar cualquiera de las herramientas del proyecto, ya vimos que
 necesitamos un interprete de **`Python`**, sin embargo es una mala práctica
 depender directamente de la instalación inicial. Es más óptimo generar un
@@ -108,7 +114,7 @@ niveSO. La instalación de `virtualenv` se hará mediante:
 # > pip install virtualenv
 ```
 
-### Creación y activación del entorno virtual
+### Creación y activación del entorno virtual (con `virtualven`)
 
 Una vez instalado [Virutalenv](https://virtualenv.pypa.io/en/stable/),
 deberemos crear nuestro entorno virtual dentro de la carpeta del proyecto, que
@@ -116,7 +122,7 @@ es lo más recomendable, aunque podría ser cualquier otra carpeta. La creación
 se realizará mediante el comando:
 
 ```sh
-# > virtualenv -p python3 venv --clear --prompt=[openerm]
+# > virtualenv -p python3 venv --clear --prompt=openerm
 ```
 
 Para "activar" el entorno simplemente hay que correr el script de activación
@@ -135,6 +141,33 @@ múltiples proyecto **`Python`** al mismo tiempo. El `prompt` puede variar de
 sistema a sistema, pero es útil verificar que el `PATH` a el interprete, esté
 apuntando a la carpeta del proyecto.
 
+### Creación y activación del entorno virtual (con `python`)
+
+Parados en la carpeta principal del proyecto, ejecutar:
+
+```sh
+python3 -m venv --clear --prompt=openerm venv
+```
+
+Para activar este entorno:
+
+```sh
+C:\..\>  .\venv\Scripts\activate.bat
+openerm C:\..\> 
+```
+
+o bien
+
+```
+# source .\venv\bin\activate
+(openerm) # 
+```
+
+Por último conviene actualizar las herramientas de `pip`:
+
+```sh
+pip install --upgrade pip setuptools wheel
+```
 
 ### Instalación de requerimientos
 
@@ -172,7 +205,7 @@ normalmente un **Visual Studio**, necesitaremos que sea de una versión
 determinada, consistente con la usada para compilar nuestro interprete
 **Python**. Lo siguiente es conseguir el código de las librerías, instalarlo y
 lograr configurar todo para que el proceso de instalación de dependencias, el
-sencillo comando `pip install -r requirements.txt`, pueda llegar a comilar
+sencillo comando `pip install -r requirements.txt`, pueda llegar a compilar
 estos paquetes sin problemas. Creanme, no es tarea fácil. Por suerte existe
 esto: [Unofficial Windows Binaries for Python Extension Packages], que es un
 sitio mantenido por Christoph Gohlke, dónde se publican versiones ya

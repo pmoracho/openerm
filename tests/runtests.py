@@ -66,7 +66,7 @@ class _XmlTestResult(unittest.TestResult):
 		self.current_test_id += 1
 
 		name = test.id().split('.')
-		nombre_test = name[2]+'.'+name[3]
+		nombre_test = name[1]+'.'+name[2]
 		desc = None if not test.shortDescription() else test.shortDescription().encode("ascii", "ignore")
 		v = (self.current_test_id, nombre_test, desc, timeTaken, "Ok", None)
 		self.resultados.append(v)
@@ -80,7 +80,7 @@ class _XmlTestResult(unittest.TestResult):
 		for test, err in errors:
 			self.current_test_id += 1
 			name = test.id().split('.')
-			nombre_test = name[2]+'.'+name[3]
+			nombre_test = name[0]+'.'+name[1]
 			desc = None if not test.shortDescription() else test.shortDescription().encode("ascii", "ignore")
 			v = (self.current_test_id, nombre_test, desc, 0, flavor, err)
 			self.resultados.append(v)

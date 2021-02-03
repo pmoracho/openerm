@@ -26,10 +26,12 @@ try:
 
 	import sys
 	import base64
+	import hashlib
 
 	from openerm.Spritz import Spritz
 	from cryptography.fernet import Fernet
 	from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+	from cryptography.hazmat.backends import default_backend
 
 
 except ImportError as err:
@@ -81,7 +83,7 @@ class Cipher(object):
 		self.password	= b"password"
 		# salt = os.urandom(16)
 		salt = b'\xb8\x81)\x13\xd3\xfc\x8c\x97\xe1\xc1[\xd5\xed\x18\x93!'
-		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),
+		kdf = PBKDF2HMAC(algorithm=hashlib.sha256(),
 						length=32,
 						salt=salt,
 						iterations=100000,

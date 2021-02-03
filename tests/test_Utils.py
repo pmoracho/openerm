@@ -10,9 +10,9 @@ class UtilsTest(unittest.TestCase):
 		"""Verifica str_to_list con varios ejemplos contra sus respectivos hashes
 		"""
 		tests = [
-					("1-11, 65-89, 900-1500", -1514384382),
-					("1-33000", -2003275021),
-					("23", -1669481976)
+					("1-11, 65-89, 900-1500", -7067537569491430398),
+					("1-33000", 8782425863038202611),
+					("23", 3430009387528)
 				]
 		for t in tests:
 			lista = str_to_list(t[0], 32000)
