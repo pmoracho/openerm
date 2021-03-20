@@ -15,7 +15,7 @@ docutils==0.14
 future==0.17.1
 idna==2.8
 imagesize==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 lz4==2.1.6
 macholib==1.11
 MarkupSafe==1.1.1
