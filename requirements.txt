@@ -26,7 +26,7 @@ progressbar2==3.39.3
 psutil==5.6.6
 purepng==0.2.0
 pycparser==2.19
-Pygments==2.3.1
+Pygments==2.7.4
 PyInstaller==3.6
 pylzma==0.5.0
 pyparsing==2.4.0
