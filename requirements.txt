@@ -27,7 +27,7 @@ psutil==5.6.2
 purepng==0.2.0
 pycparser==2.19
 Pygments==2.3.1
-PyInstaller==3.4
+PyInstaller==3.6
 pylzma==0.5.0
 pyparsing==2.4.0
 python-lzo==1.12
