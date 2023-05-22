@@ -37,7 +37,7 @@ pytz==2019.1
 pyyaml>=5.4
 recommonmark==0.5.0
 renku-sphinx-theme==0.1.0
-requests==2.21.0
+requests==2.31.0
 rinoh-typeface-dejavuserif==0.1.1
 rinoh-typeface-texgyrecursor==0.1.1
 rinoh-typeface-texgyreheros==0.1.1
